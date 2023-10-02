@@ -1,5 +1,6 @@
 from PIL import Image
 import pytesseract
+import os
 
 class OCRProcessor:
     def __init__(self, tesseract_path=None):
@@ -58,7 +59,8 @@ class OCRProcessor:
 
         # Preprocess the image if needed
         if preprocess:
-            image = self._preprocess_image(image_path, "C:\\Users\\azulx\\Documents\\GitHub\\ExpensEase\\ExpensEase\\src\\app\\templates\\receipts\\clear_processed.jpeg")
+            # Calculate the relative path to the templates directory
+            image = self._preprocess_image(image_path)
         
         # Extract and return the text from the image
         return pytesseract.image_to_string(image)
@@ -68,5 +70,11 @@ class OCRProcessor:
 if __name__ == "__main__":
     ocr_processor = OCRProcessor()
 
-    text = ocr_processor.extract_text("C:\\Users\\azulx\\Documents\\University\\receipt\\clear.jpeg")
+    # Calculate the relative path to the clear.jpeg file
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    image_dir = os.path.join(current_dir, os.pardir, "templates", "receipts")
+    image_path = os.path.join(image_dir, "clear.jpeg")
+
+    text = ocr_processor.extract_text(image_path)
     print(text)
