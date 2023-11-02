@@ -1,11 +1,15 @@
-import curses
-from PIL import Image
-import pytesseract
-import os
-import csv
-import cv2
-import numpy as np
-
+try: 
+    import curses
+    from PIL import Image
+    import pytesseract
+    import os
+    import csv
+    import cv2
+    import numpy as np
+    import shutil
+except ImportError:
+    print("ERROR: One or more required modules are not installed! Please run 'pip install -r requirements.txt' to install them.")
+    exit(1)
 
 class OCRProcessor:
     def __init__(self, tesseract_path=None):
@@ -46,7 +50,6 @@ class OCRProcessor:
 
         rotation_matrix = cv2.getRotationMatrix2D((cols / 2, rows / 2), angle_deg, 1)
         deskewed_image = cv2.warpAffine(img_array, rotation_matrix, (cols, rows))
-
 
         return Image.fromarray(deskewed_image)
 
@@ -98,7 +101,6 @@ class OCRProcessor:
             return pytesseract.image_to_string(image, lang="eng", config="--psm 3") 
         return pytesseract.image_to_string(image, lang="eng", config="--psm 3") 
 
-
 class CursesInterface:
     total_receipts = 0
 
@@ -113,6 +115,11 @@ class CursesInterface:
         script_directory = os.path.dirname(__file__)
         image_path = os.path.join(script_directory, "receipts", image_name)
         extracted_text = self.ocr_processor.extract_text(image_path)
+        
+        source = os.path.join(script_directory, "receipts", image_name)
+        destination = os.path.join(script_directory, "receipts", "processed", image_name)
+        shutil.move(source, destination)
+        
         return extracted_text
 
     def loading_screen(self):
@@ -134,6 +141,9 @@ class CursesInterface:
             subfolder_path = os.path.join(script_directory, subfolder)
             if not os.path.exists(subfolder_path):
                 os.mkdir(subfolder_path)
+                
+        if not os.path.exists(os.path.join(script_directory, "receipts", "processed")):
+            os.mkdir(os.path.join(script_directory, "receipts", "processed"))
 
         dataset_folder_path = os.path.join(script_directory, "dataset")
         csv_file = os.path.join(dataset_folder_path, "dataset.csv")
@@ -148,8 +158,38 @@ class CursesInterface:
             for row in reader:
                 if row[0] and row[1]:  # Check if both "receipt" and "category" columns are not empty
                     count += 1
-                
+        
         self.total_receipts = count
+
+        if self.total_receipts > 0:
+            # Check if teseearct is installed
+            try:
+                dummy_image = Image.new('RGB', (60, 30), color = 'red')
+                pytesseract.image_to_string(dummy_image)
+                
+            except FileNotFoundError:
+                self.stdscr.clear()
+                
+                loading_text = "ERROR: Tesseract is not installed! Press any key to continue"
+                x = w // 2 - len(loading_text) // 2
+                y = h // 2
+
+                self.stdscr.addstr(y, x, loading_text)
+                self.stdscr.refresh()
+                self.stdscr.getch()
+                exit(1)
+                
+            except Exception as e:
+                self.stdscr.clear()
+                
+                loading_text = "ERROR: Tesseract has an error while trying to initialise. Press any key to continue"
+                x = w // 2 - len(loading_text) // 2
+                y = h // 2
+
+                self.stdscr.addstr(y, x, loading_text)
+                self.stdscr.refresh()
+                self.stdscr.getch()
+                pass     
 
     def iterative_scan_and_categorise(self):
         self.stdscr.clear()
@@ -246,6 +286,7 @@ class CursesInterface:
         all_images = [f for f in os.listdir(receipt_folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
         if not all_images:
+            self.stdscr.clear()
             error_text = f"No images found in the receipts folder ({receipt_folder_path}). Press any key to continue."
             x = w // 2 - len(error_text) // 2
             y = h // 2
@@ -343,6 +384,7 @@ class CursesInterface:
         all_images = [f for f in os.listdir(receipt_folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
         if not all_images:
+            self.stdscr.clear()
             error_text = f"No images found in the receipts folder ({receipt_folder_path}). Press any key to continue."
             x = w // 2 - len(error_text) // 2
             y = h // 2
