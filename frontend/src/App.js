@@ -1,18 +1,24 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/home/home"
-import Log from "./pages/log/log"
-import Scan from "./pages/scan/scan"
+import Header from "./nodes/header/header"
+import Home from "./nodes/home/home"
+import BudMan from "./nodes/budget manager/BudgetManager"
+import History from "./nodes/history/history"
+import Scan from "./nodes/scan/scan"
 
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/log" element={<Log/>}/>
-        <Route path="/scan" element={<Scan/>}/>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Header/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/budget-managning" element={<BudMan/>}/>
+          <Route path="/history" element={<History/>}/>
+          <Route path="/scan" element={<Scan/>}/>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
