@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
 export default function Home() {
-    return(
-    <article>
-        <Link to="/scan">Scan</Link>
-        <h1>This is the first page shown after login</h1>
-    </article>
-    )
+    const [message, setMessage] = useState('');
 
-
-
-}
+    useEffect(() => {
+      fetch('http://localhost:5000/api/hello') //test backend connection
+        .then(response => response.json())
+        .then(data => setMessage(data.message));
+    }, []);
+  
+    return (
+      <div>
+        <p>Message from backend: {message}</p>
+      </div>
+    );
+    }
