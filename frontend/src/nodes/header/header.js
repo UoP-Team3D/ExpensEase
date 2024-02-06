@@ -1,8 +1,8 @@
 import React from 'react';
-import { NavLink, Router } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './style.css';
 
-export default function Header(){
+const Header = () =>{
     return(
         <header>
             <ul>
@@ -14,3 +14,4 @@ export default function Header(){
     )
 
 }
+export default Header;

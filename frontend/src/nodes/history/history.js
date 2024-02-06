@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function History() {
+const History = () => {
     return(
     <article>
         <h1>log of scanned recipts??</h1>
@@ -10,3 +10,4 @@ export default function History() {
 
 
 }
+export default History;

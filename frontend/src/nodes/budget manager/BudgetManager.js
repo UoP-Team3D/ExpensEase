@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function BudMan(){
+const BudMan = () => {
     return(
         <article>
             <h1>budget manager</h1>
@@ -8,7 +8,7 @@ export default function BudMan(){
 
 
     )
-
-
 }
+
+export default BudMan;
 
