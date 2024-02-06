@@ -1,9 +1,15 @@
 import React from 'react';
+import { NavLink, Router } from 'react-router-dom';
+import './style.css';
 
 export default function Header(){
     return(
         <header>
-            <h1>this should be on all the pages.</h1>
+            <ul>
+                <li><NavLink to="/budget-managing">Manager</NavLink></li>
+                <li><NavLink to="/scan">scan</NavLink></li>
+                <li><NavLink to="/history">History</NavLink></li>
+            </ul>
         </header>
     )
 

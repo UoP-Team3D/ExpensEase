@@ -10,8 +10,9 @@ import Scan from "./nodes/scan/scan"
 export default function App() {
   return (
     <>
-      <Header/>
+      
       <BrowserRouter>
+      <Header/>
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/budget-managning" element={<BudMan/>}/>
