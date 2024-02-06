@@ -172,3 +172,4 @@ bin\vocabulary.json
 model.pkl
 vectorizer.pkl
 vocabulary.json
+start.bat
