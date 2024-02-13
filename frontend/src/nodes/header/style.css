@@ -1,17 +1,41 @@
 .navbar {
     
-    background-color: orange;
-    width: 100%;
-    height: 10%;
-    list-style-type: none;
-    padding:25px;
-    margin-top: 0px;
+    background-color: darkorange;
+    overflow:hidden;
+
 }
 
-.navbar li{
-    float:right;
-    display: inline;
-    padding-right: 15%;
+.navbar ul {
+
+    list-style-type: none;
+    margin: 0;
     
+}
+
+.navbar li {
+
     font-size: 25px;
+    float:left;
+    
+}
+
+.navbar a {
+
+    display:block;
+    text-decoration:none;
+    color: white;
+    padding: 20px;
+
+}
+
+.navbar a:hover {
+    background-color: rgb(76, 76, 76);
+
+
+}
+
+.active {
+
+    font-weight: bold;
+    background-color: orangered;
 }
