@@ -1,6 +1,6 @@
 Tutorial if you want to replicate how I easily got phAdmin and PSQL installed https://www.youtube.com/watch?v=HmziePvMwkE
 
-https://www.pgadmin.org/download/
+https://www.postgresql.org/download/
 
 
 DBCreationSQL has the SQL to be able to make the DB I made
