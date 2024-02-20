@@ -5,7 +5,7 @@ import './style.css';
 const Header = () =>{
     return(
         <header>
-            <div class='navbar'>
+            <div class='navbar navGrid'>
             <ul>
                 <li><NavLink to="/budget-managing"activeClassName='active'>Manager</NavLink></li>
                 <li><NavLink to="/scan"activeClassName='active'>scan</NavLink></li>

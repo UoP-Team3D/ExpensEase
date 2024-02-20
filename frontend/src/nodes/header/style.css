@@ -15,7 +15,7 @@
 .navbar li {
 
     font-size: 25px;
-    float:left;
+    float: left;
     
 }
 
@@ -30,12 +30,20 @@
 
 .navbar a:hover {
     background-color: rgb(76, 76, 76);
-
-
 }
 
 .active {
 
     font-weight: bold;
     background-color: orangered;
+}
+
+.navGrid{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+    gap:10px;
+}
+
+.navGrid li{
+    background-color: aqua;
 }

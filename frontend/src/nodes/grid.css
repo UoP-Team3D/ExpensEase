@@ -1,0 +1,33 @@
+.grid{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    gap: 10px;
+    padding: 10px;
+    text-align: center;
+    font-size: 30px;
+}
+.span2{
+    grid-column: span 2;
+}
+.span3{
+grid-column: span 3;
+}
+.span4{
+grid-column: span 4;
+}
+.span5{
+grid-column: span 5;
+}
+.span6{
+grid-column: span 6;
+}
+.span7{
+grid-column: span 7;
+}
+.span8{
+grid-column: span 8;
+}
+
+.see-outline > div{
+border: solid;
+}
