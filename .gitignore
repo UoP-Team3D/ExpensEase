@@ -173,4 +173,7 @@ model.pkl
 vectorizer.pkl
 vocabulary.json
 start.bat
-ExpensEase\ExpensEase\src\flask_session
+backend\flask_session
+backend\.env
+backend\log
+

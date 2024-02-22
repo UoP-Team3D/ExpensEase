@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public."Users"
     email character varying(40) COLLATE pg_catalog."default" NOT NULL,
     first_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
     last_name character varying(20) COLLATE pg_catalog."default" NOT NULL,
-    password character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(60) COLLATE pg_catalog."default" NOT NULL,
     pin character varying(4) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT "Users_pkey" PRIMARY KEY (user_id)
 );
