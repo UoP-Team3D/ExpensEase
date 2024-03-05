@@ -49,8 +49,9 @@ def get_db_connection():
         return connection
 
     except psycopg2.Error as e:
-        logger.error(f"Database connection failed! Ensure your ExpensEase database is setup correctly and re-try.")
         raise ConnectionError(f"Database connection failed: {e}")
+    except ValueError:
+        raise
     except Exception as e:
-        logger.error(f"Unknown error happened! The error: {e}")
-        raise RuntimeError(f"An error occurred: {e}")
+        logger.error(f"An unexpected error occurred: {e}")
+        raise RuntimeError(f"An unexpected error occurred: {e}")
