@@ -3,8 +3,10 @@ from PIL import Image
 from utilities.ocr import OCRProcessor
 from unittest.mock import patch, MagicMock
 import numpy as np
+import os
 
-TEST_IMAGE_PATH = '/home/erdit/Desktop/Projects/ExpensEase/ExpensEase/backend/tests/test_images/clear.jpeg'
+current_dir = os.path.dirname(os.path.abspath(__file__))
+TEST_IMAGE_PATH = os.path.join(current_dir, '..', 'tests', 'test_images', 'clear.jpeg')
 
 @pytest.fixture
 def ocr_processor():

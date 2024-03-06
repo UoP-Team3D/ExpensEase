@@ -4,7 +4,6 @@ import os
 import cv2
 import numpy as np
 
-
 class OCRProcessor:
     def __init__(self, tesseract_path=None):
         """
@@ -89,4 +88,4 @@ class OCRProcessor:
             final = pytesseract.image_to_string(image, lang="eng", config="--psm 3") 
             return final
 
-        return pytesseract.image_to_string(image, lang="eng", config="--psm 3") 
+        return pytesseract.image_to_string(image, lang="eng", config="--psm 3")
