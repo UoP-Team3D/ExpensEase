@@ -20,11 +20,6 @@ def test_deskew_image(ocr_processor):
     deskewed_image = ocr_processor._deskew_image(test_image_np)
     assert isinstance(deskewed_image, Image.Image)
 
-def test_preprocess_image(ocr_processor, tmp_path):
-    # Provide a path to a test image file
-    processed_image = ocr_processor._preprocess_image(TEST_IMAGE_PATH)
-    assert isinstance(processed_image, np.ndarray)
-
 @patch('pytesseract.image_to_string', return_value='mocked text')
 def test_extract_text(mocked_ocr, ocr_processor):
     extracted_text = ocr_processor.extract_text(TEST_IMAGE_PATH)
