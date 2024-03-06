@@ -1,16 +1,23 @@
 import re
 from .ocr import OCRProcessor
+import joblib
+from sklearn import tree
+from sklearn.linear_model import LogisticRegression
 
 class Predictor:
-    def __init__(self, ocr_processor):
+    def __init__(self, ocr_processor, model_path, vectorizer_path):
         """
-        Initialize the Predictor class with an OCR processor.
+        Initialize the Predictor class with an OCR processor and paths to the trained model and vectorizer.
 
         Args:
             ocr_processor (OCRProcessor): An instance of the OCRProcessor class.
+            model_path (str): Path to the trained model file.
+            vectorizer_path (str): Path to the trained vectorizer file.
         """
         self.ocr_processor = ocr_processor
-
+        self.model = joblib.load(model_path)
+        self.vectorizer = joblib.load(vectorizer_path)
+    
     def extract_total_price(self, image_path, preprocess=True):
         """
         Extract the total price from a receipt.
@@ -36,3 +43,31 @@ class Predictor:
                 continue
 
         return max(prices, default=None)
+
+    def predict_category(self, receipt_text):
+        """
+        Predict the category of a receipt.
+
+        Args:
+            receipt_text (str): Text extracted from the receipt.
+
+        Returns:
+            str: Predicted category.
+        """
+        processed_text = self.vectorizer.transform([receipt_text])
+        predicted_category = self.model.predict(processed_text)
+        return predicted_category[0]
+    
+    @staticmethod
+    def _preprocess_receipt(review):
+        """
+        Preprocess the receipt text. This function removes all non-alphabetic characters from the receipt text.
+
+        Args:
+            review (_type_): The receipt text to preprocess.
+
+        Returns:
+            _type_: The preprocessed receipt text.
+        """
+        review = ''.join(char for char in review if char.isalpha() or char.isspace())
+        return review

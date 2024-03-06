@@ -468,7 +468,4 @@ class CursesInterface:
             self.stdscr.clear()
 
 if __name__ == "__main__":
-    if sys.version_info.major == 3 and sys.version_info.minor == 11 and sys.version_info.micro == 6:
-        curses.wrapper(lambda stdscr: CursesInterface(stdscr).main())    
-    else:
-        raise ValueError("ERROR: This program requires Python 3.11.6. Please use Python 3.11.6 to run this program.")
+    curses.wrapper(lambda stdscr: CursesInterface(stdscr).main())    
