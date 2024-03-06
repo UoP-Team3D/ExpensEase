@@ -31,7 +31,7 @@ def register():
 
     # Validate input
     if not all([username, email, first_name, last_name, password, pin]):
-        current_app.logger.warn("Every field, username, email, first_name, last_name, password, pin has to exist in the json")
+        current_app.logger.warning("Every field, username, email, first_name, last_name, password, pin has to exist in the json")
         return ApiResponse.error("All fields are required.", status=400)
 
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):

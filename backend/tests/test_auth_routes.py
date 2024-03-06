@@ -40,6 +40,70 @@ def test_register_failure(client, mocker):
     assert response.status_code == 400
     assert "User already exists" in response.json['message']
 
+def test_register_failure_email(client, mocker):
+    # Mocking database interaction
+    mocker.patch('models.user.User.register_user', side_effect=ValueError("User already exists"))
+
+    response = client.post('/api/v1/register', json={
+        'username': 'brandnewuser',
+        'email': 'fakeemail',
+        'first_name': 'Existing',
+        'last_name': 'User',
+        'password': 'password123',
+        'pin': '1234'
+    })
+
+    assert response.status_code == 400
+    assert "Invalid email format." in response.json['message']
+
+def test_register_failure_not_filled(client, mocker):
+    # Mocking database interaction
+    mocker.patch('models.user.User.register_user', side_effect=ValueError("User already exists"))
+
+    response = client.post('/api/v1/register', json={
+        'username': 'brandnewuser',
+        'email': 'fakeemail',
+        'first_name': '',
+        'last_name': '',
+        'password': 'password123',
+        'pin': '1234'
+    })
+
+    assert response.status_code == 400
+    assert "All fields are required." in response.json['message']
+
+def test_weak_password(client, mocker):
+    # Mocking database interaction
+    mocker.patch('models.user.User.register_user', side_effect=ValueError("User already exists"))
+
+    response = client.post('/api/v1/register', json={
+        'username': 'brandnewuser',
+        'email': 'existinguser@example.com',
+        'first_name': 'Existing',
+        'last_name': 'User',
+        'password': 'weak',
+        'pin': '1234'
+    })
+
+    assert response.status_code == 400
+    assert "Password must be at least 8 characters and contain a number." in response.json['message']
+
+def test_register_failure_pin(client, mocker):
+    # Mocking database interaction
+    mocker.patch('models.user.User.register_user', side_effect=ValueError("User already exists"))
+
+    response = client.post('/api/v1/register', json={
+        'username': 'brandnewuser',
+        'email': 'brandnewuser@example.com',
+        'first_name': 'Existing',
+        'last_name': 'User',
+        'password': 'password123',
+        'pin': 'badpin'
+    })
+
+    assert response.status_code == 400
+    assert "PIN must be a 4 digit number." in response.json['message']
+
 def test_login_success(client, mocker):
     # Mock User login method
     mocker.patch('models.user.User.login', return_value=(True, 1))

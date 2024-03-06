@@ -45,10 +45,10 @@ class OCRProcessor:
         rotation_matrix = cv2.getRotationMatrix2D((cols / 2, rows / 2), angle_deg, 1)
         deskewed_image = cv2.warpAffine(img_array, rotation_matrix, (cols, rows))
 
-
         return Image.fromarray(deskewed_image)
 
     def _preprocess_image(self, image_path, save_path=None) -> Image:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
         img = cv2.imread(image_path)
 
         file_name = os.path.basename(image_path).split('.')[0]
@@ -67,21 +67,11 @@ class OCRProcessor:
         img = cv2.merge(result_planes)
         
         kernel = np.ones((1, 1), np.uint8)
-        img = cv2.dilate(img, kernel, iterations=1)#increases the white region in the image 
-        img = cv2.erode(img, kernel, iterations=1) #erodes away the boundaries of foreground object
+        img = cv2.dilate(img, kernel, iterations=1)
+        img = cv2.erode(img, kernel, iterations=1) 
         
         # Apply threshold to get image with only b&w (binarization)
         img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-
-        if save_path:
-            image_dir = os.path.join(current_dir, os.pardir, "templates", "receipts")
-            filename_extracted = os.path.basename(os.path.join(image_dir, image))
-            file_extension = os.path.splitext(filename_extracted)[1]
-            new_file_name = os.path.splitext(filename_extracted)[0] + "-processed" + file_extension
-            new_file_path = os.path.join(os.path.dirname(os.path.join(image_dir, image)) + "//processed", new_file_name)
-
-            #Save the filtered image in the output directory
-            cv2.imwrite(new_file_path, img)
 
         return img
 
@@ -97,29 +87,6 @@ class OCRProcessor:
             new_file_path = os.path.join(os.path.dirname(image_path) + "//processed", new_file_name)
             image = self._preprocess_image(image_path, new_file_path)
             final = pytesseract.image_to_string(image, lang="eng", config="--psm 3") 
-            # create text file containing final, named the same as image_path, in new_file_path
-            text_file = open(new_file_path + ".txt", "w")
-            text_file.write(final)
-            
+            return final
+
         return pytesseract.image_to_string(image, lang="eng", config="--psm 3") 
-
-
-# Example use
-if __name__ == "__main__":
-    ocr_processor = OCRProcessor()
-
-    # Calculate the relative path to the clear.jpeg file
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-
-    image_dir = os.path.join(current_dir, os.pardir, "templates", "receipts")
-
-    all_images = [f for f in os.listdir(image_dir) if os.path.isfile(os.path.join(image_dir, f))]
-
-    for image in all_images:
-        filename_extracted = os.path.basename(os.path.join(image_dir, image))
-        file_extension = os.path.splitext(filename_extracted)[1]
-        new_file_name = os.path.splitext(filename_extracted)[0] + "-processed" + file_extension
-        new_file_path = os.path.join(os.path.dirname(os.path.join(image_dir, image)) + "//processed", new_file_name)
-
-        text = ocr_processor.extract_text(os.path.join(image_dir, image))
-        print(f"{image}:  {text}")
