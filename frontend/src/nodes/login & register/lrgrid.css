@@ -1,0 +1,60 @@
+.lrGrid{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 10px;
+    padding: 10px;
+    text-align: left;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.lrGrid > div{
+    padding:1%;
+    font-size: 150%;
+    grid-column: span 4;
+}
+.lrGrid a{
+    font-size: 80%;
+    color:rgb(76,76,76);
+    background-color: white;
+
+}
+
+.lrGrid input{
+    width:90%;
+    font-size: 80%;
+    
+}
+
+.contBut{
+    background-color: #deab29; 
+    border: none;
+    color: white;
+    padding: 10px 20px; 
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    align-items: center;
+    margin-left: 70%;
+}
+
+.span2{
+    grid-column: span 2;
+}
+.span3{
+    grid-column: span 3;
+}
+.span4{
+    grid-column: span 4;
+}
+
+.see-outline > div{
+    border: solid;
+}
+
+.border{
+    border: solid;
+}

@@ -1,19 +1,24 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./nodes/header/header"
-import Home from "./nodes/home/home"
-import BudMan from "./nodes/budget manager/BudgetManager"
-import History from "./nodes/history/history"
-import Scan from "./nodes/scan/scan"
-
+import Header from "./nodes/header/header";
+import Home from "./nodes/home/home";
+import BudMan from "./nodes/budget manager/BudgetManager";
+import History from "./nodes/history/history";
+import Scan from "./nodes/scan/scan";
+import Login from './nodes/login & register/login';
+import Register from './nodes/login & register/register'
 
 export default function App() {
+  
+  const isLoginorRegPage = window.location.pathname === "/login" || '/register';
+
   return (
     <>
-      
       <BrowserRouter>
-      <Header/>
+        {isLoginorRegPage && <Header/>}
         <Routes>
+          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/register" element={<Register/>}></Route>
           <Route path="/" element={<Home/>}/>
           <Route path="/budget-managning" element={<BudMan/>}/>
           <Route path="/history" element={<History/>}/>
