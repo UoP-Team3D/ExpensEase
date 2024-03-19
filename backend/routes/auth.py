@@ -117,3 +117,36 @@ def logout():
     except Exception as e:
         current_app.logger.error(f"Error during logout: {e}")
         return ApiResponse.error("An internal error occurred during logout.", status=500)
+
+@auth_blueprint.route('/reset_password', methods=['GET'])
+def reset_password():
+    data = request.json
+    email = data.get('email')
+    if not email:
+        return ApiResponse.error("Email is required.", status=400)
+    user = User(current_app.db_connection)
+    user_data = user.get_user_by_email(email)
+
+    if user_data:
+        token = f"mock_token_for_{email}"
+        current_app.logger.info(f"Send this token to the user's email: {token}")
+        return ApiResponse.success(message="Password reset token sent.")
+    else:
+        return ApiResponse.error("No user found with that email.", status=404)
+    
+@auth_blueprint.route('/reset_password/<token>', methods=['GET'])
+def reset_password_token(token):
+        data = request.json
+        new_password = data.get('new_password')
+        if not new_password:
+            return ApiResponse.error("New password is required.", status=400)
+        
+        if not token.startswith("mock_token_for_"):
+            return ApiResponse.error("Invalid token.", status=400)
+        
+        email = token.replace("mock_token_for_", "")
+        user = User(current_app.db_connection)
+        if user.update_password(email, new_password):
+            return ApiResponse.success(message="Password updated successfully.")
+        else:
+            return ApiResponse.error("An internal error occurred during password reset.", status=500)
