@@ -95,3 +95,29 @@ class Budget:
             rows_affected = cursor.rowcount
             print(f"Rows affected by the update query: {rows_affected}")
             self.db_connection.commit()
+
+    @staticmethod
+    def get_all_active_budgets():
+        with current_app.db_connection.cursor() as cursor:
+            query = """
+            SELECT budget_id, user_id, category_id, total_amount, current_amount, start_date, end_date
+            FROM public."Budget"
+            WHERE end_date >= CURRENT_DATE
+            """
+            cursor.execute(query)
+            budgets = cursor.fetchall()
+
+            budget_list = []
+            
+            for budget in budgets:
+                budget_list.append(Budget(
+                    budget_id=budget[0],
+                    user_id=budget[1],
+                    category_id=budget[2],
+                    total_amount=float(budget[3]),
+                    current_amount=float(budget[4]),
+                    start_date=budget[5].strftime('%Y-%m-%d'),
+                    end_date=budget[6].strftime('%Y-%m-%d')
+                ))
+
+            return budget_list

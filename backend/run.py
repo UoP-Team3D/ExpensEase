@@ -53,7 +53,7 @@ def create_app(test_config=None):
     # Middleware for session validation on closed endpoints, security
     @app.before_request
     def check_valid_login():
-        open_endpoints = ['auth.login', 'auth.register', 'static', "root"]
+        open_endpoints = ['auth.login', 'auth.register', 'static', 'root']
         if request.endpoint not in open_endpoints and not app.session_manager.is_session_valid():
             return ApiResponse.error("Session token was invalid", 401)
 
@@ -62,4 +62,9 @@ def create_app(test_config=None):
 if __name__ == '__main__':
     app = create_app()
     logger = logging.getLogger(__name__)
+
+   # scheduler = BackgroundScheduler()
+   # scheduler.add_job(check_budget_notifications, 'interval', minutes=1, args=[app])
+   # scheduler.start()
+
     app.run(debug=True)

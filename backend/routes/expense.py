@@ -34,3 +34,46 @@ def get_expenses():
     )
 
     return ApiResponse.success("Expenses retrieved successfully", data=expenses)
+
+@expense_blueprint.route('/<int:expense_id>', methods=['PUT'])
+def update_expense(expense_id):
+    session_manager = current_app.session_manager
+    user_id = session_manager.get_user_id(session.sid)
+
+    if not user_id:
+        return ApiResponse.error("Invalid session token", status=401)
+
+    data = request.json
+    description = data.get('description')
+    amount = data.get('amount')
+    category = data.get('category')
+
+    expense_model = Expense(current_app.db_connection)
+    updated_expense_id = expense_model.update_expense(
+        expense_id,
+        user_id,
+        description=description,
+        amount=amount,
+        category=category
+    )
+
+    if updated_expense_id:
+        return ApiResponse.success("Expense updated successfully")
+    else:
+        return ApiResponse.error("Expense not found or unauthorised", status=404)
+
+@expense_blueprint.route('/<int:expense_id>', methods=['DELETE'])
+def delete_expense(expense_id):
+    session_manager = current_app.session_manager
+    user_id = session_manager.get_user_id(session.sid)
+
+    if not user_id:
+        return ApiResponse.error("Invalid session token", status=401)
+
+    expense_model = Expense(current_app.db_connection)
+    deleted_expense_id = expense_model.delete_expense(expense_id, user_id)
+
+    if deleted_expense_id:
+        return ApiResponse.success("Expense deleted successfully")
+    else:
+        return ApiResponse.error("Expense not found or unauthorized", status=404)

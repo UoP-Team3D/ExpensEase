@@ -60,3 +60,74 @@ class Expense:
                 })
 
             return expense_list
+
+    def update_expense(self, expense_id, user_id, description=None, amount=None, category=None):
+        with self.db_connection.cursor() as cursor:
+            query = """
+            UPDATE public."Expense"
+            SET description = COALESCE(%s, description),
+                amount = COALESCE(%s, amount),
+                category_id = COALESCE((
+                    SELECT category_id
+                    FROM public."Category"
+                    WHERE category_name = %s
+                ), category_id)
+            WHERE expense_id = %s AND user_id = %s
+            RETURNING expense_id;
+            """
+            params = [description, amount, category, expense_id, user_id]
+            cursor.execute(query, params)
+            updated_expense_id = cursor.fetchone()
+            self.db_connection.commit()
+            return updated_expense_id
+
+    def delete_expense(self, expense_id, user_id):
+        with self.db_connection.cursor() as cursor:
+            query = """
+            DELETE FROM public."Expense"
+            WHERE expense_id = %s AND user_id = %s
+            RETURNING expense_id;
+            """
+            params = [expense_id, user_id]
+            cursor.execute(query, params)
+            deleted_expense_id = cursor.fetchone()
+            self.db_connection.commit()
+            return deleted_expense_id
+
+    @staticmethod
+    def get_expenses_by_budget(budget_id):
+        with current_app.db_connection.cursor() as cursor:
+            query = """
+            SELECT e.expense_id, e.amount, e.description, e.date, c.category_name
+            FROM public."Expense" e
+            JOIN public."Category" c ON e.category_id = c.category_id
+            WHERE e.user_id = (
+                SELECT user_id
+                FROM public."Budget"
+                WHERE budget_id = %s
+            )
+            AND e.date >= (
+                SELECT start_date
+                FROM public."Budget"
+                WHERE budget_id = %s
+            )
+            AND e.date <= (
+                SELECT end_date
+                FROM public."Budget"
+                WHERE budget_id = %s
+            )
+            """
+            cursor.execute(query, (budget_id, budget_id, budget_id))
+            expenses = cursor.fetchall()
+
+            expense_list = []
+            for expense in expenses:
+                expense_list.append(Expense(
+                    expense_id=expense[0],
+                    amount=float(expense[1]),
+                    description=expense[2],
+                    date=expense[3].strftime('%Y-%m-%d'),
+                    category=expense[4]
+                ))
+
+            return expense_list

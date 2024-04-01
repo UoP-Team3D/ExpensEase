@@ -4,7 +4,7 @@ from utilities.errors import ApiResponse
 from utilities.session_manager import SessionManager
 import re
 
-auth_blueprint = Blueprint('auth', __name__, url_prefix='/api/v1')
+auth_blueprint = Blueprint('auth', __name__)
 
 @auth_blueprint.route('/register', methods=['POST'])
 def register():
