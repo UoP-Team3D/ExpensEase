@@ -58,6 +58,8 @@ def save_receipt():
     data = request.json
     receipt_id = data.get('receipt_id')
     description = data.get('description')
+    total_price = data.get('total_price')
+    category = data.get('category')
 
     if not receipt_id or not description:
         return ApiResponse.error("Receipt ID and description are required", status=400)
@@ -67,7 +69,14 @@ def save_receipt():
     if not processed_receipt:
         return ApiResponse.error("Invalid receipt ID", status=400)
 
+    # Update the total_price and category if provided in the request
+    if total_price is not None:
+        processed_receipt['total_price'] = float(total_price)
+    if category is not None:
+        processed_receipt['category'] = category
+
     receipt_model = Receipt(current_app.db_connection)
+    
     expense_id = receipt_model.save_receipt(
         user_id,
         processed_receipt['total_price'],

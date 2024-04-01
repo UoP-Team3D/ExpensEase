@@ -2,6 +2,8 @@ from flask import request
 import os
 from utilities.ocr import OCRProcessor
 from utilities.prediction import Predictor
+import datetime
+from models.budget import Budget
 
 class Receipt:
     """
@@ -35,6 +37,8 @@ class Receipt:
         return total_price, category
 
     def save_receipt(self, user_id, total_price, category, description):
+        current_date = datetime.date.today() #? its unlikely the user waits a prolonged time before accepting the results of the receipt
+    
         with self.db_connection.cursor() as cursor:
             query = """
             INSERT INTO public."Expense" (user_id, category_id, amount, description, date)
@@ -42,11 +46,16 @@ class Receipt:
                 SELECT category_id
                 FROM public."Category"
                 WHERE category_name = %s
-            ), %s, %s, CURRENT_DATE)
-            RETURNING expense_id;
+            ), %s, %s, %s)
+            RETURNING expense_id, category_id;
             """
-            cursor.execute(query, (user_id, category, total_price, description))
-            expense_id = cursor.fetchone()[0]
+            cursor.execute(query, (user_id, category, total_price, description, current_date))
+            result = cursor.fetchone()
+            expense_id = result[0]
+            category_id = result[1]
             self.db_connection.commit()
+
+        budget_model = Budget(self.db_connection)
+        budget_model.update_budget_amount(user_id, category_id, total_price, current_date)
 
         return expense_id

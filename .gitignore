@@ -169,14 +169,15 @@ ReceiptManager/bin
 ReceiptManager/test_receipts
 ReceiptManager/complete
 
-bin\model.pkl
-bin\vectorizer.pkl
-bin\vocabulary.json
+bin/model.pkl
+bin/vectorizer.pkl
+bin/vocabulary.json
 model.pkl
 vectorizer.pkl
 vocabulary.json
 start.bat
-backend/flask_session/
-backend\.env
-backend\log\*
-backend\templates
+backend/flask_session
+backend/.env
+backend/log
+backend/templates
+backend/storage
