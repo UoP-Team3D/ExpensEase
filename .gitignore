@@ -178,5 +178,5 @@ vocabulary.json
 start.bat
 backend/flask_session/
 backend\.env
-backend\log
+backend\log\*
 backend\templates

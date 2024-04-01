@@ -11,6 +11,7 @@ class User:
 
     Methods:
         register_user: Registers a new user in the database.
+        login: Logs in an existing user.
     """
 
     def __init__(self, db_connection):
@@ -47,7 +48,7 @@ class User:
         try:
             with self.db_connection.cursor() as cursor:
                 check_query = """
-                SELECT 1 FROM public."Users" WHERE username = %s or EMAIL = %s
+                SELECT 1 FROM public."Users" WHERE username = %s or email = %s
                 """
                 cursor.execute(check_query, (username, email))
                 
@@ -67,7 +68,7 @@ class User:
                 return user_id
         except psycopg2.Error as e:
             self.db_connection.rollback()
-            logger.error(f"Error whilst trying to create a new user! {e}")
+            self.logger.error(f"Error whilst trying to create a new user! {e}")
             raise
 
     def login(self, username, plain_password):
@@ -75,8 +76,8 @@ class User:
         Authenticates a user by their username and password.
 
         Args:
-            username: The users username
-            plain_password: The users (unhashed) password
+            username: The user's username
+            plain_password: The user's (unhashed) password
 
         Returns:
             A tuple containing (True, user_id) if authentication is successful, or 
@@ -106,4 +107,3 @@ class User:
             self.db_connection.rollback()
             self.logger.error(f"Error during login: {e}")
             raise
-

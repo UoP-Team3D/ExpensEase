@@ -95,7 +95,7 @@ def login():
         return ApiResponse.error("An internal error occurred during login.", status=500)
 
 
-@auth_blueprint.route('/logout', methods=['GET'])
+@auth_blueprint.route('/logout', methods=['DELETE'])
 def logout():
     """
     Endpoint for user logout. It ends the user's session and clears the session cookie.

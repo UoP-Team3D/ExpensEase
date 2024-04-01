@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from routes.auth import auth_blueprint
+from routes.receipt import receipt_blueprint
 from utilities.db_connection import get_db_connection
 from utilities.session_manager import SessionManager
 from utilities.errors import ApiResponse
@@ -24,6 +25,9 @@ def create_app(test_config=None):
     app.db_connection = get_db_connection()
     app.session_manager = SessionManager(app)
 
+    # Receipts dictionary to track receipts
+    app.processed_receipts = {}
+
     # Logging
     logging.basicConfig(level=logging.INFO)
     handler = RotatingFileHandler('log/app.log', maxBytes=10000, backupCount=3)
@@ -32,6 +36,7 @@ def create_app(test_config=None):
 
     # Blueprint registration
     app.register_blueprint(auth_blueprint, url_prefix='/api/v1')
+    app.register_blueprint(receipt_blueprint, url_prefix='/api/v1')
 
     CORS(app, resources={r"/api/*": {"origins": "*"}})
 
