@@ -14,13 +14,13 @@ CREATE TABLE IF NOT EXISTS public."Users"
     CONSTRAINT "Users_email_key" UNIQUE (email)
 );
 
-CREATE TABLE IF NOT EXISTS public."Category"
-(
+CREATE TABLE IF NOT EXISTS public."Category" (
     category_id serial NOT NULL,
+    user_id integer,
     category_name character varying(20) NOT NULL,
     is_preset boolean NOT NULL DEFAULT false,
     CONSTRAINT "Category_pkey" PRIMARY KEY (category_id),
-    CONSTRAINT "Category_category_name_key" UNIQUE (category_name)
+    CONSTRAINT "Category_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public."Users" (user_id)
 );
 
 CREATE TABLE IF NOT EXISTS public."Budget"
@@ -49,6 +49,9 @@ CREATE TABLE IF NOT EXISTS public."Expense"
     CONSTRAINT "Expense_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public."Users" (user_id),
     CONSTRAINT "Expense_category_id_fkey" FOREIGN KEY (category_id) REFERENCES public."Category" (category_id)
 );
+
+ALTER TABLE public."Category"
+ADD CONSTRAINT "Category_category_name_key" UNIQUE (category_name);
 
 -- Insert preset categories
 INSERT INTO public."Category" (category_name, is_preset)

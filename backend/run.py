@@ -4,6 +4,7 @@ from routes.auth import auth_blueprint
 from routes.receipt import receipt_blueprint
 from routes.budget import budget_blueprint
 from routes.expense import expense_blueprint
+from routes.category import category_blueprint
 from utilities.db_connection import get_db_connection
 from utilities.session_manager import SessionManager
 from utilities.errors import ApiResponse
@@ -41,6 +42,7 @@ def create_app(test_config=None):
     app.register_blueprint(receipt_blueprint, url_prefix='/api/v1/receipt')
     app.register_blueprint(budget_blueprint, url_prefix='/api/v1/budget')
     app.register_blueprint(expense_blueprint, url_prefix='/api/v1/expense')
+    app.register_blueprint(category_blueprint, url_prefix='/api/v1/category')
 
     # Setup cross-origin resource sharing
     CORS(app, resources={r"/api/*": {"origins": "*"}})
