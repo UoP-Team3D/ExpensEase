@@ -14,6 +14,10 @@ Multi-purpose budgeting tool, 2023-2024 coursework at UoP.
 
 ---
 
+## Contribution Convention
+
+Please follow Conventional Commits (https://www.conventionalcommits.org/en/v1.0.0/#summary) as a guide for writing good commit messages when pushing to the repository, this helps everyone understand exactly what you pushed to the repository by just glancing at the commit messages.
+
 ## How to Use
 
 The project runs through cross-origin resource sharing for development and testing.
@@ -129,6 +133,10 @@ SECRET_SESSION_KEY=SKGNaJDK1d034cma!l1
 ```
 
 Replace `username` and `password` in the DATABASE_URL with the credentials you set up during PostgreSQL installation.
+
+### Running The Unit Tests
+
+When introducing big changes to the backend, or minor, run `pytest` whilst in the `backend` folder to ensure every unit test passes. It's often a good idea to run `pytest` after every pull too so you can pinpoint any issue that may happen whilst developing the project.
 
 ---
 
