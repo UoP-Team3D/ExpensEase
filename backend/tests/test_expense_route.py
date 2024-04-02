@@ -8,7 +8,6 @@ def client():
         yield client
 
 def test_get_expenses_success(client, mocker):
-    # Mock the necessary functions and database interactions
     mocker.patch('utilities.session_manager.SessionManager.is_session_valid', return_value=True)
     mocker.patch('utilities.session_manager.SessionManager.get_user_id', return_value=1)
     mocker.patch('models.expense.Expense.get_expenses', return_value=[{
@@ -26,7 +25,6 @@ def test_get_expenses_success(client, mocker):
     assert len(response.json['data']) == 1
 
 def test_update_expense_success(client, mocker):
-    # Mock the necessary functions and database interactions
     mocker.patch('utilities.session_manager.SessionManager.is_session_valid', return_value=True)
     mocker.patch('utilities.session_manager.SessionManager.get_user_id', return_value=1)
     mocker.patch('models.expense.Expense.update_expense')
@@ -39,4 +37,33 @@ def test_update_expense_success(client, mocker):
     assert response.status_code == 200
     assert response.json['success'] == True
 
-# Add more tests for other expense routes (delete_expense)
+def test_delete_expense_success(client, mocker):
+    mocker.patch('utilities.session_manager.SessionManager.is_session_valid', return_value=True)
+    mocker.patch('utilities.session_manager.SessionManager.get_user_id', return_value=1)
+    mocker.patch('models.expense.Expense.delete_expense')
+
+    response = client.delete('/api/v1/expense/1')
+
+    assert response.status_code == 200
+    assert response.json['success'] == True
+
+def test_get_expenses_unauthorized(client):
+    response = client.get('/api/v1/expense/')
+
+    assert response.status_code == 401
+    assert response.json['success'] == False
+
+def test_update_expense_unauthorized(client):
+    response = client.put('/api/v1/expense/1', json={
+        'amount': 150,
+        'description': 'Updated expense'
+    })
+
+    assert response.status_code == 401
+    assert response.json['success'] == False
+
+def test_delete_expense_unauthorized(client):
+    response = client.delete('/api/v1/expense/1')
+
+    assert response.status_code == 401
+    assert response.json['success'] == False

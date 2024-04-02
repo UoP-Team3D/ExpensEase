@@ -3,6 +3,7 @@ from utilities.ocr import OCRProcessor
 from utilities.prediction import Predictor
 from unittest.mock import patch
 import re
+import os
 
 # TODO: make this actual receipt data
 EXAMPLE_RECEIPTS = [
@@ -19,7 +20,16 @@ def ocr_processor():
 
 @pytest.fixture
 def predictor(ocr_processor):
-    return Predictor(ocr_processor, "/home/erdit/Desktop/Projects/ExpensEase/ExpensEase/ReceiptManager/bin/model.pkl", "/home/erdit/Desktop/Projects/ExpensEase/ExpensEase/ReceiptManager/bin/vectorizer.pkl")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(current_dir, '..', '..', 'ReceiptManager', 'bin', 'model.pkl')
+    vectorizer_path = os.path.join(current_dir, '..', '..', 'ReceiptManager', 'bin', 'vectorizer.pkl')
+
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"Model file not found: {model_path}, make sure you generate the model first!")
+    if not os.path.exists(vectorizer_path):
+        raise FileNotFoundError(f"Vectorizer file not found: {vectorizer_path}, make sure you generate the model first!")
+
+    return Predictor(ocr_processor, model_path, vectorizer_path)
 
 @patch('utilities.ocr.OCRProcessor.extract_text')
 @patch('utilities.prediction.Predictor.predict_category')

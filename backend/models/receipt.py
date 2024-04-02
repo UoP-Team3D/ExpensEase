@@ -25,8 +25,19 @@ class Receipt:
         """
         self.db_connection = db_connection
         self.ocr_processor = OCRProcessor()
-        self.predictor = Predictor(self.ocr_processor, '/home/erdit/Desktop/Projects/ExpensEase/ExpensEase/ReceiptManager/bin/model.pkl', '/home/erdit/Desktop/Projects/ExpensEase/ExpensEase/ReceiptManager/bin/vectorizer.pkl')
 
+        # TODO: adapt this? idk yet
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        model_path = os.path.join(current_dir, '..', '..', 'ReceiptManager', 'bin', 'model.pkl')
+        vectorizer_path = os.path.join(current_dir, '..', '..', 'ReceiptManager', 'bin', 'vectorizer.pkl')
+        
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"Model file not found: {model_path}, make sure you generate the model first!")
+        if not os.path.exists(vectorizer_path):
+            raise FileNotFoundError(f"Vectorizer file not found: {vectorizer_path}, make sure you generate the model first!")
+
+        self.predictor = Predictor(self.ocr_processor, model_path, vectorizer_path)
+        
     def process_receipt(self, user_id, receipt_image, receipt_image_path):
         receipt_image.save(receipt_image_path)
 
