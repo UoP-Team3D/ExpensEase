@@ -1,4 +1,7 @@
 from flask import current_app
+from flask_socketio import SocketIO, emit
+
+socketio = SocketIO(logger=True, engineio_logger=True)
 
 class Budget:
     def __init__(self, db_connection):
@@ -89,12 +92,21 @@ class Budget:
             WHERE user_id = %s
             AND category_id = %s
             AND start_date <= %s
-            AND end_date >= %s;
+            AND end_date >= %s
+            RETURNING current_amount;
             """
             cursor.execute(query, (expense_amount, user_id, category_id, expense_date, expense_date))
+            result = cursor.fetchone()
             rows_affected = cursor.rowcount
             print(f"Rows affected by the update query: {rows_affected}")
             self.db_connection.commit()
+
+            if result is not None:
+                updated_amount = result[0]
+                if updated_amount <= 15:  # Check if the updated budget amount is below the threshold (£15)
+                    self.send_low_budget_notification(user_id, category_id, updated_amount)
+            else:
+                print(f"No matching budget found for user_id: {user_id}, category_id: {category_id}, expense_date: {expense_date}")
 
     @staticmethod
     def get_all_active_budgets():
@@ -121,3 +133,31 @@ class Budget:
                 ))
 
             return budget_list
+
+    def send_low_budget_notification(self, user_id, category_id, current_amount):
+        with self.db_connection.cursor() as cursor:
+            query = """
+            SELECT email
+            FROM public."Users"
+            WHERE user_id = %s;
+            """
+            cursor.execute(query, (user_id,))
+            user_email = cursor.fetchone()[0]
+
+        with self.db_connection.cursor() as cursor:
+            query = """
+            SELECT category_name
+            FROM public."Category"
+            WHERE category_id = %s;
+            """
+            cursor.execute(query, (category_id,))
+            category_name = cursor.fetchone()[0]
+
+        subject = "Low Budget Alert"
+        message = f"Your budget for the category '{category_name}' is running low. Current amount: £{current_amount:.2f}"
+
+        #? in this case, no email system exists because this is a uni project
+        print(f"Email generated: {message}")
+        print(f"Low budget notification sent to {user_email} for category '{category_name}'!")
+
+        #todo: make it so frontend knows

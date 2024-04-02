@@ -101,7 +101,7 @@ def test_delete_budget_success(client, mocker):
     assert response.status_code == 200
     assert response.json['success'] == True
 
-def test_create_budget_unauthorized(client):
+def test_create_budget_unauthorised(client):
     response = client.post('/api/v1/budget/create', json={
         'category_id': 1,
         'total_amount': 1000,
@@ -112,19 +112,19 @@ def test_create_budget_unauthorized(client):
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_get_user_budgets_unauthorized(client):
+def test_get_user_budgets_unauthorised(client):
     response = client.get('/api/v1/budget/')
 
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_get_budget_unauthorized(client):
+def test_get_budget_unauthorised(client):
     response = client.get('/api/v1/budget/1')
 
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_update_budget_unauthorized(client):
+def test_update_budget_unauthorised(client):
     response = client.put('/api/v1/budget/1', json={
         'total_amount': 1500
     })
@@ -132,7 +132,7 @@ def test_update_budget_unauthorized(client):
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_delete_budget_unauthorized(client):
+def test_delete_budget_unauthorised(client):
     response = client.delete('/api/v1/budget/1')
 
     assert response.status_code == 401

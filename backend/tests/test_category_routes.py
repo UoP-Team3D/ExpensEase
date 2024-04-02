@@ -70,7 +70,7 @@ def test_delete_category_success(client, mocker):
     assert response.status_code == 200
     assert response.json['success'] == True
 
-def test_create_category_unauthorized(client):
+def test_create_category_unauthorised(client):
     response = client.post('/api/v1/category/', json={
         'category_name': 'New Category'
     })
@@ -78,13 +78,13 @@ def test_create_category_unauthorized(client):
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_get_user_categories_unauthorized(client):
+def test_get_user_categories_unauthorised(client):
     response = client.get('/api/v1/category/')
 
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_update_category_unauthorized(client):
+def test_update_category_unauthorised(client):
     response = client.put('/api/v1/category/1', json={
         'category_name': 'Updated Category'
     })
@@ -92,7 +92,7 @@ def test_update_category_unauthorized(client):
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_delete_category_unauthorized(client):
+def test_delete_category_unauthorised(client):
     response = client.delete('/api/v1/category/1')
 
     assert response.status_code == 401

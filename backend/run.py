@@ -64,9 +64,4 @@ def create_app(test_config=None):
 if __name__ == '__main__':
     app = create_app()
     logger = logging.getLogger(__name__)
-
-   # scheduler = BackgroundScheduler()
-   # scheduler.add_job(check_budget_notifications, 'interval', minutes=1, args=[app])
-   # scheduler.start()
-
     app.run(debug=True)

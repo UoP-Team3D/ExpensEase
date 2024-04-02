@@ -47,13 +47,13 @@ def test_delete_expense_success(client, mocker):
     assert response.status_code == 200
     assert response.json['success'] == True
 
-def test_get_expenses_unauthorized(client):
+def test_get_expenses_unauthorised(client):
     response = client.get('/api/v1/expense/')
 
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_update_expense_unauthorized(client):
+def test_update_expense_unauthorised(client):
     response = client.put('/api/v1/expense/1', json={
         'amount': 150,
         'description': 'Updated expense'
@@ -62,7 +62,7 @@ def test_update_expense_unauthorized(client):
     assert response.status_code == 401
     assert response.json['success'] == False
 
-def test_delete_expense_unauthorized(client):
+def test_delete_expense_unauthorised(client):
     response = client.delete('/api/v1/expense/1')
 
     assert response.status_code == 401
