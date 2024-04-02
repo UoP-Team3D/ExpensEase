@@ -397,3 +397,156 @@
         "message": "Expense not found or unauthorized"
       }
       ```
+
+## Categories (category.py)
+
+
+### Get User Categories
+
+- Endpoint: `GET /api/v1/category/`
+- Description: Retrieve all categories for the authenticated user.
+- Response:
+  - Success:
+    - Status Code: 200
+    - Body:
+      ```json
+      {
+        "success": true,
+        "message": "Categories retrieved successfully",
+        "data": [
+          {
+            "category_id": integer,
+            "category_name": "string",
+            "user_id": integer
+          },
+          ...
+        ]
+      }
+      ```
+  - Error:
+    - Status Code: 401 (Unauthorized)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "Invalid session token"
+      }
+      ```
+
+### Create Category
+
+- Endpoint: `POST /api/v1/category/`
+- Description: Create a new category for the user.
+- Request Body:
+  ```json
+  {
+    "category_name": "string"
+  }
+  ```
+- Response:
+  - Success:
+    - Status Code: 200
+    - Body:
+      ```json
+      {
+        "success": true,
+        "message": "Category created successfully",
+        "data": {
+          "category_id": integer
+        }
+      }
+      ```
+  - Error:
+    - Status Code: 400 (Bad Request)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "Category name is required"
+      }
+      ```
+
+### Update Category
+
+- Endpoint: `PUT /api/v1/category/<int:category_id>`
+- Description: Update a specific category by ID.
+- Request Body:
+  ```json
+  {
+    "category_name": "string"
+  }
+  ```
+- Response:
+  - Success:
+    - Status Code: 200
+    - Body:
+      ```json
+      {
+        "success": true,
+        "message": "Category updated successfully"
+      }
+      ```
+  - Error:
+    - Status Code: 404 (Not Found)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "Category not found or unauthorized"
+      }
+      ```
+
+### Delete Category
+
+- Endpoint: `DELETE /api/v1/category/<int:category_id>`
+- Description: Delete a specific category by ID. Only custom categories.
+- Response:
+  - Success:
+    - Status Code: 200
+    - Body:
+      ```json
+      {
+        "success": true,
+        "message": "Category deleted successfully"
+      }
+      ```
+  - Error:
+    - Status Code: 404 (Not Found)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "Category not found or unauthorized"
+      }
+      ```
+
+* Endpoint: `GET /api/v1/category/`
+* Description: Retrieve all categories for the authenticated user.
+* Response:
+  * Success:
+    * Status Code: 200
+    * Body:
+      <pre><div class="dark bg-gray-950 rounded-md"><div class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"><span>json</span><span class="" data-state="closed"></span></div></div></pre>
+
+```json
+{
+  "success": true,
+  "message": "Categories retrieved successfully",
+  "data": [
+    {
+      "category_id": integer,
+      "category_name": "string",
+      "user_id": integer
+    },
+    ...
+  ]
+}
+```
+
+---
+
+## Notice
+
+Most of these endpoints require a valid session token, session tokens are retrieved from the login endpoint. They last permanetly, so once you've logged in once, provided you never delete the contents of the folder `flask_session`, the token will be alive.
+
+If you get a `401` error, it's because that token wasn't there (or because what you're trying to retrieve from the database or server was not authorised).
