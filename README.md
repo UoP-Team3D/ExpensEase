@@ -97,6 +97,20 @@ GRANT ALL PRIVILEGES ON DATABASE expensease TO username;
 
 * Exit the PostgreSQL command line and run the SQL script using `psql -U username -d expensease -a -f DBCreationSQL.sql`.
 
+#### Dropping Database (if needed)
+
+Chances are the database is going to change during development to accomodate for features or adaptations in the project. To remove the existing tables and recreate the new schema, psql into the database and then run:
+
+```sql
+DROP TABLE IF EXISTS public."Budget";
+DROP TABLE IF EXISTS public."Category";
+DROP TABLE IF EXISTS public."Expense";
+DROP TABLE IF EXISTS public."Income";
+DROP TABLE IF EXISTS public."Users";
+```
+
+Recreate the database by referring to the above.
+
 #### Create Testing DB
 
 Unit testing relies on a "testing" database, this database is 1:1 with the above one, just an empty clone of it named "expensease_test". Create it in the exact same way you created the above, main database.

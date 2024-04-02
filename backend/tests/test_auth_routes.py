@@ -126,7 +126,7 @@ def test_logout_success(client, mocker):
     # Mock SessionManager's end_session method
     mocker.patch('utilities.session_manager.SessionManager.end_session')
 
-    response = client.get('/api/v1/logout')
+    response = client.delete('/api/v1/logout')
 
     assert response.status_code == 200
     assert response.json['success'] == True
