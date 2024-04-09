@@ -400,7 +400,6 @@
 
 ## Categories (category.py)
 
-
 ### Get User Categories
 
 - Endpoint: `GET /api/v1/category/`
