@@ -8,8 +8,9 @@ try:
     import numpy as np
     import shutil
     import sys
-except ImportError:
+except ImportError as e:
     print("ERROR: One or more required modules are not installed! Please run 'pip install -r requirements.txt' to install them.")
+    print(f"Exception data: {e}")
     exit(1)
 
 class OCRProcessor:

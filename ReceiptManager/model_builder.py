@@ -146,7 +146,7 @@ class ReceiptCategoriser:
 
         try:
             vocabulary = self.vectorizer.vocabulary_
-            with open('bin\\vocabulary.json', 'w') as f:
+            with open(os.path.join(current_dir, "bin", "vocabulary.json"), 'w') as f:
                 json.dump(vocabulary, f, cls=NumpyEncoder)
 
             # Save the trained model and vectorizer for future use

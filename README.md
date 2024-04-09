@@ -24,7 +24,44 @@ The project runs through cross-origin resource sharing for development and testi
 
 ### Backend
 
-Backend is developed using Python version 3.11.7. Any other version of Python has not been tested. This guide assumes you also have pip installed.
+Backend is developed using Python version 3.11.7 (3.11.8 has been tested too). Any other version of Python has not been tested. This guide assumes you also have pip installed.
+
+#### Download Tesseract for OCR Scanning
+
+Tesseract is an open-source OCR engine used by `pytesseract` for optical character recognition (reading receipt images). Follow these steps to set up Tesseract on your system:
+
+On **Windows**
+
+1. Download the Tesseract installer for Windows from the following link: https://github.com/UB-Mannheim/tesseract/wiki
+2. Run the installer and follow the installation wizard.
+3. During installation, make sure to select the option to install the English language pack.
+4. Add the Tesseract installation directory (e.g., C:\Program Files\Tesseract-OCR) to your system's PATH environment variable.
+
+On **macOS**
+
+Install Tesseract using Homebrew by running the following command in the terminal:
+
+```
+brew install tesseract
+```
+
+Homebrew will automatically install the English language pack along with Tesseract.
+
+On **Linux**:
+
+Install Tesseract using your package manager. For example, on Ubuntu or Debian:
+
+```
+sudo apt-get install tesseract-ocr
+```
+
+Install the English language pack:
+
+```
+sudo apt-get install tesseract-ocr-eng
+```
+
+After installing Tesseract, pytesseract should be able to use it without any additional configuration.
 
 #### Creating a virtual environment
 

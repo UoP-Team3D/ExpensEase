@@ -23,6 +23,8 @@ def upload_receipt():
     if receipt_image.filename == '':
         return ApiResponse.error("No receipt image selected", status=400)
 
+    os.makedirs("storage", exist_ok=True)
+
     # Generate a unique filename for the receipt image
     receipt_image_filename = f"{user_id}_{int(time.time())}_{receipt_image.filename}"
     receipt_image_path = os.path.join('storage', receipt_image_filename)
