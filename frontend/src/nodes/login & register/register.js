@@ -18,7 +18,7 @@ const Register = () => {
             const pw = document.querySelector('#passReg').value;
             const pin = document.querySelector('#pincode').value;
 
-            console.log(fn)
+        
             
             const data = {
                 username: un,

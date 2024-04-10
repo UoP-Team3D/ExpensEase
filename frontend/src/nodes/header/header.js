@@ -7,6 +7,7 @@ const Header = () =>{
         <header>
             <div class='navbar '>
             <ul>
+                <li><NavLink to="/home"activeClassName='active'>Home</NavLink></li>
                 <li><NavLink to="/budget-managing"activeClassName='active'>Manager</NavLink></li>
                 <li><NavLink to="/scan"activeClassName='active'>scan</NavLink></li>
                 <li><NavLink to="/history"activeClassName='active'>History</NavLink></li>
