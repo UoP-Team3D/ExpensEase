@@ -10,12 +10,11 @@ import Register from './nodes/login & register/register'
 
 export default function App() {
   
-  const isLoginorRegPage = window.location.pathname === "/login" || '/register';
-
+  const isLoginorRegPage = window.location.pathname === '/login' || window.location.pathname === '/register';
   return (
     <>
       <BrowserRouter>
-        {isLoginorRegPage && <Header/>}
+        {isLoginorRegPage?null : <Header/>}
         <Routes>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>

@@ -4,26 +4,67 @@ import './lrgrid.css';
 
 const Register = () => {
     const [errorMessage, setErrorMessage] = useState("");
-    useEffect(() => {
-    const val = () =>{
-        let pass1 = document.getElementById("passLog").value;
-        let pass2 = document.getElementById("passLogcon").value;
 
+
+    function val(){
+     
+      
+            const url = "http://127.0.0.1:5000/api/v1/register";
+
+            const fn = document.querySelector('#fname').value;
+            const ln = document.querySelector('#lname').value;
+            const un = document.querySelector('#usernReg').value;
+            const mail = document.querySelector('#mailReg').value;
+            const pw = document.querySelector('#passReg').value;
+            const pin = document.querySelector('#pincode').value;
+
+            console.log(fn)
+            
+            const data = {
+                username: un,
+                password: pw,
+                email: mail,
+                first_name: fn,
+                last_name: ln,
+                pin: pin,                
+            }
+
+            console.log(JSON.stringify(data));
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    alert("Server error!");
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert("Success: ", data);
+            })
+            .catch(error => {
+                alert("Error: ", error);
+            })
+
+            window.location.href = '/login';
        
-        if(pass1 === pass2){
-            setErrorMessage('');
-            console.log("register function here");
-        } else {
-            setErrorMessage('Passwords are not matching');
-        }
     }
-    const regBut = document.getElementById("reg");
+
+    function event(){
+        const regBut = document.getElementById("reg");
         regBut.addEventListener('click', val);
-        return () => {
-            regBut.removeEventListener('click', val);
-        };
-    },  );
+    }
    
+
+    function init(){
+        document.addEventListener('DOMContentLoaded',event)
+    }
+
 
 
     return (
@@ -42,17 +83,17 @@ const Register = () => {
                 <div>
                     <label>Username:</label>
                     <br/>
-                    <input type="text" placeholder="username" id="usernLog" required></input>
+                    <input type="text" placeholder="username" id="usernReg" required></input>
                 </div>
                 <div>
                     <label>Email:</label>
                     <br/>
-                    <input type="text" placeholder="e-mail" id="mail" required></input>
+                    <input type="text" placeholder="e-mail" id="mailReg" required></input>
                 </div>
                 <div>
                     <label>Password:</label>
                     <br/>
-                    <input type="password" placeholder="password" id="passLog" required></input>
+                    <input type="password" placeholder="password" id="passReg" required></input>
                 </div>
                 <div>
                     <label>Confirm password</label>
@@ -67,7 +108,7 @@ const Register = () => {
                 </div>
                 
                 <div>
-                    <button class="contBut" id="reg">Register</button>
+                    <button className="contBut" id="reg" onClick={val}>Register</button>
                 </div>
                 <div>
                     <NavLink to="/login">Already registered?</NavLink>
