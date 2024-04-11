@@ -168,6 +168,7 @@ ReceiptManager/venv
 ReceiptManager/bin
 ReceiptManager/test_receipts
 ReceiptManager/complete
+ReceiptManager/group_datasets
 
 bin/model.pkl
 bin/vectorizer.pkl
