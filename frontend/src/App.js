@@ -7,6 +7,7 @@ import History from "./nodes/history/history";
 import Scan from "./nodes/scan/scan";
 import Login from './nodes/login & register/login';
 import Register from './nodes/login & register/register'
+import CreateBudget from './nodes/create budget/createBudget';
 
 export default function App() {
   
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/home" element={<Home/>}/>
           <Route path="/budget-managing" element={<BudMan/>}/>
+          <Route path="/create-budget" element={<CreateBudget/>}/>
           <Route path="/history" element={<History/>}/>
           <Route path="/scan" element={<Scan/>}/>
         </Routes>
