@@ -10,24 +10,69 @@
     grid-column: span 2;
 }
 .span3{
-grid-column: span 3;
+    grid-column: span 3;
 }
 .span4{
-grid-column: span 4;
+    grid-column: span 4;
 }
 .span5{
-grid-column: span 5;
+    grid-column: span 5;
 }
 .span6{
-grid-column: span 6;
+    grid-column: span 6;
 }
 .span7{
-grid-column: span 7;
+    grid-column: span 7;
 }
 .span8{
-grid-column: span 8;
+    grid-column: span 8;
 }
 
 .see-outline > div{
-border: solid;
+    border: solid;
 }
+
+/* Styles for Latest Scans table */
+.latest-scans-container {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px; /* Adjusted for table content */
+}
+
+.latest-scans-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    background-color: darkorange; /* Set the background color to darkorange */
+    padding: 8px; /* Add padding for better spacing */
+  }
+  
+
+.latest-scans-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 8px;
+  font-weight: bold;
+}
+
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+/* Responsive adjustments might be required here if necessary */
