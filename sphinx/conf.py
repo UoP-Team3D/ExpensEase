@@ -17,9 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'sphinx documentation website example'
-copyright = '2024, bc'
-author = 'bc'
+project = 'Uop-Team3D ExpensEase documentation'
+copyright = '2024, Uop-Team3D'
+author = 'Uop-Team3D'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
