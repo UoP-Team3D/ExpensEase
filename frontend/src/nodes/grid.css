@@ -1,55 +1,40 @@
-.grid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    gap: 10px;
-    padding: 10px;
-    text-align: center;
-    font-size: 30px;
-}
-.span2{
-    grid-column: span 2;
-}
-.span3{
-    grid-column: span 3;
-}
-.span4{
-    grid-column: span 4;
-}
-.span5{
-    grid-column: span 5;
-}
-.span6{
-    grid-column: span 6;
-}
-.span7{
-    grid-column: span 7;
-}
-.span8{
-    grid-column: span 8;
+/* Global Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column layout for simplicity */
+  gap: 10px;
+  padding: 10px;
+  font-size: 16px; /* Standard font size for content */
 }
 
-.see-outline > div{
-    border: solid;
-}
+/* Span Columns for Grid Items */
+.span2 { grid-column: span 2; }
+.span3 { grid-column: span 3; }
+.span4 { grid-column: span 4; }
+.span5 { grid-column: span 5; }
+.span6 { grid-column: span 6; }
+.span7 { grid-column: span 7; }
+.span8 { grid-column: span 8; }
 
-/* Styles for Latest Scans table */
+/* Outline styles for development visualization */
+.see-outline > div { border: solid; }
+
+/* Latest Scans Table Styles */
 .latest-scans-container {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 16px; /* Adjusted for table content */
 }
 
 .latest-scans-header {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-    background-color: darkorange; /* Set the background color to darkorange */
-    padding: 8px; /* Add padding for better spacing */
-  }
-  
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+  background-color: darkorange;
+  padding: 8px;
+}
 
 .latest-scans-table {
   display: flex;
@@ -71,8 +56,150 @@
   border-bottom: 1px solid #eee;
 }
 
-.table-row:last-child {
-  border-bottom: none;
+.table-row:last-child { border-bottom: none; }
+
+/* History Container Styles */
+.history-container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center; /* Center text for all child elements */
 }
 
-/* Responsive adjustments might be required here if necessary */
+/* Container for the button and the date picker to group them together */
+.history-container .button-and-date-picker-container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center items horizontally */
+  margin-top: 20px; /* Spacing from the content above */
+}
+
+/* Container for the buttons to align them horizontally above the DatePicker */
+.history-container .buttons-container {
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  margin-bottom: 10px; /* Add some space below the buttons, above the DatePicker */
+}
+
+/* Adjustments for buttons to sit side by side */
+.history-container .choose-date-btn,
+.history-container .manual-entry-btn {
+  margin: 0 5px; /* Spacing between buttons */
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.history-container .choose-date-btn {
+  background-color: #007bff; /* Blue background */
+  color: white;
+}
+
+.history-container .manual-entry-btn {
+  background-color: darkorange;
+  color: white;
+  display: flex; /* To align icon and text */
+  align-items: center; /* Align icon and text vertically */
+}
+
+/* Icon inside the button */
+.history-container .manual-entry-btn .calendar-icon {
+  margin-right: 5px; /* Space between icon and text */
+}
+
+/* Style for the input where user can type the date manually */
+.history-container .manual-date-input {
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 10px; /* Spacing from the button */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block; /* Full width */
+}
+
+/* Style for the confirm button next to the manual date input */
+.history-container .confirm-date-btn {
+  background-color: darkorange; /* Bootstrap 'btn-success' color for example */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  outline: none;
+}
+
+
+.receipts-list {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.receipt-entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.receipt-entry:last-child { border-bottom: none; }
+
+.receipt-date, .receipt-description, .receipt-amount {
+  font-weight: bold;
+  color: #333; /* Consistent color for dates and descriptions */
+}
+
+.receipt-description { color: #555; }
+.receipt-amount { color: #d9534f; /* Highlight amounts distinctly */ }
+
+/* Custom styles for react-datepicker */
+.react-datepicker {
+  font-size: 1em;
+}
+
+.react-datepicker__header {
+  background-color: #f0f0f0;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  width: 2.5em;
+  line-height: 2.5em;
+  margin: 0.166em;
+}
+
+/* Styles to change the selected date to dark orange */
+.react-datepicker__day--selected {
+  background-color: darkorange !important; /* Ensures override of default styles */
+  color: white; /* Text color for the selected date */
+}
+
+/* Change the color for the selected date on hover */
+.react-datepicker__day--selected:hover {
+  background-color: darkorange !important; /* Dark orange background on hover */
+  color: white;
+}
+
+/* If you also want to change the color for the selected date in a range */
+.react-datepicker__day--in-range,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-selecting-range-start,
+.react-datepicker__day--in-selecting-range-end,
+.react-datepicker__day--selected {
+  background-color: darkorange !important; /* Dark orange background for range selection */
+  color: white;
+}
+
+/* If you want to change the color for the date being hovered that is not selected */
+.react-datepicker__day--keyboard-selected {
+  background-color: darkorange !important; /* Dark orange background for keyboard-selected date */
+  color: white;
+}
