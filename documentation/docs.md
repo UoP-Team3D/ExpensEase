@@ -543,6 +543,121 @@
 ```
 
 ---
+## Account Settings (auth.py)
+
+### Change Password
+- Endpoint: `POST /api/v1/change_password`
+- Description: Change the password of the currently authenticated user.
+- Request Body:
+  ```json
+  {
+    "password": "string",
+    "new_password": "string"
+  }
+  ```
+- Response:
+  - Success:
+    - Status Code: 200
+    - Body:
+      ```json
+      {
+        "success": true,
+        "message": "Password updated successfully"
+      }
+      ```
+  - Error:
+    - Status Code: 400 (Bad Request)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "Invalid password"
+      }
+      ```
+  - Error
+    - Status Code: 500 (Unauthorized)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "An internal error occured during password update"
+      }
+      ```
+
+### Change Email
+- Endpoint: `POST /api/v1/change_email`
+- Description: Change the email of the currently authenticated user.
+- Request Body:
+  ```json
+  {
+    "new_email": "string"
+  }
+  ```
+- Response:
+  - Success:
+    - Status Code: 200
+    - Body:
+      ```json
+      {
+        "success": true,
+        "message": "Email updated successfully"
+      }
+      ```
+  - Error:
+    - Status Code: 400 (Bad Request)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "New email is required"
+      }
+      ```
+  - Error
+    - Status Code: 500 (Unauthorized)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "An internal error occured during email update"
+      }
+      ```
+  
+### Delete Account
+- Endpoint: `DELETE /api/v1/delete_account`
+- Description: Delete the account of the currently authenticated user.
+- Response:
+  - Success:
+    - Status Code: 200
+    - Body:
+      ```json
+      {
+        "success": true,
+        "message": "Account deleted successfully"
+      }
+      ```
+  - Error:
+    - Status Code: 500 (Unauthorized)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "An internal error occured during account deletion"
+      }
+      ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Notice
 

@@ -33,7 +33,12 @@ def create_app(test_config=None):
 
     # Logging
     logging.basicConfig(level=logging.INFO)
-    handler = RotatingFileHandler('log/app.log', maxBytes=10000, backupCount=3)
+    try:
+        handler = RotatingFileHandler('log/app.log', maxBytes=10000, backupCount=3)
+    except (FileNotFoundError, IOError):
+        os.makedirs('log')
+        open('log/app.log', 'w').close()
+        handler = RotatingFileHandler('log/app.log', maxBytes=10000, backupCount=3)
     handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
     logging.getLogger().addHandler(handler)
 

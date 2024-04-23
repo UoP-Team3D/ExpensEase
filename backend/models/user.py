@@ -107,3 +107,104 @@ class User:
             self.db_connection.rollback()
             self.logger.error(f"Error during login: {e}")
             raise
+    
+    def change_password(self, user_id, password, new_password):
+        """
+        Changes the user's password.
+
+        Args:
+            user_id: The user's ID
+            password: The user's current password
+            new_password: The user's new password
+
+        Returns:
+            True if the password change was successful, False otherwise.
+
+        Raises:
+            psycopg2.Error: If there is an error executing database operations.
+        """
+        try:
+            with self.db_connection.cursor() as cursor:
+                # Query to get the user's hashed password from the database
+                query = """
+                SELECT password FROM public."Users" WHERE user_id = %s;
+                """
+                cursor.execute(query, (user_id,))
+                result = cursor.fetchone()
+
+                # If user is not found or password does not match
+                if result is None or not bcrypt.checkpw(password.encode('utf-8'), result[0].encode('utf-8')):
+                    self.logger.warning(f"User {user_id} was not found, or the password did not match")
+                    return False
+
+                # Hash the new password using bcrypt
+                hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+
+                # Update the user's password in the database
+                update_query = """
+                UPDATE public."Users" SET password = %s WHERE user_id = %s;
+                """
+                cursor.execute(update_query, (hashed_password.decode('utf-8'), user_id))
+                self.db_connection.commit()
+                return True
+
+        except psycopg2.Error as e:
+            self.db_connection.rollback()
+            self.logger.error(f"Error during password change: {e}")
+            raise
+    
+    def delete_user(self, user_id):
+        """
+        Deletes a user from the database.
+
+        Args:
+            user_id: The user's ID
+
+        Returns:
+            True if the user was successfully deleted, False otherwise.
+
+        Raises:
+            psycopg2.Error: If there is an error executing database operations.
+        """
+        try:
+            with self.db_connection.cursor() as cursor:
+                # Delete the user from the database
+                query = """
+                DELETE FROM public."Users" WHERE user_id = %s;
+                """
+                cursor.execute(query, (user_id,))
+                self.db_connection.commit()
+                return True
+
+        except psycopg2.Error as e:
+            self.db_connection.rollback()
+            self.logger.error(f"Error during user deletion: {e}")
+            raise
+    
+    def update_email(self, new_email, user_id):
+        """
+        Updates the user's email address.
+
+        Args:
+            new_email: The user's new email address
+
+        Returns:
+            True if the email address was successfully updated, False otherwise.
+
+        Raises:
+            psycopg2.Error: If there is an error executing database operations.
+        """
+        try:
+            with self.db_connection.cursor() as cursor:
+                # Update the user's email address in the database
+                query = """
+                UPDATE public."Users" SET email = %s WHERE user_id = %s;
+                """
+                cursor.execute(query, (new_email, user_id))
+                self.db_connection.commit()
+                return True
+
+        except psycopg2.Error as e:
+            self.db_connection.rollback()
+            self.logger.error(f"Error during email update: {e}")
+            raise
