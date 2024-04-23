@@ -12,10 +12,14 @@ import CreateBudget from './nodes/create budget/createBudget';
 export default function App() {
   
   const isLoginorRegPage = window.location.pathname === '/login' || window.location.pathname === '/register';
+  if(window.location.pathname == '/'){
+    window.location.pathname = '/login';
+  }
   return (
     <>
       <BrowserRouter>
         {isLoginorRegPage?null : <Header/>}
+        
         <Routes>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>

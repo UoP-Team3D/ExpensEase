@@ -76,35 +76,12 @@ const LatestScans = () => {
 };
 
 const Home = () => {
-  const navigate = useNavigate(); // Hook to enable redirection
-
-  const handleLogout = () => {
-    fetch('http://127.0.0.1:5000/api/v1/logout', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        navigate('/login'); // Redirect to login page on successful logout
-      } else {
-        alert('Logout failed. Please try again.');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('An error occurred. Please try again.');
-    });
-  };
 
   return (
     <article>
       <div className="grid see-outline">
         <div><RingPieChart totalBudget={1000} remainingBudget={650} /></div>
         <div className="span2"><LatestScans /></div>
-        <button onClick={handleLogout} style={{ margin: '20px', padding: '10px 20px' }}>Logout</button>
       </div>
     </article>
   );

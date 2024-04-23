@@ -7,6 +7,23 @@ const CreateBudget = () => {
 
     const mainBudget = "http://127.0.0.1:5000/api/v1/budget/1"
 
+    const categoryData = "http://127.0.0.1:5000/api/v1/category/"
+
+    const categories = [];
+    try{
+        if(categoryData.success){
+            console.log(categoryData.message);
+            for(const category in categoryData.data){
+                categories.push(category.category_name);
+            }
+        }
+    }
+    catch(e){
+        console.log(`Cannot get categories, error: ${e}`);
+    }
+    
+
+
     
     
     const [selectedValue, setSelectedValue] = useState();
@@ -31,13 +48,6 @@ const CreateBudget = () => {
     const formatDateToString = (date) => {
         return date ? date.toISOString().split('T')[0] : ''; 
       };
-
-    const categories = [
-        'General budget',
-        'Groceries',
-        'Eating out',
-        'Entertainment'
-      ];
 
     function getBudget(){
 
@@ -73,7 +83,7 @@ const CreateBudget = () => {
                 <div>
                     <label>Total amount: </label>
 
-                    <input type="number" placeholder="budget amount" value={totalAmount} onChange={getTotalAmount} required></input>
+                    <input type="number" placeholder="budget amount" value={totalAmount} onChange={getTotalAmount}></input>
                 </div>
                 <div>
                     <label>Start Date: </label>
