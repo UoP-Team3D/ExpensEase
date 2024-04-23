@@ -1,20 +1,45 @@
-/* Global Grid Layout */
+/* Modify the .grid class to have 3 equal columns */
 .grid {
   display: grid;
-  grid-template-columns: 1fr; /* Single column layout for simplicity */
+  grid-template-columns: 1fr 1fr 1fr; /* Updated to three columns */
   gap: 10px;
   padding: 10px;
-  font-size: 16px; /* Standard font size for content */
+  font-size: 16px;
 }
 
-/* Span Columns for Grid Items */
-.span2 { grid-column: span 2; }
-.span3 { grid-column: span 3; }
-.span4 { grid-column: span 4; }
-.span5 { grid-column: span 5; }
-.span6 { grid-column: span 6; }
-.span7 { grid-column: span 7; }
-.span8 { grid-column: span 8; }
+/* Additional class for budget text */
+.budget-text {
+  font-size: 1.5em; /* Larger font size for better visibility */
+  font-weight: bold; /* Optional: to make it stand out more */
+}
+
+/* Ensure consistent alignment for columns */
+.table-header span,
+.table-row span {
+  display: inline-block;
+  padding: 10px 15px; /* Adjust padding as needed */
+  text-align: left;
+  vertical-align: middle; /* Vertically center the content */
+}
+
+/* Set a specific width for the 'WHERE?' column */
+.where-column {
+  width: 200px; /* Adjust the width as needed */
+  padding-left: 10px; /* Add some left padding for spacing */
+}
+
+.table-row:nth-child(even) {
+  background-color: #f2f2f2; /* Light gray background for even rows */
+}
+
+/* Use this class to center the RingPieChart component in the middle of the page */
+.center-align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Optional: Set a specific height if needed */
+}
+
 
 /* Outline styles for development visualization */
 .see-outline > div { border: solid; }
