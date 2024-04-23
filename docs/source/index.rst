@@ -1,9 +1,9 @@
-.. sphinx documentation website example documentation master file, created by
+.. TeamUoP3D ExpensEase documentation master file, created by
    sphinx-quickstart on Fri Apr 12 18:33:18 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to sphinx documentation website example's documentation!
+Welcome to TeamUoP3D's ExpensEase documentation!
 ================================================================
 
 .. toctree::
