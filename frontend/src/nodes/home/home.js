@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import './../grid.css';
 
 const RingPieChart = ({ totalBudget, remainingBudget }) => {
@@ -15,11 +16,10 @@ const RingPieChart = ({ totalBudget, remainingBudget }) => {
   let accumulatedOffset = 0; // Initialize accumulated offset
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <svg width="200" height="200" viewBox="0 0 200 200">
         {budgets.map((budget, index) => {
           const dashArray = (budget.percentage / 100) * circumference;
-          // Calculate the stroke dashoffset for the current segment
           const dashOffset = -accumulatedOffset;
           accumulatedOffset += dashArray; // Update accumulatedOffset for the next segment
           
@@ -39,64 +39,72 @@ const RingPieChart = ({ totalBudget, remainingBudget }) => {
           );
         })}
       </svg>
-      <div style={{ textAlign: 'center', marginTop: '10px' }}>
+      <div className="budget-text">
         You have £{remainingBudget}/£{totalBudget} budget left
-      </div>
-    </>
-  );
-};
-
-const LatestScans = () => {
-  // Dummy data for the table rows
-  const scanData = [
-    { dateTime: '12/04/2024 14:22', location: 'Location A', amount: '£150' },
-    { dateTime: '11/04/2024 09:15', location: 'Location B', amount: '£75' },
-    { dateTime: '10/04/2024 16:45', location: 'Location C', amount: '£200' },
-    // ... add more scan entries as needed
-  ];
-
-  return (
-    <div className="latest-scans-container">
-      <div className="latest-scans-header">Latest Scans:</div>
-      <div className="latest-scans-table">
-        <div className="table-header">
-          <span>DATE/TIME</span>
-          <span>WHERE?</span>
-          <span>AMOUNT</span>
-        </div>
-        {scanData.map((scan, index) => (
-          <div className="table-row" key={index}>
-            <span>{scan.dateTime}</span>
-            <span>{scan.location}</span>
-            <span>{scan.amount}</span>
-          </div>
-        ))}
       </div>
     </div>
   );
 };
 
 
+const LatestScans = () => {
+  const scanData = [
+    { dateTime: '12/04/2024 14:22', location: 'Location A', amount: '£150' },
+    { dateTime: '11/04/2024 09:15', location: 'Location B', amount: '£75' },
+    { dateTime: '10/04/2024 16:45', location: 'Location C', amount: '£200' },
+  ];
+
+  return (
+    <div className="latest-scans-container">
+      <div className="latest-scans-header">Latest Scans:</div>
+      <div className="latest-scans-table">
+      <div className="table-header">
+        <span>DATE/TIME</span>
+        <span className="where-column">WHERE?</span>
+        <span>AMOUNT</span>
+      </div>
+      {scanData.map((scan, index) => (
+        <div className="table-row" key={index}>
+          <span>{scan.dateTime}</span>
+          <span className="where-column">{scan.location}</span>
+          <span>{scan.amount}</span>
+        </div>
+       ))}
+      </div>
+    </div>
+  );
+};
+
 const Home = () => {
+  const navigate = useNavigate(); // Hook to enable redirection
+
+  const handleLogout = () => {
+    fetch('http://127.0.0.1:5000/api/v1/logout', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        navigate('/login'); // Redirect to login page on successful logout
+      } else {
+        alert('Logout failed. Please try again.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('An error occurred. Please try again.');
+    });
+  };
+
   return (
     <article>
       <div className="grid see-outline">
         <div><RingPieChart totalBudget={1000} remainingBudget={650} /></div>
-        <div className="span2"><LatestScans /></div> {/* Latest Scans Table */}
-        {/* <div>3</div>
-        <div className="span2">4</div>
-        <div>5</div>
-        <div>6</div>
-        <div>7</div>
-        <div>8</div>
-        <div>9</div>
-        <div>10</div>
-        <div>11</div>
-        <div>12</div>
-        <div>13</div>
-        <div>14</div>
-        <div>15</div>
-        <div>16</div> */}
+        <div className="span2"><LatestScans /></div>
+        <button onClick={handleLogout} style={{ margin: '20px', padding: '10px 20px' }}>Logout</button>
       </div>
     </article>
   );
