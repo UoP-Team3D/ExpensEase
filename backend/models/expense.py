@@ -63,36 +63,74 @@ class Expense:
 
     def update_expense(self, expense_id, user_id, description=None, amount=None, category=None):
         with self.db_connection.cursor() as cursor:
+            # Retrieve the old expense amount and category
             query = """
-            UPDATE public."Expense"
-            SET description = COALESCE(%s, description),
-                amount = COALESCE(%s, amount),
-                category_id = COALESCE((
-                    SELECT category_id
-                    FROM public."Category"
-                    WHERE category_name = %s
-                ), category_id)
+            SELECT amount, category_id
+            FROM public."Expense"
             WHERE expense_id = %s AND user_id = %s
-            RETURNING expense_id;
             """
-            params = [description, amount, category, expense_id, user_id]
-            cursor.execute(query, params)
-            updated_expense_id = cursor.fetchone()
-            self.db_connection.commit()
-            return updated_expense_id
+            cursor.execute(query, (expense_id, user_id))
+            old_expense = cursor.fetchone()
+
+            if old_expense:
+                old_amount, old_category_id = old_expense
+                # Update the expense
+                query = """
+                UPDATE public."Expense"
+                SET description = COALESCE(%s, description),
+                    amount = COALESCE(%s, amount),
+                    category_id = COALESCE((
+                        SELECT category_id
+                        FROM public."Category"
+                        WHERE category_name = %s
+                    ), category_id)
+                WHERE expense_id = %s AND user_id = %s
+                RETURNING expense_id, amount, category_id;
+                """
+                params = [description, amount, category, expense_id, user_id]
+                cursor.execute(query, params)
+                updated_expense = cursor.fetchone()
+                self.db_connection.commit()
+
+                if updated_expense:
+                    new_amount, new_category_id = updated_expense[1], updated_expense[2]
+                    # Update the budget
+                    budget_model = Budget(self.db_connection)
+                    budget_model.update_budget_amount(user_id, old_category_id, -old_amount, None)  # Revert the old amount
+                    budget_model.update_budget_amount(user_id, new_category_id, new_amount, None)  # Apply the new amount
+                    return updated_expense[0]
+        return None
 
     def delete_expense(self, expense_id, user_id):
         with self.db_connection.cursor() as cursor:
+            # Retrieve the expense amount and category
             query = """
-            DELETE FROM public."Expense"
+            SELECT amount, category_id
+            FROM public."Expense"
             WHERE expense_id = %s AND user_id = %s
-            RETURNING expense_id;
             """
-            params = [expense_id, user_id]
-            cursor.execute(query, params)
-            deleted_expense_id = cursor.fetchone()
-            self.db_connection.commit()
-            return deleted_expense_id
+            cursor.execute(query, (expense_id, user_id))
+            expense = cursor.fetchone()
+
+            if expense:
+                amount, category_id = expense
+                # Delete the expense
+                query = """
+                DELETE FROM public."Expense"
+                WHERE expense_id = %s AND user_id = %s
+                RETURNING expense_id;
+                """
+                params = [expense_id, user_id]
+                cursor.execute(query, params)
+                deleted_expense_id = cursor.fetchone()
+                self.db_connection.commit()
+
+                if deleted_expense_id:
+                    # Update the budget
+                    budget_model = Budget(self.db_connection)
+                    budget_model.update_budget_amount(user_id, category_id, -amount, None)  # Revert the amount
+                    return deleted_expense_id[0]
+        return None
 
     @staticmethod
     def get_expenses_by_budget(budget_id):

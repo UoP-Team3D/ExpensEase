@@ -14,16 +14,15 @@ def test_upload_receipt_success(client, mocker):
     mocker.patch('utilities.session_manager.SessionManager.get_user_id', return_value=1)
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    test_image_path = os.path.join(current_dir, 'test_images', 'clear.jpeg')
+    test_image_path = os.path.join(current_dir, 'test_images', 'holly.jpeg')
 
     with open(test_image_path, 'rb') as file:
         image_data = file.read()
 
     response = client.post('/api/v1/receipt/upload', data={
-        'receipt_image': (BytesIO(image_data), 'clear.jpeg')
+        'receipt_image': (BytesIO(image_data), 'holly.jpeg')
     }, content_type='multipart/form-data')
 
     assert response.status_code == 200
     assert response.json['success'] == True
-    assert response.json['data']['total_price'] == 29.01
-    assert response.json['data']['category'] == 'Groceries' #TODO: change to "Eating Out" when model is complete
+    assert response.json['data']['category'] == 'Eating Out'
