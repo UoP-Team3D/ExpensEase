@@ -33,7 +33,9 @@ const Login = () => {
         .then(data => {
             if (data.success) {
                 alert(data.message); // Display login success message
-                navigate('/home'); // Navigate to the home page on success
+                navigate('/home');
+                const token = data.session;
+                localStorage.setItem('token', token);
             } else {
                 setError(data.message); // Set error message from server
                 alert(data.message); // Optionally remove this line if you handle errors inline
@@ -41,8 +43,8 @@ const Login = () => {
         })
         .catch(error => {
             setError('An error occurred. Please try again later.');
-            console.error('Error:', error);
-        });
+            console.error('Error:', error);});
+
     };
 
     return (

@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 const CreateBudget = () => {
 
-    const mainBudget = "http://127.0.0.1:5000/api/v1/budget/1"
+   
 
     const categoryData = "http://127.0.0.1:5000/api/v1/category/"
 
