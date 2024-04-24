@@ -211,11 +211,20 @@ class CursesInterface:
             #! should be commented out upon datasets being acquired by entire team
             if os.path.exists(file_path) and os.path.getsize(file_path) == 0:
                 continue
-    
+        
             encoding = DetectEncoding(file_path)
             df = pd.read_csv(file_path, encoding=encoding)
-            all_data = pd.concat([all_data, df])
             
+            # Preprocess the data
+            df = df.dropna(subset=["receipt", "category"])  # Drop rows with missing values
+            df = df[["receipt", "category"]]  # Keep only the required columns
+
+            # Ensure valid categories
+            valid_categories = ["Groceries", "Eating Out", "Personal Upkeep"]
+            df = df[df["category"].isin(valid_categories)]
+            
+            all_data = pd.concat([all_data, df]) 
+
         all_data = all_data.drop_duplicates()
         
         category_counts = all_data['category'].value_counts()
