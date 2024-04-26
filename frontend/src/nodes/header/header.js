@@ -32,8 +32,9 @@ const Header = () =>{
             <ul>
                 <li><NavLink to="/home"activeClassName='active'>Home</NavLink></li>
                 <li><NavLink to="/budget-managing"activeClassName='active'>Manager</NavLink></li>
-                <li><NavLink to="/scan"activeClassName='active'>scan</NavLink></li>
+                <li><NavLink to="/scan"activeClassName='active'>Scan</NavLink></li>
                 <li><NavLink to="/history"activeClassName='active'>History</NavLink></li>
+                <li><NavLink to="/settings" activeClassName='active'>Settings</NavLink></li>
                 <li><NavLink to="/" onClick={handleLogout}>Logout</NavLink></li>
             </ul>
             </div>
