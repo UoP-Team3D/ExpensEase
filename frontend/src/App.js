@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Header from "./nodes/header/header";
 import Home from "./nodes/home/home";
 import BudMan from "./nodes/budget manager/BudgetManager";
@@ -10,15 +10,12 @@ import Register from './nodes/login & register/register'
 import CreateBudget from './nodes/create budget/createBudget';
 import Settings from './nodes/settings/settings';
 
-export default function App() {
-  
-  const isLoginorRegPage = window.location.pathname === '/login' || window.location.pathname === '/register';
-  if(window.location.pathname === '/'){
-    window.location.pathname = '/login';
-  }
+const Layout = () => {
+  const location = useLocation();
+  const isLoginorRegPage = location.pathname === '/login' || location.pathname === '/register';
+
   return (
     <>
-      <BrowserRouter>
         {isLoginorRegPage?null : <Header/>}
         
         <Routes>
@@ -31,7 +28,14 @@ export default function App() {
           <Route path="/scan" element={<Scan/>}/>
           <Route path="/settings" element={<Settings />} />
         </Routes>
-      </BrowserRouter>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Layout />
+    </BrowserRouter>
   );
 }
