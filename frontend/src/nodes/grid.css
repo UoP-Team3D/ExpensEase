@@ -228,3 +228,104 @@
   background-color: darkorange !important; /* Dark orange background for keyboard-selected date */
   color: white;
 }
+
+.settings input[type="password"],
+.settings input[type="email"] {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid darkorange; /* Add a 1px solid orange border */
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.settings button {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: darkorange;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.settings button:hover {
+  background-color: #0056b3;
+}
+
+.settings .delete-account-btn {
+  background-color: #dc3545;
+}
+
+.settings .delete-account-btn:hover {
+  background-color: #c82333;
+}
+
+.settings .confirm-btn {
+  margin-top: 10px;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: darkorange;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.settings-header .settings-icon {
+  color: darkorange;
+  margin-left: 10px;
+}
+
+.settings-header-text-and-icon {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.settings-header-text {
+  order: 1;
+}
+
+.settings-icon {
+  order: 2;
+}
+
+.settings {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.password-input {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+}
+
+.password-input input {
+  width: 100%;
+  padding-right: 30px;
+}
+
+.password-input i {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
