@@ -7,13 +7,13 @@ import History from "./nodes/history/history";
 import Scan from "./nodes/scan/scan";
 import Login from './nodes/login & register/login';
 import Register from './nodes/login & register/register'
-import CreateBudget from './nodes/create budget/createBudget';
+import CreateBudget from './nodes/budget manager/create budget/createBudget';
 import Settings from './nodes/settings/settings';
+import EditBudget from './nodes/budget manager/edit budget/editBudget';
 
 const Layout = () => {
   const location = useLocation();
   const isLoginorRegPage = location.pathname === '/login' || location.pathname === '/register';
-
   return (
     <>
         {isLoginorRegPage?null : <Header/>}
@@ -27,6 +27,7 @@ const Layout = () => {
           <Route path="/history" element={<History/>}/>
           <Route path="/scan" element={<Scan/>}/>
           <Route path="/settings" element={<Settings />} />
+          <Route path="/edit/:id" element={<EditBudget />} />
         </Routes>
     </>
   );

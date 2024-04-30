@@ -3,21 +3,44 @@ import { NavLink } from 'react-router-dom';
 
 const BudMan = () => {
 
-    const url = true;
-
-    const dummyData =[{
+    const dataBudgets =[{
                     budget_id: 0,
                     user_id: 0,
                     category_id: 0,
                     total_amount: 6547,
                     current_amount: 2000,
                     start_date: "2024-05-01",
-                    end_date: "2024-05-07"
-                    
-                },]
+                    end_date: "2024-05-07"   
+                },];
+
     let budgets;
                 
     const getBudgetsUrl = 'http://127.0.0.1:5000/api/v1/budget/';
+    const deleteBudgetUrl ='http://127.0.0.1:5000/api/v1/budget/';
+
+    const deleteBudgetByIndex = (event) => {
+        deleteBudget(event.target.id);
+      };
+
+    function deleteBudget(){
+        fetch(deleteBudgetUrl+1, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json', }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse response body as JSON
+        })
+        .then(data => {
+            console.log('Success:', data); // Handle successful response
+        })
+        .catch(error => {
+            console.error('Error:', error); // Handle errors
+        });
+    }
+
 
     fetch(getBudgetsUrl)
     .then(response => {
@@ -35,17 +58,19 @@ const BudMan = () => {
 
     return(
         <article>
-            {url? (
+            {dataBudgets? (
                 <section>
                     <h1>List of your budgets:</h1>
                     <ul>
-                        {Object.values(dummyData).map((item, index) => (
-                                <li key={index}>
+                        {Object.values(dataBudgets).map((item, index) => (
+                                <li key={index} id={index}>
                                     <span>Total amount: £{item.total_amount}3</span><br/>
                                     <span>Start date: {item.start_date}</span><br/>
                                     <span>End date: {item.end_date}</span><br/>
-                                    <button onClick={console.log("test")}>Edit</button>
-                                    <button>Delete</button>
+                                    <button>
+                                    <NavLink to={`/edit/${index}`}>Edit</NavLink>
+                                    </button>
+                                    <button id={index} onClick={deleteBudgetByIndex}>Delete</button>
                                 </li>
                             ))}
                     </ul>

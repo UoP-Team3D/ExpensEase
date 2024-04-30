@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { NavLink } from 'react-router-dom';
 
-const CreateBudget = () => {
+const EditPage = () => {
+    const { id } = useParams();
+    const [item, setItem] = useState(null);
 
-   
+    const [selectedValue, setSelectedValue] = useState();
+    const [totalAmount, setTotalAmount] = useState();
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState(); 
 
-    const categoryData = "http://127.0.0.1:5000/api/v1/category/"
+    const budgetByIdUrl = `https://127.0.0.1:5000/api/v1/budget/${id}`;
 
+    useEffect(() => {
+        fetch(budgetByIdUrl)
+            .then(response => response.json())
+            .then(data => setItem(data))
+            .catch(error => console.error('Error fetching item:', error));
+    }, [id]);
+
+    const categoryData = "http://127.0.0.1:5000/api/v1/category/";
     const categories = [];
     try{
         if(categoryData.success){
@@ -20,24 +34,25 @@ const CreateBudget = () => {
     }
     catch(e){
         console.log(`Cannot get categories, error: ${e}`);
+    };
+    
+    if(item){
+        setSelectedValue(categories[item.category_id]);
+        setTotalAmount(item.total_amount);
+        setStartDate(item.start_date);
+        setEndDate(item.end_date); 
+    } else{
+        console.error('Cannot get data.')
     }
+   
     
 
-
-    
-    
-    const [selectedValue, setSelectedValue] = useState();
-    const [totalAmount, setTotalAmount] = useState();
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-  
     const handleDropdownChange = (event) => {
-      setSelectedValue(event.target.value);
-    }
+        setSelectedValue(event.target.value);
+    };
     const getTotalAmount = (event) => {
         setTotalAmount(event.target.value);
-    }
-
+    };
     const handleStartDateChange = (date) => {
         setStartDate(date);
     };
@@ -47,29 +62,54 @@ const CreateBudget = () => {
     };
     const formatDateToString = (date) => {
         return date ? date.toISOString().split('T')[0] : ''; 
-      };
+    };
 
-    function getBudget(){
+    function getBudgetInputs(){
 
-        const startDateString = formatDateToString(startDate);
-        const endDateString = formatDateToString(endDate);
+            const startDateString = formatDateToString(startDate);
+            const endDateString = formatDateToString(endDate);
+    
+            const data = {
+                category_id: selectedValue,
+                total_amount: totalAmount,
+                start_date: startDateString,
+                end_date: endDateString
+            }
+         console.log(data);
+         return data;
+    }
 
-        const data = {
-            category_id: selectedValue,
-            total_amount: totalAmount,
-            start_date: startDateString,
-            end_date: endDateString
-        }
-
-     console.log(data);
+    function updateBudget(){
+        fetch(budgetByIdUrl, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json',},
+            body: JSON.stringify(getBudgetInputs) 
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 
 
-    return(
+
+    return (
         <article>
-            <h1>Budget manager</h1>
+            <h1>Edit budget</h1>
+            {!item? <p>Cannot fetch data for budget id {id}</p>
+            :
+            <>
             <div>
                 <div>
+                    
                     <label>Category: </label>
                     <select id="categories" value={selectedValue} onChange={handleDropdownChange} required>4
                     <option selected disabled>Select category</option>
@@ -109,11 +149,11 @@ const CreateBudget = () => {
                     </div>
             </div>
             <button><NavLink to="/budget-managing">Cancel</NavLink></button>
-            <button onClick={getBudget}><NavLink to="/budget-managing">Create budget</NavLink></button>
+            <button onClick={updateBudget}>Create budget</button>
+            </>
+            }
         </article>
+    );
+};
 
-
-    )
-}
-
-export default CreateBudget;
+export default EditPage;
