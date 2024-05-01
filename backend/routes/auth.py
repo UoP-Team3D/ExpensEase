@@ -139,9 +139,6 @@ def logout():
         return ApiResponse.error("An internal error occurred during logout.", status=500)
 
 
-        
-
-
 @auth_blueprint.route('/change_password', methods=['POST'])
 def change_password():
     data = request.json
