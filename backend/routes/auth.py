@@ -98,6 +98,7 @@ def login():
     try:
         success, user_id = user.login(username, password)
         if success:
+            session_id = session.sid
             response = session_manager.create_session(user_id, current_app)
             current_app.session_manager.create_session(user_id, current_app)  # Assuming session creation
             
