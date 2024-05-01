@@ -15,7 +15,7 @@ const Header = () =>{
         })
         .then(response => response.json())
         .then(data => {
-          if (data.success) {
+          if (data) {
             window.location.path = '/login'; // Redirect to login page on successful logout
           } else {
             alert('Logout failed. Please try again.');

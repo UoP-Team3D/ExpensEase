@@ -11,7 +11,14 @@ const RingPieChart = ({ budgetId }) => {
         const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
         const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0];
 
-        const response = await fetch(`http://127.0.0.1:5000/api/v1/budget/${budgetId}`);
+        const response = await fetch(`http://127.0.0.1:5000/api/v1/budget/${budgetId}`,{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
+
         if (!response.ok) {
           throw new Error('Budget not found');
         }
