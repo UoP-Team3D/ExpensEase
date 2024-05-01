@@ -1,5 +1,4 @@
-.navbar {
-    
+/*.navbar {
     background-color: darkorange;
     overflow:hidden;
 
@@ -37,13 +36,62 @@
     font-weight: bold;
     background-color: orangered;
 }
+*/
 
-.navGrid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
-    gap:10px;
+.navbar {
+    background-color: darkorange;
+    overflow: hidden;
 }
 
-.navGrid li{
-    background-color: aqua;
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+}
+
+.navbar li {
+    font-size: 25px;
+    float: left;
+}
+
+.navbar a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 20px;
+}
+
+.navbar a:hover {
+    background-color: rgb(76, 76, 76);
+}
+
+.active {
+    font-weight: bold;
+    background-color: orangered;
+}
+
+/* New: Styles for the hamburger menu */
+.hamburger-menu {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+    cursor: pointer;
+    float:right;
+}
+
+/* New: Styles for each line in the hamburger menu icon */
+.line {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px;
+}
+
+/* New: Media query for screens smaller than 500px */
+@media (max-width: 500px) {
+    /* Hide the navigation links by default */
+    .show  {
+        display: none; /* Corrected display property */
+        flex-direction: column;
+    }
 }

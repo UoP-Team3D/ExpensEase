@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './style.css';
 
@@ -26,19 +26,31 @@ const Header = () =>{
           alert('An error occurred. Please try again.');
         });
       };
+      const [showMenu, setShowMenu] = useState(false);
+
+    const handleToggleMenu = () => {
+        setShowMenu(!showMenu);
+    };
 
     return(
         <header>
-            <div class='navbar '>
-            <ul>
+          <nav className='navbar'>
+          <img src="./../../logo/Logo.png" alt="EE logo"/>
+             <ul className={`nav-links ${showMenu ? 'show' : ''}`}>
                 <li><NavLink to="/home"activeClassName='active'>Home</NavLink></li>
                 <li><NavLink to="/budget-managing"activeClassName='active'>Manager</NavLink></li>
                 <li><NavLink to="/scan"activeClassName='active'>Scan</NavLink></li>
                 <li><NavLink to="/history"activeClassName='active'>History</NavLink></li>
                 <li><NavLink to="/settings" activeClassName='active'>Settings</NavLink></li>
                 <li><NavLink to="/" onClick={handleLogout}>Logout</NavLink></li>
-            </ul>
+              
+            </ul> 
+            <div className="hamburger-menu" onClick={handleToggleMenu}>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
             </div>
+          </nav>
         </header>
     )
 

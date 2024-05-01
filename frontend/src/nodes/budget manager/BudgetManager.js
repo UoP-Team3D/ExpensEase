@@ -18,8 +18,8 @@ const BudMan = () => {
     const getBudgetsUrl = 'http://127.0.0.1:5000/api/v1/budget/';
     const deleteBudgetUrl ='http://127.0.0.1:5000/api/v1/budget/';
 
-    const deleteBudgetByIndex = (event) => {
-        deleteBudget(event.target.id);
+    const deleteBudgetByIndex = (id) => {
+        deleteBudget(id);
       };
 
     function deleteBudget(id){
@@ -32,10 +32,7 @@ const BudMan = () => {
             if (!response.ok) {
                 throw new Error('Server response was not ok');
             }
-            return response.json(); 
-        })
-        .then(data => {
-            console.log('Success:', data); 
+            console.log("deleted budget")
         })
         .catch(error => {
             console.error('Error:', error); 
@@ -68,6 +65,7 @@ const BudMan = () => {
             {dataBudgets? (
                 <section>
                     <button><NavLink to="/create-budget">Create new budget</NavLink></button>
+                    <button><NavLink to="/category-managing">Manage your categories</NavLink></button>
                     <h1>List of your budgets:</h1>
                     <ul>
                         {Object.values(dataBudgets).map((item, index) => (
@@ -78,7 +76,7 @@ const BudMan = () => {
                                     <button>
                                     <NavLink to={`/edit/${index}`}>Edit</NavLink>
                                     </button>
-                                    <button id={index} onClick={deleteBudgetByIndex}>Delete</button>
+                                    <button  onClick={deleteBudgetByIndex(index)}>Delete</button>
                                 </li>
                             ))}
                     </ul>

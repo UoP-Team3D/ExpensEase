@@ -15,7 +15,7 @@ const EditPage = () => {
 
     const budgetByIdUrl = `https://127.0.0.1:5000/api/v1/budget/${id}`;
 
-    useEffect(() => {
+    
         fetch(budgetByIdUrl, {
             method: 'GET',
             headers: {
@@ -26,7 +26,7 @@ const EditPage = () => {
             .then(response => response.json())
             .then(data => setItem(data))
             .catch(error => console.error('Error fetching item:', error));
-    }, [id]);
+   
 
     const categoryData = "http://127.0.0.1:5000/api/v1/category/";
     const categories = [];
@@ -52,13 +52,14 @@ const EditPage = () => {
     }
    
     
-
+    /*
     const handleDropdownChange = (event) => {
         setSelectedValue(event.target.value);
-    };
+    };*/
     const getTotalAmount = (event) => {
         setTotalAmount(event.target.value);
     };
+    /*
     const handleStartDateChange = (date) => {
         setStartDate(date);
     };
@@ -69,7 +70,7 @@ const EditPage = () => {
     const formatDateToString = (date) => {
         return date ? date.toISOString().split('T')[0] : ''; 
     };
-
+    
     function getBudgetInputs(){
 
             const startDateString = formatDateToString(startDate);
@@ -83,18 +84,18 @@ const EditPage = () => {
             }
          console.log(data);
          return data;
-    }
+    }*/
 
     function updateBudget(){
         fetch(budgetByIdUrl, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
-            body: JSON.stringify(getBudgetInputs),
+            body: JSON.stringify({total_amount: totalAmount}),
             credentials: 'include'
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Server response was not ok');
             }
             return response.json();
         })
@@ -118,14 +119,7 @@ const EditPage = () => {
                 <div>
                     
                     <label>Category: </label>
-                    <select id="categories" value={selectedValue} onChange={handleDropdownChange} required>4
-                    <option selected disabled>Select category</option>
-                    {categories.map((category, index) => (
-                    <option key={index} value={index}>
-                        {category}
-                    </option>
-                    ))}
-                    </select>
+                    <p>{selectedValue}</p>
                 </div>
                 <div>
                     <label>Total amount: </label>
@@ -134,29 +128,14 @@ const EditPage = () => {
                 </div>
                 <div>
                     <label>Start Date: </label>
-                    <DatePicker
-                        selected={startDate}
-                        onChange={handleStartDateChange}
-                        selectsStart
-                        startDate={startDate}
-                        endDate={endDate}
-                        placeholderText="Select start date"
-                    />
+                    <p>{startDate}</p>
                     <br />
                     <label>End Date: </label>
-                    <DatePicker
-                        selected={endDate}
-                        onChange={handleEndDateChange}
-                        selectsEnd
-                        startDate={startDate}
-                        endDate={endDate}
-                        minDate={startDate}
-                        placeholderText="Select end date"
-                    />
+                    <p>{endDate}</p>
                     </div>
             </div>
             <button><NavLink to="/budget-managing">Cancel</NavLink></button>
-            <button onClick={updateBudget}>Create budget</button>
+            <button onClick={updateBudget}>Update budget</button>
             </>
             }
         </article>

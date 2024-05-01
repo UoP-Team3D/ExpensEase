@@ -1,3 +1,7 @@
+:root{
+  font-size: 18px;
+}
+
 article {
   margin: 0 10px;
 }
@@ -9,6 +13,9 @@ article {
   gap: 10px;
   padding: 10px;
   font-size: 16px;
+}
+li{
+  list-style: none;
 }
 
 /* Additional class for budget text */

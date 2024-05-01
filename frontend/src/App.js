@@ -10,6 +10,7 @@ import Register from './nodes/login & register/register'
 import CreateBudget from './nodes/budget manager/create budget/createBudget';
 import Settings from './nodes/settings/settings';
 import EditBudget from './nodes/budget manager/edit budget/editBudget';
+import CatMan from './nodes/budget manager/category manager/CategoryManger';
 
 const Layout = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const Layout = () => {
           <Route path="/scan" element={<Scan/>}/>
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit/:id" element={<EditBudget />} />
+          <Route path="/category-managing" element={<CatMan />} />
         </Routes>
     </>
   );

@@ -15,8 +15,29 @@ const CreateBudget = () => {
     const categoryData = "http://127.0.0.1:5000/api/v1/category/";
 
     const categories = [];
+
+    fetch(categoryData, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', },
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Server response was not ok');
+        }
+        return response.json(); 
+    })
+    .then(data => {
+        console.log('Success:', data);
+        categories = data;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+    /*
     try{
-        if(categoryData.success){
+        if(categoryData){
             console.log(categoryData.message);
             for(const category in categoryData.data){
                 categories.push(category.category_name);
@@ -25,7 +46,7 @@ const CreateBudget = () => {
     }
     catch(e){
         console.log(`Cannot get categories, error: ${e}`);
-    };
+    };*/
   
     const handleDropdownChange = (event) => {
       setSelectedValue(event.target.value);
