@@ -31,17 +31,26 @@ const Login = () => {
         credentials: 'include', // Add this line to include credentials (cookies)
         body: JSON.stringify(credentials)
       })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert(data.message); // Display login success message
-            navigate('/home');
-            const token = data.session;
-            localStorage.setItem('token', token);
-            alert(token);
+        .then(response => {
+          if (response.ok) {
+            // Get the session token from the cookie
+            const sessionToken = document.cookie
+              .split('; ')
+              .find(row => row.startsWith('session='))
+              ?.split('=')[1];
+    
+            if (sessionToken) {
+              localStorage.setItem('token', sessionToken);
+              alert(sessionToken);
+              navigate('/home');
+            } else {
+              setError('Session token not found in the response.');
+            }
           } else {
-            setError(data.message); // Set error message from server
-            alert(data.message); // Optionally remove this line if you handle errors inline
+            return response.json().then(data => {
+              setError(data.message); // Set error message from server
+              alert(data.message); // Optionally remove this line if you handle errors inline
+            });
           }
         })
         .catch(error => {
