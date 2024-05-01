@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from routes.auth import auth_blueprint
 from routes.receipt import receipt_blueprint
