@@ -33,24 +33,28 @@ const Login = () => {
       })
         .then(response => {
           if (response.ok) {
-            // Get the session token from the cookie
-            const sessionToken = document.cookie
-              .split('; ')
-              .find(row => row.startsWith('session='))
-              ?.split('=')[1];
+            // Get the session token from the response headers
+            const sessionToken = response.headers.get('Set-Cookie');
     
             if (sessionToken) {
               localStorage.setItem('token', sessionToken);
               alert(sessionToken);
               navigate('/home');
             } else {
-              setError('Session token not found in the response.');
+              setError('Session token not found in the response headers.');
             }
+    
+            return response.json();
           } else {
-            return response.json().then(data => {
-              setError(data.message); // Set error message from server
-              alert(data.message); // Optionally remove this line if you handle errors inline
-            });
+            throw new Error('Login failed');
+          }
+        })
+        .then(data => {
+          if (data.success) {
+            alert(data.message); // Display login success message
+          } else {
+            setError(data.message); // Set error message from server
+            alert(data.message); // Optionally remove this line if you handle errors inline
           }
         })
         .catch(error => {
