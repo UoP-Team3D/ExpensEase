@@ -100,7 +100,13 @@ def login():
         if success:
             response = session_manager.create_session(user_id)
             session_cookie = response.headers.get('Set-Cookie')
-            return ApiResponse.success(message="Login successful", cookie=session_cookie)
+            
+            info = {"success": True, "message": "Login successful"}
+
+            resp = make_response(jsonify(info), 200)
+            resp.set_cookie('session', session_cookie, max_age=30*24*60*60, secure=True, httponly=True, samesite='Lax')
+            
+            return resp
         else:
             return ApiResponse.error("Invalid username or password.", status=401) 
         
@@ -161,7 +167,6 @@ def change_password():
         current_app.logger.error(f"Error during password update: {e}")
         return ApiResponse.error("An internal error occurred during password update.", status=500)
     
-
 
 @auth_blueprint.route('/delete_account', methods=['DELETE'])
 def delete_account():
