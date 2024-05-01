@@ -28,7 +28,7 @@ class SessionManager:
             'session',
             session.sid,
             max_age=app.config['PERMANENT_SESSION_LIFETIME'].total_seconds(),
-            secure=True,
+            secure=False,
             httponly=True,
             samesite='Lax'
         )

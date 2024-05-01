@@ -20,9 +20,9 @@ const Login = () => {
 
     const continueLogin = (event) => {
       event.preventDefault(); // Prevent form from submitting traditionally
-    
+  
       const url = "http://127.0.0.1:5000/api/v1/login";
-    
+  
       fetch(url, {
         method: 'POST',
         headers: {
@@ -31,37 +31,21 @@ const Login = () => {
         credentials: 'include', // Add this line to include credentials (cookies)
         body: JSON.stringify(credentials)
       })
-        .then(response => {
-          if (response.ok) {
-            // Get the session token from the response headers
-            const sessionToken = response.headers.get('Set-Cookie');
-    
-            if (sessionToken) {
-              localStorage.setItem('token', sessionToken);
-              alert(sessionToken);
-              navigate('/home');
-            } else {
-              setError('Session token not found in the response headers.');
-            }
-    
-            return response.json();
-          } else {
-            throw new Error('Login failed');
-          }
-        })
-        .then(data => {
-          if (data.success) {
-            alert(data.message); // Display login success message
-          } else {
-            setError(data.message); // Set error message from server
-            alert(data.message); // Optionally remove this line if you handle errors inline
-          }
-        })
-        .catch(error => {
-          setError('An error occurred. Please try again later.');
-          console.error('Error:', error);
-        });
-    };
+      .then(response => response.json()) // Process the JSON data from the response
+      .then(data => {
+        if (data.success) {
+          alert(`Login successful. Session token: ${data.sessionToken}`); // Alert the session token for debugging
+          navigate('/home'); // Navigate to the home page after login
+        } else {
+          setError(data.message); // Set error message from server
+          alert(data.message); // Optionally remove this line if you handle errors inline
+        }
+      })
+      .catch(error => {
+        setError('An error occurred. Please try again later.');
+        console.error('Error:', error);
+      });
+  };  
 
     return (
         <article>
