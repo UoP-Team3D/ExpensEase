@@ -1,4 +1,4 @@
-from flask import Blueprint, request, current_app, make_response, session
+from flask import Blueprint, request, current_app, make_response, jsonify, session
 from models.user import User  
 from utilities.errors import ApiResponse
 from utilities.session_manager import SessionManager
