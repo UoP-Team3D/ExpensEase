@@ -28,13 +28,19 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include', // Add this line to include credentials (cookies)
+        credentials: 'include', // Include credentials (cookies)
         body: JSON.stringify(credentials)
       })
-      .then(response => response.json()) // Process the JSON data from the response
+      .then(response => {
+          if (response.ok) {
+              return response.json(); // Ensure we're parsing the JSON only if the response is OK
+          } else {
+              throw new Error('Login failed');
+          }
+      })
       .then(data => {
         if (data.success) {
-          alert(`Login successful. Session token: ${data.sessionToken}`); // Alert the session token for debugging
+          alert(`Login successful. Session token: ${data.sessionToken}`); // Check and alert the session token
           navigate('/home'); // Navigate to the home page after login
         } else {
           setError(data.message); // Set error message from server

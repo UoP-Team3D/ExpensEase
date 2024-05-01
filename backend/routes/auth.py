@@ -99,13 +99,12 @@ def login():
         success, user_id = user.login(username, password)
         if success:
             response = session_manager.create_session(user_id, current_app)
-            session_cookie = response.headers.get('Set-Cookie')
+            current_app.session_manager.create_session(user_id, current_app)  # Assuming session creation
             
-            info = {"success": True, "message": "Login successful"}
-
+            info = {"success": True, "message": "Login successful", "sessionToken": session_id}
             resp = make_response(jsonify(info), 200)
-            resp.set_cookie('session', session_cookie, max_age=30*24*60*60, secure=True, httponly=True, samesite='Lax')
-            
+            # Set cookie normally as you have in your original code
+            resp.set_cookie('session', session_id, max_age=30*24*60*60, secure=False, httponly=True, samesite='Lax')            
             return resp
         else:
             return ApiResponse.error("Invalid username or password.", status=401) 
