@@ -1,4 +1,4 @@
-from flask import Flask, session, current_app
+from flask import Flask, session, current_app, make_response
 from flask_session import Session
 import os
 from datetime import timedelta
