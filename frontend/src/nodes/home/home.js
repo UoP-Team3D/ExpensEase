@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './../general.css';
 
 const RingPieChart = ({ budgetId }) => {
-  const [budget, setBudget] = useState(null);
+  const [budget, setBudget] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -11,7 +11,14 @@ const RingPieChart = ({ budgetId }) => {
         const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
         const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0];
 
-        const response = await fetch(`http://127.0.0.1:5000/api/v1/budget/${budgetId}`);
+        const response = await fetch(`http://127.0.0.1:5000/api/v1/budget/${budgetId}`,{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
+
         if (!response.ok) {
           throw new Error('Budget not found');
         }
@@ -34,7 +41,7 @@ const RingPieChart = ({ budgetId }) => {
   }
 
   if (!budget) {
-    return <div>Budget not found for this month.</div>;
+    return <div>Budget not found</div>;
   }
 
   const totalBudget = budget.total_amount;
@@ -100,7 +107,13 @@ const LatestScans = () => {
           per_page: 3,
         });
 
-        const response = await fetch(`http://127.0.0.1:5000/api/v1/expense/?${queryParams}`);
+        const response = await fetch(`http://127.0.0.1:5000/api/v1/expense/?${queryParams}`,{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
         if (!response.ok) {
           throw new Error('Expenses could not be retrieved');
         }

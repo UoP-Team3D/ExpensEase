@@ -27,6 +27,7 @@ const Settings = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: body
             });
 
@@ -57,6 +58,7 @@ const Settings = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: body
             });
 
@@ -78,7 +80,8 @@ const Settings = () => {
         const url = 'http://127.0.0.1:5000/api/v1/delete_account';
         try {
             const response = await fetch(url, {
-                method: 'DELETE'
+                method: 'DELETE',
+                credentials: 'include',
             });
 
             const data = await response.json();
@@ -89,7 +92,7 @@ const Settings = () => {
                 alert(data.message || 'Failed to delete account');
             }
         } catch (error) {
-            alert('Network error, please try again later.');
+            alert('Server error, please try again later.');
         }
     };
 

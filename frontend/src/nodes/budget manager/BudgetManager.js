@@ -22,10 +22,11 @@ const BudMan = () => {
         deleteBudget(event.target.id);
       };
 
-    function deleteBudget(){
-        fetch(deleteBudgetUrl+1, {
+    function deleteBudget(id){
+        fetch(deleteBudgetUrl+id, {
             method: 'DELETE',
-            headers: {'Content-Type': 'application/json', }
+            headers: {'Content-Type': 'application/json', },
+            credentials: 'include',
         })
         .then(response => {
             if (!response.ok) {
@@ -42,7 +43,13 @@ const BudMan = () => {
     }
 
 
-    fetch(getBudgetsUrl)
+    fetch(getBudgetsUrl,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);

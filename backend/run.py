@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from routes.auth import auth_blueprint
 from routes.receipt import receipt_blueprint
@@ -59,6 +59,10 @@ def create_app(test_config=None):
     @app.before_request
     def check_valid_login():
         open_endpoints = ['auth.login', 'auth.register', 'static', 'root']
+        
+        if request.method == "OPTIONS":
+            return app
+        
         if request.endpoint not in open_endpoints and not app.session_manager.is_session_valid():
             return ApiResponse.error("Session token was invalid", 401)
 
