@@ -1,3 +1,7 @@
+article {
+  margin: 0 10px;
+}
+
 /* Modify the .grid class to have 3 equal columns */
 .grid {
   display: grid;
@@ -328,6 +332,32 @@
   position: absolute;
   right: 10px;
   cursor: pointer;
+}
+
+button {
+  background-color: darkorange;
+  color: white;
+  padding: 10px 20px;
+  border: 2px solid orangered; /* Solid black border */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none; /* Removes underline from links */
+  display: inline-block; /* Ensures proper spacing and alignment */
+  text-align: center; /* Centers text within the button/link */
+  transition: background-color 0.3s, color 0.3s;
+  margin: 10px;
+}
+
+button a {
+  text-decoration: none;
+  color: white;
+}
+
+
+button:hover {
+  background-color: #e65c00; /* Slightly darker shade of dark orange for hover effect */
+  color: #ffffff;
 }
 
 /*when screen is smalle than 500px wide, the changes under will take place*/
