@@ -29,15 +29,15 @@ const BudMan = () => {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Server response was not ok');
             }
-            return response.json(); // Parse response body as JSON
+            return response.json(); 
         })
         .then(data => {
-            console.log('Success:', data); // Handle successful response
+            console.log('Success:', data); 
         })
         .catch(error => {
-            console.error('Error:', error); // Handle errors
+            console.error('Error:', error); 
         });
     }
 
@@ -60,6 +60,7 @@ const BudMan = () => {
         <article>
             {dataBudgets? (
                 <section>
+                    <button><NavLink to="/create-budget">Create new budget</NavLink></button>
                     <h1>List of your budgets:</h1>
                     <ul>
                         {Object.values(dataBudgets).map((item, index) => (
@@ -79,7 +80,6 @@ const BudMan = () => {
             <h1>Create your first budget-plan</h1>
 
             )}
-            <button><NavLink to="/create-budget">Create new budget</NavLink></button>
         </article>
 
 

@@ -329,3 +329,10 @@
   right: 10px;
   cursor: pointer;
 }
+
+/*when screen is smalle than 500px wide, the changes under will take place*/
+@media (max-width:500px){
+  .grid{
+    grid-template-columns: 1fr;
+  }
+}

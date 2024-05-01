@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './../grid.css';
+import './../general.css';
 
 const Settings = () => {
     const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './../grid.css';
+import './../general.css';
 
 const RingPieChart = ({ budgetId }) => {
   const [budget, setBudget] = useState(null);

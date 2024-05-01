@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { FiCalendar } from 'react-icons/fi';
 import 'react-datepicker/dist/react-datepicker.css';
-import './../grid.css';
+import './../general.css';
 
 const History = () => {
     const [startDate, setStartDate] = useState(new Date());
