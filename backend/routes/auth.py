@@ -100,13 +100,14 @@ def login():
         if success:
             response = session_manager.create_session(user_id)
             session_cookie = response.headers.get('Set-Cookie')
-            
             info = {"success": True, "message": "Login successful"}
-
-            resp = make_response(jsonify(info), 200)
-            resp.set_cookie('session', session_cookie, max_age=30*24*60*60, secure=True, httponly=True, samesite='Lax')
-            
+            resp = jsonify(info)
+            resp.status_code = 200
+            resp.headers.add('Set-Cookie', session_cookie)
+            resp.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+            resp.headers.add('Access-Control-Allow-Credentials', 'true')
             return resp
+        
         else:
             return ApiResponse.error("Invalid username or password.", status=401) 
         
