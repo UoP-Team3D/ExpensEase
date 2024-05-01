@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask, session, current_app
 from flask_session import Session
 import os
 from datetime import timedelta
@@ -11,16 +11,28 @@ class SessionManager:
         # Configure session to use filesystem
         app.config['SESSION_TYPE'] = 'filesystem'
         app.config['SESSION_PERMANENT'] = True
-        app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
-
+        app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
+        app.config['SESSION_COOKIE_HTTPONLY'] = False  # Change this to True in production for security
         # Initialize the session
         Session(app)
 
     def create_session(self, user_id):
         session['user_id'] = user_id
+        session['user_id'] = user_id
         session.permanent = True  # Make the session permanent to use the expiry
         session.modified = True  # Mark the session as modified to update expiry time
-        return session.sid
+
+        # Create a response object and set the session cookie
+        response = make_response()
+        response.set_cookie(
+            'session',
+            session.sid,
+            max_age=app.config['PERMANENT_SESSION_LIFETIME'].total_seconds(),
+            secure=True,
+            httponly=True,
+            samesite='Lax'
+        )
+        return response
 
     def get_user_id(self, session_id):
         if session.sid == session_id:

@@ -3,10 +3,12 @@ from models.user import User
 from utilities.errors import ApiResponse
 from utilities.session_manager import SessionManager
 import re
+from flask_cors import CORS, cross_origin
 
 auth_blueprint = Blueprint('auth', __name__)
 
 @auth_blueprint.route('/register', methods=['POST'])
+@cross_origin(origins=["http://localhost:3000"], supports_credentials=True)
 def register():
     """
     Endpoint for user registration. It receives user data, validates it, 
@@ -57,6 +59,7 @@ def register():
 
 
 @auth_blueprint.route('/login', methods=['POST'])
+@cross_origin(origins=["http://localhost:3000"], supports_credentials=True)
 def login():
     """
     Endpoint for user login. It receives username and password, 
@@ -69,6 +72,16 @@ def login():
     Returns:
         Flask Response object: JSON response with login status.
     """
+    if request.method == 'OPTIONS':
+        # Preflight request. Reply with the CORS headers.
+        headers = {
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Credentials': 'true'
+        }
+        return '', 200, headers
+
     db_connection = current_app.db_connection
     session_manager = current_app.session_manager
 
@@ -85,8 +98,9 @@ def login():
     try:
         success, user_id = user.login(username, password)
         if success:
-            session_manager.create_session(user_id)
-            return ApiResponse.success(message="Login successful")
+            response = session_manager.create_session(user_id)
+            session_cookie = response.headers.get('Set-Cookie')
+            return ApiResponse.success(message="Login successful", cookie=session_cookie)
         else:
             return ApiResponse.error("Invalid username or password.", status=401) 
         
