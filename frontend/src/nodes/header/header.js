@@ -11,6 +11,7 @@ const Header = () =>{
           headers: {
             'Content-Type': 'application/json'
           },
+          credentials: 'include'
         })
         .then(response => response.json())
         .then(data => {
