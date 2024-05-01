@@ -63,7 +63,8 @@ const CreateBudget = () => {
         fetch(createBudgetUrl, {
             method: 'POST',
             headers: {'Content-Type': 'application/json', },
-            body: JSON.stringify(getBudget())
+            body: JSON.stringify(getBudget()),
+            credentials: 'include'
         })
         .then(response => {
             if (!response.ok) {

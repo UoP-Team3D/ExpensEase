@@ -16,7 +16,13 @@ const EditPage = () => {
     const budgetByIdUrl = `https://127.0.0.1:5000/api/v1/budget/${id}`;
 
     useEffect(() => {
-        fetch(budgetByIdUrl)
+        fetch(budgetByIdUrl, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+          })
             .then(response => response.json())
             .then(data => setItem(data))
             .catch(error => console.error('Error fetching item:', error));
@@ -83,7 +89,8 @@ const EditPage = () => {
         fetch(budgetByIdUrl, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
-            body: JSON.stringify(getBudgetInputs) 
+            body: JSON.stringify(getBudgetInputs),
+            credentials: 'include'
         })
         .then(response => {
             if (!response.ok) {

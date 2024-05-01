@@ -35,7 +35,13 @@ const History = () => {
     const fetchExpenses = async (selectedDate) => {
         setLoading(true);
         try {
-            const response = await fetch(`http://127.0.0.1:5000/api/v1/expense/?start_date=${selectedDate}&end_date=${selectedDate}`);
+            const response = await fetch(`http://127.0.0.1:5000/api/v1/expense/?start_date=${selectedDate}&end_date=${selectedDate}`,{
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+              });
             if (!response.ok) {
                 throw new Error('Failed to fetch expenses');
             }
