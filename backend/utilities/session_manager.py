@@ -16,7 +16,7 @@ class SessionManager:
         # Initialize the session
         Session(app)
 
-    def create_session(self, user_id):
+    def create_session(self, user_id, app):
         session['user_id'] = user_id
         session['user_id'] = user_id
         session.permanent = True  # Make the session permanent to use the expiry

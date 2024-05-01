@@ -98,7 +98,7 @@ def login():
     try:
         success, user_id = user.login(username, password)
         if success:
-            response = session_manager.create_session(user_id)
+            response = session_manager.create_session(user_id, current_app)
             session_cookie = response.headers.get('Set-Cookie')
             
             info = {"success": True, "message": "Login successful"}
