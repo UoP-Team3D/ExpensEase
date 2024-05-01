@@ -65,6 +65,9 @@ const Register = () => {
     return (
         <article>
             <section className="lrGrid border">
+                <div className="logo-container-reg">
+                    <img src="/Logo.png" alt="ExpensEase Logo" className="logo-reg" />
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label>First name:</label>
