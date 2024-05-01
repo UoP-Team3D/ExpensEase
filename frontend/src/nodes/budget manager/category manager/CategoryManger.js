@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const CatMan = () => {
 
     const categoryData = "http://127.0.0.1:5000/api/v1/category/";
 
     const [editingCategoryId, setEditingCategoryId] = useState(null);
+    const [newCategory, setNewCategory] = useState(null);
 
-    const categories = [
-        
-    ];
+    const categories = [    ];
+
     fetch(categoryData, {
         method: 'GET',
         headers: {'Content-Type': 'application/json', },
@@ -85,17 +86,43 @@ const CatMan = () => {
         
     };
 
-    
     const cancelEdit = () => {
         setEditingCategoryId(null);
     };
 
+    function createNewCategory(){
+        fetch(categoryData, { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.log('Failed to create category');
+                return false
+            }
+            console.log('Category created successfully');
+            return true
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
 
+    const inputChange = (event) => {
+        setNewCategory(event.target.value);
+    };
     
 
     return(
         <article>
             <section>
+                <div>
+                    <h4>Create new category:</h4>
+                    <p>Add a new category so you can have better control over where you spend your money.</p>
+                    <input type="text" placeholder='new category name' value={newCategory} onChange={inputChange} /><br/>
+                    <button onClick={createNewCategory}>Create new category</button>
+                </div>
                 <h1>List of your categories:</h1>
                 {categories.length? <ul>
                     {Object.values(categories).map((item) => (

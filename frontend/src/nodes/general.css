@@ -367,6 +367,13 @@ button:hover {
   color: #ffffff;
 }
 
+input {
+  border-radius: 5px ;
+  border-color: lightgray;
+  font-size: 18px;
+  
+}
+
 /*when screen is smalle than 500px wide, the changes under will take place*/
 @media (max-width:500px){
   .grid{
