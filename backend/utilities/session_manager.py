@@ -48,24 +48,12 @@ class SessionManager:
         user_id = session.get('user_id')
         return user_id is not None
 
-    def get_active_sessions(self):
-        session_dir = "C:\\Users\\georg\\OneDrive\\Documents\\GitHub\\ExpensEase\\backend\\flask_session"
-        session_files = os.listdir(session_dir)
+def get_active_sessions(self):
+    session_dir = "C:\\Users\\georg\\OneDrive\\Documents\\GitHub\\ExpensEase\\backend\\flask_session"
+    session_files = os.listdir(session_dir)
 
-        active_sessions = []
-        for session_file in session_files:
-            session_path = os.path.join(session_dir, session_file)
-            with open(session_path, 'rb') as f:
-                session_data = f.read().decode('utf-8')
-                if 'user_id' in session_data:
-                    user_id = int(session_data.split('user_id')[1].split(',')[0].strip(":'"))
-                    active_sessions.append({
-                        'session_id': session_file,
-                        'user_id': user_id
-                    })
+    print("Active Sessions:")
+    for session_file in session_files:
+        print(f"Session Token: {session_file}")
 
-        print("Active Sessions:")
-        for session in active_sessions:
-            print(f"Session ID: {session['session_id']}, User ID: {session['user_id']}")
-
-        return active_sessions
+    return session_files
