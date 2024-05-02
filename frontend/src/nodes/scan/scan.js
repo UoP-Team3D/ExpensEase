@@ -4,6 +4,8 @@ const Scan = () => {
     const [file, setFile] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState("");
     const [uploadStatus, setUploadStatus] = useState("");
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [receiptData, setReceiptData] = useState({});
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -22,46 +24,61 @@ const Scan = () => {
             alert("Please select a file first!");
             return;
         }
-
+    
         const formData = new FormData();
         formData.append('receipt_image', file);
+    
         setUploadStatus("Uploading...");
-
         try {
-            // Upload the receipt
             const uploadResponse = await fetch('http://127.0.0.1:5000/api/v1/receipt/upload', {
                 method: 'POST',
                 body: formData,
+                credentials: 'include'  // Include credentials for cross-origin requests
             });
-            const uploadData = await uploadResponse.json();
-
+    
             if (!uploadResponse.ok) {
-                throw new Error(uploadData.message || "Upload failed");
+                throw new Error(`HTTP error! status: ${uploadResponse.status}`);
             }
+    
+            const data = await uploadResponse.json(); // Assuming the response is JSON formatted.
+    
+            setUploadStatus("Upload successful!");
+            setReceiptData(data.data);
+            setShowConfirmation(true);
+        } catch (error) {
+            setUploadStatus(`Upload failed: ${error.message}`);
+            console.error("Error in fetching:", error);
+        }
+    };
 
-            // Save the receipt with additional data
-            setUploadStatus("Saving receipt...");
+    const handleConfirm = async () => {
+        const { receipt_id, total_price, category } = receiptData;
+        const saveReceiptBody = JSON.stringify({
+            receipt_id: receipt_id,
+            description: "Received from Scan",
+            total_price: total_price,
+            category: category
+        });
+
+        try {
             const saveResponse = await fetch('http://127.0.0.1:5000/api/v1/receipt/save_receipt', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    receipt_id: uploadData.data.receipt_id,
-                    description: "Received from Scan", // Static description, replace as needed
-                    total_price: uploadData.data.total_price, // Assuming total_price is returned from upload
-                    category: "General" // Static category, replace as needed
-                })
+                credentials: 'include',  // Include credentials for cross-origin requests
+                body: saveReceiptBody
             });
-            const saveData = await saveResponse.json();
 
-            if (!saveResponse.ok) {
-                throw new Error(saveData.message || "Save failed");
+            if (saveResponse.ok) {
+                setShowConfirmation(false);
+                alert('Receipt saved successfully!');
+                setImagePreviewUrl('');
+            } else {
+                throw new Error('Failed to save receipt');
             }
-
-            setUploadStatus("Receipt processed and saved successfully!");
         } catch (error) {
-            setUploadStatus(`Error: ${error.message}`);
+            alert(`Error: ${error.message}`);
         }
     };
 
@@ -84,6 +101,14 @@ const Scan = () => {
                     </div>
                 )}
                 {uploadStatus && <p>{uploadStatus}</p>}
+                {showConfirmation && (
+                    <div>
+                        <h3>Does the receipt's details look accurate?</h3>
+                        <p>Category: {receiptData.category}, Total Price: ${receiptData.total_price}</p>
+                        <button onClick={handleConfirm}>Yes</button>
+                        <button onClick={() => setShowConfirmation(false)}>No</button>
+                    </div>
+                )}
             </div>
         </article>
     );
