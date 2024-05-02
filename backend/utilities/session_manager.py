@@ -35,9 +35,16 @@ class SessionManager:
         return response
 
     def get_user_id(self, session_id):
-        if session.sid == session_id:
-            return session.get('user_id')
-        return None
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+        # Create the file path for session-id.txt
+        file_path = os.path.join(current_dir, "session-id.txt")
+        
+        # Write the session_id to the file
+        with open(file_path, "w") as file:
+            file.write(session_id)
+
+        return session.get('user_id')
 
     def refresh_session(self):
         session.modified = True  # Refresh the session expiry time
