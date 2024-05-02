@@ -12,7 +12,7 @@ class SessionManager:
         app.config['SESSION_TYPE'] = 'filesystem'
         app.config['SESSION_PERMANENT'] = True
         app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
-        app.config['SESSION_COOKIE_HTTPONLY'] = False
+        app.config['SESSION_COOKIE_HTTPONLY'] = False  # Change this to True in production for security
         # Initialize the session
         Session(app)
 
@@ -49,4 +49,16 @@ class SessionManager:
         return user_id is not None
 
     def get_active_sessions(self):
-        return list(session.keys())
+        session_dir = current_app.config['SESSION_FILE_DIR']
+        active_sessions = []
+        
+        for filename in os.listdir(session_dir):
+            file_path = os.path.join(session_dir, filename)
+            
+            with open(file_path, 'rb') as file:
+                session_data = pickle.load(file)
+                
+                if 'user_id' in session_data:
+                    active_sessions.append(filename)
+        
+        return active_sessions
