@@ -35,15 +35,6 @@ class SessionManager:
         return response
 
     def get_user_id(self, session_id):
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-    
-        # Create the file path for session-id.txt
-        file_path = os.path.join(current_dir, "session-id.txt")
-        
-        # Write the session_id to the file
-        with open(file_path, "w") as file:
-            file.write(session_id)
-
         return session.get('user_id')
 
     def refresh_session(self):
@@ -56,3 +47,25 @@ class SessionManager:
     def is_session_valid(self):
         user_id = session.get('user_id')
         return user_id is not None
+
+    def get_active_sessions(self):
+        session_dir = "C:\\Users\\georg\\OneDrive\\Documents\\GitHub\\ExpensEase\\backend\\flask_session"
+        session_files = os.listdir(session_dir)
+
+        active_sessions = []
+        for session_file in session_files:
+            session_path = os.path.join(session_dir, session_file)
+            with open(session_path, 'rb') as f:
+                session_data = f.read().decode('utf-8')
+                if 'user_id' in session_data:
+                    user_id = int(session_data.split('user_id')[1].split(',')[0].strip(":'"))
+                    active_sessions.append({
+                        'session_id': session_file,
+                        'user_id': user_id
+                    })
+
+        print("Active Sessions:")
+        for session in active_sessions:
+            print(f"Session ID: {session['session_id']}, User ID: {session['user_id']}")
+
+        return active_sessions
