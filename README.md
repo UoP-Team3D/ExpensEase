@@ -195,5 +195,6 @@ Option B (manual):
 2. run `npm run build`, once complete, a new folder called `build` will be located in the `frontend` folder.
 3. Copy this `build` folder from the `frontend` folder into the `backend` folder. Put it directly into the `backend` folder, not into any subfolders that exist inside `backend`.
 4. Run `python run.py` to run both simultaneously.
+5. Open the app in a browser using `127.0.0.1:5000/`. Using `localhost:5000/` will **NOT** work.
 
 If you run the frontend using `npm start`, it will ***NOT*** work with the backend. You MUST follow the instructions above to get both running properly and together.

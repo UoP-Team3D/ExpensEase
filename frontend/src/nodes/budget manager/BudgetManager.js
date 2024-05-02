@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const BudMan = () => {
-
+    /*
     const dataBudgets =[{
                     budget_id: 0,
                     user_id: 0,
@@ -11,7 +11,7 @@ const BudMan = () => {
                     current_amount: 2000,
                     start_date: "2024-05-01",
                     end_date: "2024-05-07"   
-                },];
+                },];*/
 
     let budgets;
                 
@@ -68,7 +68,7 @@ const BudMan = () => {
                     <button><NavLink to="/category-managing">Manage your categories</NavLink></button>
                     <h1>List of your budgets:</h1>
                     <ul>
-                        {Object.values(dataBudgets).map((item, index) => (
+                        {Object.values(budgets).map((item, index) => (
                                 <li key={index} id={index}>
                                     <span>Total amount: £{item.total_amount}3</span><br/>
                                     <span>Start date: {item.start_date}</span><br/>
