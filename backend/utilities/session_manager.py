@@ -12,7 +12,7 @@ class SessionManager:
         app.config['SESSION_TYPE'] = 'filesystem'
         app.config['SESSION_PERMANENT'] = True
         app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
-        app.config['SESSION_COOKIE_HTTPONLY'] = False  # Change this to True in production for security
+        app.config['SESSION_COOKIE_HTTPONLY'] = False
         # Initialize the session
         Session(app)
 
@@ -49,11 +49,4 @@ class SessionManager:
         return user_id is not None
 
     def get_active_sessions(self):
-        session_dir = "C:\\Users\\georg\\OneDrive\\Documents\\GitHub\\ExpensEase\\backend\\flask_session"
-        session_files = os.listdir(session_dir)
-
-        print("Active Sessions:")
-        for session_file in session_files:
-            print(f"Session Token: {session_file}")
-
-        return session_files
+        return list(session.keys())
