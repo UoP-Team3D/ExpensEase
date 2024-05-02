@@ -70,7 +70,7 @@ It's good practise to create a virtual environment to keep everything seperate. 
 Use the `venv` module to create a virtual environment.
 
 ```
-python -m venv myenv
+python -m venv env
 ```
 
 Activate the virtual environment.
@@ -78,13 +78,13 @@ Activate the virtual environment.
 On **Windows**:
 
 ```
-myenv\Scripts\activate
+env\Scripts\activate
 ```
 
 On **macOS and Linux**:
 
 ```
-source myenv/bin/activate
+source env/bin/activate
 ```
 
 To then have all the necessary python dependencies installed on your new virtual environment, use the `requirements.txt` file. This file can be found in `/backend`
@@ -185,6 +185,10 @@ After this is done, the backend is ran by running the `run.py` file. This file w
 
 To get frontend running with backend, follow these instructions carefully:
 
+Option A (automated):
+In the `frontend` folder, after your frontend work, you may run the `run.bat` file and it will automatically build, relocate the folder and run the backend for you. **THIS ASSUMES YOUR VIRTUAL ENVIRONMENT IS NAMED "`env`"!** and is located in `backend`.
+
+Option B (manual):
 1. `cd` into `frontend`, run `npm install` to install all dependencies used by the frontend
 2. run `npm run build`, once complete, a new folder called `build` will be located in the `frontend` folder.
 3. Copy this `build` folder from the `frontend` folder into the `backend` folder. Put it directly into the `backend` folder, not into any subfolders that exist inside `backend`.

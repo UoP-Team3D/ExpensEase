@@ -21,14 +21,9 @@ xcopy /E /I /Y build ..\backend\build
 REM Navigate to the backend directory
 cd ..\backend
 
-REM Activate the virtual environment
-echo Activating virtual environment...
-call env\Scripts\activate
-
-REM Start the Flask server
+REM Activate the virtual environment and start the Flask server in a single command
 echo Starting the Flask server...
-
-call python run.py
+cmd /c "env\Scripts\activate && python run.py"
 
 REM Keep the window open to see the output from the Flask server
 pause
