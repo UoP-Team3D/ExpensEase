@@ -59,7 +59,6 @@ def register():
 
 
 @auth_blueprint.route('/login', methods=['POST'])
-@cross_origin(origins=["http://localhost:3000"], supports_credentials=True)
 def login():
     """
     Endpoint for user login. It receives username and password, 
@@ -72,16 +71,6 @@ def login():
     Returns:
         Flask Response object: JSON response with login status.
     """
-    if request.method == 'OPTIONS':
-        # Preflight request. Reply with the CORS headers.
-        headers = {
-            'Access-Control-Allow-Origin': 'http://localhost:3000',
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Credentials': 'true'
-        }
-        return '', 200, headers
-
     db_connection = current_app.db_connection
     session_manager = current_app.session_manager
 

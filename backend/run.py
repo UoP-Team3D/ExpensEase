@@ -59,11 +59,8 @@ def create_app(test_config=None):
     @app.before_request
     def check_valid_login():
         open_endpoints = ['auth.login', 'auth.register', 'static', 'root']
-        
-        if request.method == "OPTIONS":
-            return app
-        
-        if request.endpoint not in open_endpoints and not app.session_manager.is_session_valid():
+
+        if request.endpoint not in open_endpoints and request.method != "OPTIONS" and not app.session_manager.is_session_valid():
             return ApiResponse.error("Session token was invalid", 401)
 
     return app
