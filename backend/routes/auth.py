@@ -136,6 +136,10 @@ def change_password():
     db_connection = current_app.db_connection
     session_manager = current_app.session_manager
     user_id = session_manager.get_user_id(session.sid)
+
+    if not user_id:
+        return ApiResponse.error("Invalid session token", status=401)
+
     user = User(db_connection)
 
     # Validate input
@@ -160,8 +164,11 @@ def delete_account():
     session_manager = current_app.session_manager
     user = User(db_connection)
     user_id = session_manager.get_user_id(session.sid)
+
+    if not user_id:
+        return ApiResponse.error("Invalid session token", status=401)
+
     try:
-        
         if user.delete_user(user_id):
             session_manager.end_session(session.sid)
             response = make_response(ApiResponse.success(message="Account deleted successfully"))
@@ -183,12 +190,14 @@ def change_email():
     user = User(db_connection)
     user_id = session_manager.get_user_id(session.sid)
 
+    if not user_id:
+        return ApiResponse.error("Invalid session token", status=401)
+
     if not new_email:
         current_app.logger.warning("Make sure the new email is in the JSON!")
         return ApiResponse.error("New email is required.", status=400)
    
     try:
-        
         if user.update_email(new_email, user_id):
             return ApiResponse.success(message="Email updated successfully.")
         else:
@@ -197,6 +206,3 @@ def change_email():
     except Exception as e:
         current_app.logger.error(f"Error during email update: {e}")
         return ApiResponse.error("An internal error occurred during email update.", status=500)
-    
-
-

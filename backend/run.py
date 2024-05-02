@@ -39,6 +39,7 @@ def create_app(test_config=None):
         os.makedirs('log')
         open('log/app.log', 'w').close()
         handler = RotatingFileHandler('log/app.log', maxBytes=10000, backupCount=3)
+    
     handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
     logging.getLogger().addHandler(handler)
 
@@ -50,7 +51,8 @@ def create_app(test_config=None):
     app.register_blueprint(category_blueprint, url_prefix='/api/v1/category')
 
     # Setup cross-origin resource sharing
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000", "supports_credentials": True}})        # Basic API welcome message on root
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
+
     @app.route('/')
     def root():
         return jsonify({"message": "Welcome to the ExpensEase API!"})
