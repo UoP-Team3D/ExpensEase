@@ -137,6 +137,9 @@ def change_password():
     session_manager = current_app.session_manager
     user_id = session_manager.get_user_id(session.sid)
 
+    if not session.sid:
+        return ApiResponse.error("No session token at all!", status=401)
+
     if not user_id:
         return ApiResponse.error("Invalid session token", status=401)
 
@@ -156,13 +159,16 @@ def change_password():
     except Exception as e:
         current_app.logger.error(f"Error during password update: {e}")
         return ApiResponse.error("An internal error occurred during password update.", status=500)
-    
 
 @auth_blueprint.route('/delete_account', methods=['DELETE'])
 def delete_account():
     db_connection = current_app.db_connection
     session_manager = current_app.session_manager
     user = User(db_connection)
+
+    if not session.sid:
+        return ApiResponse.error("No session token at all!", status=401)
+
     user_id = session_manager.get_user_id(session.sid)
 
     if not user_id:
@@ -189,6 +195,9 @@ def change_email():
     session_manager = current_app.session_manager
     user = User(db_connection)
     user_id = session_manager.get_user_id(session.sid)
+
+    if not session.sid:
+        return ApiResponse.error("No session token at all!", status=401)
 
     if not user_id:
         return ApiResponse.error("Invalid session token", status=401)
