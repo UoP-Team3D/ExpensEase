@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Header from "./nodes/header/header";
 import Home from "./nodes/home/home";
 import BudMan from "./nodes/budget manager/BudgetManager";
@@ -30,6 +30,7 @@ const Layout = () => {
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit/:id" element={<EditBudget />} />
           <Route path="/category-managing" element={<CatMan />} />
+          <Route path="*" element={<Navigate replace to="/login" />} />
         </Routes>
     </>
   );

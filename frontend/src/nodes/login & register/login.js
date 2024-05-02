@@ -56,6 +56,9 @@ const Login = () => {
     return (
         <article>
             <section className="lrGrid border">
+                <div className="logo-container">
+                    <img src="/Logo.png" alt="ExpensEase Logo" className="logo" />
+                </div>
                 <form onSubmit={continueLogin}>
                     <div>
                         <label>Username:</label>
