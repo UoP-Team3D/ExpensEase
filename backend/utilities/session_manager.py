@@ -18,20 +18,26 @@ class SessionManager:
 
     def create_session(self, user_id, app):
         session['user_id'] = user_id
-        session['user_id'] = user_id
         session.permanent = True  # Make the session permanent to use the expiry
         session.modified = True  # Mark the session as modified to update expiry time
 
         # Create a response object and set the session cookie
         response = make_response()
+        
+        # Set the session cookie with the appropriate attributes
         response.set_cookie(
             'session',
             session.sid,
             max_age=app.config['PERMANENT_SESSION_LIFETIME'].total_seconds(),
             secure=False,
             httponly=True,
-            samesite='Lax'
+            samesite='None',
+            domain='127.0.0.1:3000'
         )
+        
+        # Add the 'Access-Control-Allow-Credentials' header to the response
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        
         return response
 
     def get_user_id(self, session_id):

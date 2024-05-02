@@ -51,7 +51,7 @@ def create_app(test_config=None):
     app.register_blueprint(category_blueprint, url_prefix='/api/v1/category')
 
     # Setup cross-origin resource sharing
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
+    CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:3000"}}, supports_credentials=True)
 
     @app.route('/')
     def root():
