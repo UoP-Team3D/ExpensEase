@@ -30,13 +30,10 @@ class SessionManager:
             session.sid,
             max_age=app.config['PERMANENT_SESSION_LIFETIME'].total_seconds(),
             secure=False,
-            httponly=True,
+            httponly=False,
             samesite='None',
             domain='127.0.0.1:3000'
         )
-        
-        # Add the 'Access-Control-Allow-Credentials' header to the response
-        response.headers['Access-Control-Allow-Credentials'] = 'true'
         
         return response
 
@@ -53,18 +50,3 @@ class SessionManager:
     def is_session_valid(self):
         user_id = session.get('user_id')
         return user_id is not None
-
-    def get_active_sessions(self):
-        session_dir = current_app.config['SESSION_FILE_DIR']
-        active_sessions = []
-        
-        for filename in os.listdir(session_dir):
-            file_path = os.path.join(session_dir, filename)
-            
-            with open(file_path, 'rb') as file:
-                session_data = pickle.load(file)
-                
-                if 'user_id' in session_data:
-                    active_sessions.append(filename)
-        
-        return active_sessions

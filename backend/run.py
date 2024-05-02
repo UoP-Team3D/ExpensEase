@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, send_from_directory
 from flask_cors import CORS
 from routes.auth import auth_blueprint
 from routes.receipt import receipt_blueprint
@@ -14,7 +14,10 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 def create_app(test_config=None):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='build')
+
+    #! !!!!UNCOMMENT THIS LINE IF YOU ARE NOT USING THE BUILD FOLDER (TWO DIFFERENT PORTS FOR BACK/FRONT END)!!!! 
+    #CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": ["http://localhost:3000"]}})
 
     # Load default or test configuration
     if test_config is not None:
@@ -50,20 +53,13 @@ def create_app(test_config=None):
     app.register_blueprint(expense_blueprint, url_prefix='/api/v1/expense')
     app.register_blueprint(category_blueprint, url_prefix='/api/v1/category')
 
-    # Setup cross-origin resource sharing
-    CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:3000"}}, supports_credentials=True)
-
-    @app.route('/')
-    def root():
-        return jsonify({"message": "Welcome to the ExpensEase API!"})
-
-    # Middleware for session validation on closed endpoints, security
-    @app.before_request
-    def check_valid_login():
-        open_endpoints = ['auth.login', 'auth.register', 'static', 'root']
-
-        if request.endpoint not in open_endpoints and request.method != "OPTIONS" and not app.session_manager.is_session_valid():
-            return ApiResponse.error("Session token was invalid", 401)
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def serve(path):
+        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return send_from_directory(app.static_folder, 'index.html')
 
     return app
 

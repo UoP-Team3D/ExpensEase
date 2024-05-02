@@ -137,9 +137,6 @@ def change_password():
     session_manager = current_app.session_manager
     user_id = session_manager.get_user_id(session.sid)
 
-    current_app.logger.warning("SESSION TOKEN PROVIDED: " + session.sid + "\n")
-    current_app.logger.warning("ALL SESSION TOKENS CURRENTLY: " + session_manager.get_active_sessions() + "\n")
-
     if not session.sid:
         return ApiResponse.error("No session token at all!", status=401)
 

@@ -16,6 +16,7 @@ const Settings = () => {
     
     const handleChangePassword = async () => {
         const url = 'http://127.0.0.1:5000/api/v1/change_password';
+        
         const body = JSON.stringify({
             password: currentPassword,
             new_password: newPassword

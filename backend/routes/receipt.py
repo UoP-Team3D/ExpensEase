@@ -58,6 +58,10 @@ def save_receipt():
         return ApiResponse.error("Invalid session token", status=401)
 
     data = request.json
+
+    if not data:
+        return ApiResponse.error("Missing request body", status=400)
+
     receipt_id = data.get('receipt_id')
     description = data.get('description')
     total_price = data.get('total_price')
