@@ -130,3 +130,8 @@ def test_logout_success(client, mocker):
 
     assert response.status_code == 200
     assert response.json['success'] == True
+
+def test_middleware(client, mocker):
+    # Should 401 if the before request middleware is set up properly
+    response = client.delete('/api/v1/logout')
+    assert response.status_code == 401 

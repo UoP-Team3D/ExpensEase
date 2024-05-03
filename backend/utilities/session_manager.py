@@ -28,11 +28,11 @@ class SessionManager:
         response.set_cookie(
             'session',
             session.sid,
-            max_age=app.config['PERMANENT_SESSION_LIFETIME'].total_seconds(),
+            max_age=int(app.config['PERMANENT_SESSION_LIFETIME'].total_seconds()),
             secure=False,
             httponly=False,
             samesite='None',
-            domain='127.0.0.1:3000'
+            domain='127.0.0.1'
         )
         
         return response

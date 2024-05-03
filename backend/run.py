@@ -63,6 +63,12 @@ def create_app(test_config=None):
         else:
             return send_from_directory(app.static_folder, 'index.html')
 
+    @app.before_request
+    def check_valid_login():
+        open_endpoints = ['auth.login', 'auth.register', 'static', 'root']
+        if request.path.startswith('/api/v1/') and request.endpoint not in open_endpoints and not app.session_manager.is_session_valid():
+            return ApiResponse.error("Session token was invalid!", 401)
+    
     return app
 
 if __name__ == '__main__':
