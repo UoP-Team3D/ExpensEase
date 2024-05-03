@@ -9,6 +9,7 @@ from utilities.db_connection import get_db_connection
 from utilities.session_manager import SessionManager
 from utilities.errors import ApiResponse
 from dotenv import load_dotenv
+from models.budget import socketio
 import os
 import logging
 from logging.handlers import RotatingFileHandler
@@ -30,6 +31,7 @@ def create_app(test_config=None):
     # Database and session manager setup
     app.db_connection = get_db_connection()
     app.session_manager = SessionManager(app)
+    socketio.init_app(app)
 
     # Receipts dictionary to track receipts
     app.processed_receipts = {}
@@ -66,4 +68,4 @@ def create_app(test_config=None):
 if __name__ == '__main__':
     app = create_app()
     logger = logging.getLogger(__name__)
-    app.run(debug=True)
+    socketio.run(app, debug=True)

@@ -103,7 +103,8 @@ class Budget:
 
             if result is not None:
                 updated_amount = result[0]
-                if updated_amount <= 15:  # Check if the updated budget amount is below the threshold (£15)
+                if updated_amount <= 30:  # Check if the updated budget amount is below the threshold (£30)
+                    print("Low budget!!!")
                     self.send_low_budget_notification(user_id, category_id, updated_amount)
             else:
                 print(f"No matching budget found for user_id: {user_id}, category_id: {category_id}, expense_date: {expense_date}")
@@ -156,8 +157,13 @@ class Budget:
         subject = "Low Budget Alert"
         message = f"Your budget for the category '{category_name}' is running low. Current amount: £{current_amount:.2f}"
 
-        #? in this case, no email system exists because this is a uni project
-        print(f"Email generated: {message}")
-        print(f"Low budget notification sent to {user_email} for category '{category_name}'!")
+        # Emit a websocket event to notify the frontend
+        socketio.emit('low_budget_notification', {
+            'user_id': user_id,
+            'category_id': category_id,
+            'category_name': category_name,
+            'current_amount': float(current_amount)
+        })
 
-        #todo: make it so frontend knows
+        print(f"Email generated: {message}")
+        print(f"Low budget notification sent to {user_email} for category '{category_name}'!")        
