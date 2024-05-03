@@ -20,7 +20,9 @@ Please follow Conventional Commits (https://www.conventionalcommits.org/en/v1.0.
 
 ## How to Use
 
-The project runs through cross-origin resource sharing for development and testing.
+~~The project runs through cross-origin resource sharing for development and testing.~~
+
+The project runs together as one project, ran via the Python backend, follow the Frontend section to learn how to get it running together.
 
 ### Backend
 
