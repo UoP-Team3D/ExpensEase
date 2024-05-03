@@ -173,9 +173,6 @@ ReceiptManager/group_datasets
 bin/model.pkl
 bin/vectorizer.pkl
 bin/vocabulary.json
-model.pkl
-vectorizer.pkl
-vocabulary.json
 start.bat
 backend/flask_session
 backend/.env

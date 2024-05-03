@@ -28,8 +28,8 @@ class Receipt:
 
         # TODO: adapt this? idk yet
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        model_path = os.path.join(current_dir, '..', '..', 'ReceiptManager', 'bin', 'model.pkl')
-        vectorizer_path = os.path.join(current_dir, '..', '..', 'ReceiptManager', 'bin', 'vectorizer.pkl')
+        model_path = os.path.join(current_dir, '..', 'machine', 'model.pkl')
+        vectorizer_path = os.path.join(current_dir, '..', 'machine', 'vectorizer.pkl')
         
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"Model file not found: {model_path}, make sure you generate the model first!")
