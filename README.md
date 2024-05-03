@@ -190,9 +190,11 @@ To get frontend running with backend, follow these instructions carefully:
 
 Option A (automated):
 
+Before you start, make sure you `cd` into `frontend`, and then run `npm install` to install all dependencies used by the frontend. This is crucial.
+
 In the `frontend` folder, after your frontend work, you may run the `run.bat` file and it will automatically build, relocate the folder and run the backend for you. **THIS ASSUMES YOUR VIRTUAL ENVIRONMENT IS NAMED "`env`"! and is located in `backend`**.
 
-| :exclamation:              |
+| :exclamation: Warning      |
 |:---------------------------|
 | Note: you may have to manually run `python run.py`, or run the `run.py` file in the Python folder yourself, due to virtual enviroment constrictions. |
 
