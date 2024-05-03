@@ -145,11 +145,11 @@ GRANT ALL PRIVILEGES ON DATABASE expensease TO username;
 Chances are the database is going to change during development to accomodate for features or adaptations in the project. To remove the existing tables and recreate the new schema, psql into the database and then run:
 
 ```sql
-DROP TABLE IF EXISTS public."Budget";
-DROP TABLE IF EXISTS public."Category";
-DROP TABLE IF EXISTS public."Expense";
-DROP TABLE IF EXISTS public."Income";
-DROP TABLE IF EXISTS public."Users";
+DROP TABLE IF EXISTS public."Budget" CASCADE;
+DROP TABLE IF EXISTS public."Category" CASCADE;
+DROP TABLE IF EXISTS public."Expense" CASCADE;
+DROP TABLE IF EXISTS public."Income" CASCADE;
+DROP TABLE IF EXISTS public."Users" CASCADE;
 ```
 
 Recreate the database by referring to the above.
