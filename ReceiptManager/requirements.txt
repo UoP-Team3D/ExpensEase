@@ -2,7 +2,7 @@ Pillow==10.1.0
 pytesseract==0.3.10
 opencv-python==4.8.1.78
 numpy==1.26.1
-scikit-learn==1.4.0
+scikit-learn==1.4.2
 pandas==2.2.0
 bs4==0.0.2
 chardet==5.2.0

@@ -91,7 +91,13 @@ def save_receipt():
     )
 
     # Remove the processed receipt from temporary storage
+    receipt_image_path = processed_receipt['receipt_image_path']
     del current_app.processed_receipts[receipt_id]
+
+    if os.path.exists(receipt_image_path):
+        os.remove(receipt_image_path)
+    else:
+        print("Somehow the receipt file does not exist (?)") 
 
     return ApiResponse.success("Receipt saved successfully", data={
         'expense_id': expense_id

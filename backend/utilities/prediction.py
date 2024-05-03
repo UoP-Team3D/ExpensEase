@@ -42,6 +42,7 @@ class Predictor:
             except ValueError:
                 continue
 
+        print("Extracted Price: ", max(prices, default=None))
         return max(prices, default=None)
 
     def predict_category(self, receipt_text):

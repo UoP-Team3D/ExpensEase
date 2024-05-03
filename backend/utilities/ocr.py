@@ -79,11 +79,9 @@ class OCRProcessor:
         """
         image = Image.open(image_path)
         if preprocess:
-            new_file_path = os.path.splitext(image_path)[0] + "-processed.png"
-            image = self._preprocess_image(image_path, new_file_path)
+            image = self._preprocess_image(image_path)
 
         return pytesseract.image_to_string(image, lang="eng", config="--psm 3")
-
 
 if __name__ == "__main__":
     ocrProcessor = OCRProcessor()
