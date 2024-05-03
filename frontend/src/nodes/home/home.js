@@ -89,9 +89,6 @@ const RingPieChart = ({ budgetId }) => {
   );
 };
 
-
-
-
 const LatestScans = () => {
   const [scans, setScans] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -146,10 +143,10 @@ const LatestScans = () => {
         </div>
         {scans.map((expense, index) => (
           <div className="table-row" key={index}>
-            <span>{expense.date}</span>
-            <span className="where-column">{expense.category}</span>
-            <span>£{expense.amount}</span>
-          </div>
+          <span>{expense.date}</span>
+          <span className="where-column">{expense.category}</span>
+          <span>£{expense.amount}</span>
+        </div>
          ))}
       </div>
     </div>
