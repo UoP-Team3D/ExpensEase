@@ -10,12 +10,12 @@ def app_context():
         yield app
 
 def test_api_response_success(app_context):
-    response, status = ApiResponse.success(message="Test Success")
-    assert status == 200
+    response = ApiResponse.success(message="Test Success")
+    assert response.status_code == 200
     assert response.json == {"success": True, "message": "Test Success"}
-
-    response, status = ApiResponse.success(message="Test Success", data={"key": "value"})
-    assert status == 200
+    
+    response = ApiResponse.success(message="Test Success", data={"key": "value"})
+    assert response.status_code == 200
     assert response.json == {"success": True, "message": "Test Success", "data": {"key": "value"}}
 
 def test_api_response_error(app_context):

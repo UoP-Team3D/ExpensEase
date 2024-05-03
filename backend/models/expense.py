@@ -1,4 +1,5 @@
 from flask import current_app
+from models.budget import Budget
 
 class Expense:
     def __init__(self, db_connection):
@@ -63,9 +64,9 @@ class Expense:
 
     def update_expense(self, expense_id, user_id, description=None, amount=None, category=None):
         with self.db_connection.cursor() as cursor:
-            # Retrieve the old expense amount and category
+            # Retrieve the old expense amount, category, and date
             query = """
-            SELECT amount, category_id
+            SELECT amount, category_id, date
             FROM public."Expense"
             WHERE expense_id = %s AND user_id = %s
             """
@@ -73,7 +74,7 @@ class Expense:
             old_expense = cursor.fetchone()
 
             if old_expense:
-                old_amount, old_category_id = old_expense
+                old_amount, old_category_id, old_expense_date = old_expense
                 # Update the expense
                 query = """
                 UPDATE public."Expense"
@@ -85,7 +86,7 @@ class Expense:
                         WHERE category_name = %s
                     ), category_id)
                 WHERE expense_id = %s AND user_id = %s
-                RETURNING expense_id, amount, category_id;
+                RETURNING expense_id, amount, category_id, date;
                 """
                 params = [description, amount, category, expense_id, user_id]
                 cursor.execute(query, params)
@@ -93,11 +94,11 @@ class Expense:
                 self.db_connection.commit()
 
                 if updated_expense:
-                    new_amount, new_category_id = updated_expense[1], updated_expense[2]
+                    new_amount, new_category_id, new_expense_date = updated_expense[1], updated_expense[2], updated_expense[3]
                     # Update the budget
                     budget_model = Budget(self.db_connection)
-                    budget_model.update_budget_amount(user_id, old_category_id, -old_amount, None)  # Revert the old amount
-                    budget_model.update_budget_amount(user_id, new_category_id, new_amount, None)  # Apply the new amount
+                    budget_model.update_budget_amount(user_id, old_category_id, -old_amount, old_expense_date)  # Revert the old amount
+                    budget_model.update_budget_amount(user_id, new_category_id, new_amount, new_expense_date)  # Apply the new amount
                     return updated_expense[0]
         return None
 

@@ -48,8 +48,8 @@ class Receipt:
         return total_price, category
 
     def save_receipt(self, user_id, total_price, category, description):
-        current_date = datetime.date.today() #? its unlikely the user waits a prolonged time before accepting the results of the receipt
-    
+        current_date = datetime.date.today()
+
         with self.db_connection.cursor() as cursor:
             query = """
             INSERT INTO public."Expense" (user_id, category_id, amount, description, date)
@@ -66,7 +66,8 @@ class Receipt:
             category_id = result[1]
             self.db_connection.commit()
 
-        budget_model = Budget(self.db_connection)
-        budget_model.update_budget_amount(user_id, category_id, total_price, current_date)
+            # Update the budget based on the created expense
+            budget_model = Budget(self.db_connection)
+            budget_model.update_budget_amount(user_id, category_id, total_price, current_date)
 
         return expense_id

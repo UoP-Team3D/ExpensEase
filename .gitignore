@@ -183,3 +183,6 @@ backend/log
 backend/templates
 backend/storage
 backend.zip
+
+backend/build
+frontend/build
