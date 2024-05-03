@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Scan = () => {
     const [file, setFile] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState("");
     const [uploadStatus, setUploadStatus] = useState("");
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [editMode, setEditMode] = useState(false);
     const [receiptData, setReceiptData] = useState({});
+    const [editedTotalPrice, setEditedTotalPrice] = useState("");
+    const [editedCategory, setEditedCategory] = useState("");
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/api/v1/category/', {
+                method: 'GET',
+                credentials: 'include'
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch categories');
+            }
+            const data = await response.json();
+            setCategories(data.data);
+        } catch (error) {
+            console.error('Fetch categories error:', error);
+        }
+    };
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -40,10 +64,12 @@ const Scan = () => {
                 throw new Error(`HTTP error! status: ${uploadResponse.status}`);
             }
     
-            const data = await uploadResponse.json(); // Assuming the response is JSON formatted.
+            const data = await uploadResponse.json();
     
             setUploadStatus("Upload successful!");
             setReceiptData(data.data);
+            setEditedTotalPrice(data.data.total_price);
+            setEditedCategory(data.data.category);
             setShowConfirmation(true);
         } catch (error) {
             setUploadStatus(`Upload failed: ${error.message}`);
@@ -52,12 +78,12 @@ const Scan = () => {
     };
 
     const handleConfirm = async () => {
-        const { receipt_id, total_price, category } = receiptData;
+        const { receipt_id } = receiptData;
         const saveReceiptBody = JSON.stringify({
             receipt_id: receipt_id,
             description: "Received from Scan",
-            total_price: total_price,
-            category: category
+            total_price: editedTotalPrice,
+            category: editedCategory
         });
 
         try {
@@ -72,6 +98,7 @@ const Scan = () => {
 
             if (saveResponse.ok) {
                 setShowConfirmation(false);
+                setEditMode(false);
                 alert('Receipt saved successfully!');
                 setImagePreviewUrl('');
             } else {
@@ -80,6 +107,16 @@ const Scan = () => {
         } catch (error) {
             alert(`Error: ${error.message}`);
         }
+    };
+
+    const handleEdit = () => {
+        setEditMode(true);
+    };
+
+    const handleCancelEdit = () => {
+        setEditMode(false);
+        setEditedTotalPrice(receiptData.total_price);
+        setEditedCategory(receiptData.category);
     };
 
     return (
@@ -104,9 +141,24 @@ const Scan = () => {
                 {showConfirmation && (
                     <div>
                         <h3>Does the receipt's details look accurate?</h3>
-                        <p>Category: {receiptData.category}, Total Price: ${receiptData.total_price}</p>
+                        <p>Category: {receiptData.category}, Total Price: £{receiptData.total_price}</p>
                         <button onClick={handleConfirm}>Yes</button>
-                        <button onClick={() => setShowConfirmation(false)}>No</button>
+                        <button onClick={handleEdit}>No</button>
+                    </div>
+                )}
+                {editMode && (
+                    <div>
+                        <h3>Edit Receipt Details:</h3>
+                        <label>Total Price:</label>
+                        <input type="text" value={editedTotalPrice} onChange={e => setEditedTotalPrice(e.target.value)} />
+                        <label>Category:</label>
+                        <select value={editedCategory} onChange={e => setEditedCategory(e.target.value)}>
+                            {categories.map(category => (
+                                <option key={category.category_id} value={category.category_name}>{category.category_name}</option>
+                            ))}
+                        </select>
+                        <button onClick={handleConfirm}>Save Changes</button>
+                        <button onClick={handleCancelEdit}>Cancel</button>
                     </div>
                 )}
             </div>
