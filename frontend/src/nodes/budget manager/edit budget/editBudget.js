@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { NavLink } from 'react-router-dom';
 
 const EditPage = () => {
     const { id } = useParams();
     const [item, setItem] = useState(null);
-
     const [selectedValue, setSelectedValue] = useState();
     const [totalAmount, setTotalAmount] = useState();
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState(); 
 
-    const budgetByIdUrl = `https://127.0.0.1:5000/api/v1/budget/${id}`;
-
-    
+    useEffect(() => {
+        const budgetByIdUrl = `https://127.0.0.1:5000/api/v1/budget/${id}`;
         fetch(budgetByIdUrl, {
             method: 'GET',
             headers: {
@@ -24,9 +21,16 @@ const EditPage = () => {
             credentials: 'include'
           })
             .then(response => response.json())
-            .then(data => setItem(data))
-            .catch(error => console.error('Error fetching item:', error));
-   
+            .then(data => {
+                console.log(data);
+                setItem(data);
+                setSelectedValue(data.category_name);
+                setTotalAmount(data.total_amount);
+                setStartDate(data.start_date);
+                setEndDate(data.end_date);
+            })
+            .catch(error => console.error('ERROR fetching Item:', error));
+        },[id]);
 
     const categoryData = "http://127.0.0.1:5000/api/v1/category/";
     const categories = [];
@@ -51,42 +55,12 @@ const EditPage = () => {
         console.error('Cannot get data.')
     }
    
-    
-    /*
-    const handleDropdownChange = (event) => {
-        setSelectedValue(event.target.value);
-    };*/
     const getTotalAmount = (event) => {
         setTotalAmount(event.target.value);
     };
-    /*
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
-    };
-    
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-    };
-    const formatDateToString = (date) => {
-        return date ? date.toISOString().split('T')[0] : ''; 
-    };
-    
-    function getBudgetInputs(){
-
-            const startDateString = formatDateToString(startDate);
-            const endDateString = formatDateToString(endDate);
-    
-            const data = {
-                category_id: selectedValue,
-                total_amount: totalAmount,
-                start_date: startDateString,
-                end_date: endDateString
-            }
-         console.log(data);
-         return data;
-    }*/
 
     function updateBudget(){
+        const budgetByIdUrl = `https://127.0.0.1:5000/api/v1/budget/${id}`;
         fetch(budgetByIdUrl, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json',},
