@@ -7,16 +7,13 @@ build:
     python: "3.12"
   commands:
     - sphinx-build -b html backend/docs/source backend/docs/build/html
-
+    
 formats:
   - htmlzip
 
-# Skip automatic documentation build
 sphinx:
   configuration: "backend/docs/source/conf.py"
-  builder: ""
 
 python:
   install:
-    - method: pip
     - requirements: backend/requirements.txt
