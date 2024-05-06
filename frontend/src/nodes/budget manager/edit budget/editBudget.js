@@ -1,119 +1,149 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
-import { NavLink } from 'react-router-dom';
 
 const EditPage = () => {
-    const { id } = useParams();
-    const [item, setItem] = useState(null);
-    const [selectedValue, setSelectedValue] = useState();
-    const [totalAmount, setTotalAmount] = useState();
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState(); 
+  const { id } = useParams();
+  const [item, setItem] = useState(null);
+  const [selectedValue, setSelectedValue] = useState();
+  const [totalAmount, setTotalAmount] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const budgetByIdUrl = `https://127.0.0.1:5000/api/v1/budget/${id}`;
-        fetch(budgetByIdUrl, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-          })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                setItem(data);
-                setSelectedValue(data.category_name);
-                setTotalAmount(data.total_amount);
-                setStartDate(data.start_date);
-                setEndDate(data.end_date);
-            })
-            .catch(error => console.error('ERROR fetching Item:', error));
-        },[id]);
-
-    const categoryData = "http://127.0.0.1:5000/api/v1/category/";
-    const categories = [];
-    try{
-        if(categoryData.success){
-            console.log(categoryData.message);
-            for(const category in categoryData.data){
-                categories.push(category.category_name);
-            }
-        }
-    }
-    catch(e){
-        console.log(`Cannot get categories, error: ${e}`);
-    };
-    
-    if(item){
-        setSelectedValue(categories[item.category_id]);
-        setTotalAmount(item.total_amount);
-        setStartDate(item.start_date);
-        setEndDate(item.end_date); 
-    } else{
-        console.error('Cannot get data.')
-    }
-   
-    const getTotalAmount = (event) => {
-        setTotalAmount(event.target.value);
-    };
-
-    function updateBudget(){
-        const budgetByIdUrl = `https://127.0.0.1:5000/api/v1/budget/${id}`;
-        fetch(budgetByIdUrl, {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json',},
-            body: JSON.stringify({total_amount: totalAmount}),
-            credentials: 'include'
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Server response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
+  useEffect(() => {
+    const fetchBudget = async () => {
+      try {
+        const budgetByIdUrl = `http://127.0.0.1:5000/api/v1/budget/${id}`;
+        const response = await fetch(budgetByIdUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
         });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch budget');
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setItem(data.data);
+        setSelectedValue(data.data.category_id);
+        setTotalAmount(data.data.total_amount);
+        setStartDate(data.data.start_date);
+        setEndDate(data.data.end_date);
+      } catch (error) {
+        console.error('Error fetching budget:', error);
+        setError('Cannot fetch data for the specified budget ID');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const categoryDataUrl = 'http://127.0.0.1:5000/api/v1/category/';
+        const response = await fetch(categoryDataUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+        setCategories(data.data);
+      } catch (error) {
+        console.error('Cannot get categories, error:', error);
+      }
+    };
+
+    fetchBudget();
+    fetchCategories();
+  }, [id]);
+
+  const getTotalAmount = (event) => {
+    setTotalAmount(event.target.value);
+  };
+
+  const updateBudget = async () => {
+    try {
+      const budgetByIdUrl = `http://127.0.0.1:5000/api/v1/budget/${id}`;
+      const response = await fetch(budgetByIdUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ total_amount: totalAmount }),
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update budget');
+      }
+
+      const data = await response.json();
+      console.log('Success:', data);
+      alert("Updated your budget successfully!")
+    } catch (error) {
+      console.error('Error updating budget:', error);
     }
+  };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
+  if (error) {
+    return <div>{error}</div>;
+  }
 
-    return (
-        <article>
-            <h1>Edit budget</h1>
-            {!item? <p>Cannot fetch data for budget id {id}</p>
-            :
-            <>
+  return (
+    <article>
+      <h1>Edit Budget</h1>
+      {!item ? (
+        <p>Cannot fetch data for budget ID {id}</p>
+      ) : (
+        <>
+          <div>
             <div>
-                <div>
-                    
-                    <label>Category: </label>
-                    <p>{selectedValue}</p>
-                </div>
-                <div>
-                    <label>Total amount: </label>
-
-                    <input type="number" placeholder="budget amount" value={totalAmount} onChange={getTotalAmount}></input>
-                </div>
-                <div>
-                    <label>Start Date: </label>
-                    <p>{startDate}</p>
-                    <br />
-                    <label>End Date: </label>
-                    <p>{endDate}</p>
-                    </div>
+              <label>Category: </label>
+              <p>{categories.find(category => category.category_id === selectedValue)?.category_name}</p>
             </div>
-            <button><NavLink to="/budget-managing">Cancel</NavLink></button>
-            <button onClick={updateBudget}>Update budget</button>
-            </>
-            }
-        </article>
-    );
+            <div>
+              <label>Total Amount: </label>
+              <input
+                type="number"
+                placeholder="Budget amount"
+                value={totalAmount}
+                onChange={getTotalAmount}
+              />
+            </div>
+            <div>
+              <label>Start Date: </label>
+              <p>{startDate}</p>
+              <br />
+              <label>End Date: </label>
+              <p>{endDate}</p>
+            </div>
+          </div>
+          <button>
+            <NavLink to="/budget-managing">Cancel</NavLink>
+          </button>
+          <button onClick={updateBudget}>Update Budget</button>
+        </>
+      )}
+    </article>
+  );
 };
 
 export default EditPage;
