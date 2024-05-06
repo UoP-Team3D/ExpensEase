@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>models.expense &mdash; ExpensEase  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ExpensEase
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ExpensEase</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">models.expense</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for models.expense</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">current_app</span>
+<span class="kn">from</span> <span class="nn">models.budget</span> <span class="kn">import</span> <span class="n">Budget</span>
+
+<div class="viewcode-block" id="Expense">
+<a class="viewcode-back" href="../../api.html#models.expense.Expense">[docs]</a>
+<span class="k">class</span> <span class="nc">Expense</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_connection</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_connection</span> <span class="o">=</span> <span class="n">db_connection</span>
+
+<div class="viewcode-block" id="Expense.get_expenses">
+<a class="viewcode-back" href="../../api.html#models.expense.Expense.get_expenses">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_expenses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT e.expense_id, e.amount, e.description, e.date, c.category_name</span>
+<span class="s2">            FROM public.&quot;Expense&quot; e</span>
+<span class="s2">            JOIN public.&quot;Category&quot; c ON e.category_id = c.category_id</span>
+<span class="s2">            WHERE e.user_id = </span><span class="si">%s</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">user_id</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
+                <span class="n">query</span> <span class="o">+=</span> <span class="s2">&quot; AND c.category_name = </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">start_date</span><span class="p">:</span>
+                <span class="n">query</span> <span class="o">+=</span> <span class="s2">&quot; AND e.date &gt;= </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">end_date</span><span class="p">:</span>
+                <span class="n">query</span> <span class="o">+=</span> <span class="s2">&quot; AND e.date &lt;= </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span>
+
+            <span class="n">sort_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">sort_by</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">&quot;amount&quot;</span><span class="p">:</span>
+                    <span class="n">sort_query</span> <span class="o">=</span> <span class="s2">&quot; ORDER BY e.amount&quot;</span>
+                <span class="k">elif</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span>
+                    <span class="n">sort_query</span> <span class="o">=</span> <span class="s2">&quot; ORDER BY e.date&quot;</span>
+                <span class="k">elif</span> <span class="n">sort_by</span> <span class="o">==</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span>
+                    <span class="n">sort_query</span> <span class="o">=</span> <span class="s2">&quot; ORDER BY c.category_name&quot;</span>
+
+                <span class="k">if</span> <span class="n">sort_order</span> <span class="o">==</span> <span class="s2">&quot;desc&quot;</span><span class="p">:</span>
+                    <span class="n">sort_query</span> <span class="o">+=</span> <span class="s2">&quot; DESC&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sort_query</span> <span class="o">+=</span> <span class="s2">&quot; ASC&quot;</span>
+
+            <span class="n">query</span> <span class="o">+=</span> <span class="n">sort_query</span>
+
+            <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">per_page</span>
+            <span class="n">query</span> <span class="o">+=</span> <span class="s2">&quot; LIMIT </span><span class="si">%s</span><span class="s2"> OFFSET </span><span class="si">%s</span><span class="s2">&quot;</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">per_page</span><span class="p">,</span> <span class="n">offset</span><span class="p">])</span>
+
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+            <span class="n">expenses</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+            <span class="n">expense_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">expense</span> <span class="ow">in</span> <span class="n">expenses</span><span class="p">:</span>
+                <span class="n">expense_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">&quot;expense_id&quot;</span><span class="p">:</span> <span class="n">expense</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">expense</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">expense</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">expense</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
+                    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">expense</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                <span class="p">})</span>
+
+            <span class="k">return</span> <span class="n">expense_list</span></div>
+
+
+<div class="viewcode-block" id="Expense.update_expense">
+<a class="viewcode-back" href="../../api.html#models.expense.Expense.update_expense">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_expense</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expense_id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="c1"># Retrieve the old expense amount, category, and date</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT amount, category_id, date</span>
+<span class="s2">            FROM public.&quot;Expense&quot;</span>
+<span class="s2">            WHERE expense_id = </span><span class="si">%s</span><span class="s2"> AND user_id = </span><span class="si">%s</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="p">(</span><span class="n">expense_id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">))</span>
+            <span class="n">old_expense</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">old_expense</span><span class="p">:</span>
+                <span class="n">old_amount</span><span class="p">,</span> <span class="n">old_category_id</span><span class="p">,</span> <span class="n">old_expense_date</span> <span class="o">=</span> <span class="n">old_expense</span>
+                <span class="c1"># Update the expense</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                UPDATE public.&quot;Expense&quot;</span>
+<span class="s2">                SET description = COALESCE(</span><span class="si">%s</span><span class="s2">, description),</span>
+<span class="s2">                    amount = COALESCE(</span><span class="si">%s</span><span class="s2">, amount),</span>
+<span class="s2">                    category_id = COALESCE((</span>
+<span class="s2">                        SELECT category_id</span>
+<span class="s2">                        FROM public.&quot;Category&quot;</span>
+<span class="s2">                        WHERE category_name = </span><span class="si">%s</span>
+<span class="s2">                    ), category_id)</span>
+<span class="s2">                WHERE expense_id = </span><span class="si">%s</span><span class="s2"> AND user_id = </span><span class="si">%s</span>
+<span class="s2">                RETURNING expense_id, amount, category_id, date;</span>
+<span class="s2">                &quot;&quot;&quot;</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">description</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">expense_id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">]</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+                <span class="n">updated_expense</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">db_connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">updated_expense</span><span class="p">:</span>
+                    <span class="n">new_amount</span><span class="p">,</span> <span class="n">new_category_id</span><span class="p">,</span> <span class="n">new_expense_date</span> <span class="o">=</span> <span class="n">updated_expense</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">updated_expense</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">updated_expense</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                    <span class="c1"># Update the budget</span>
+                    <span class="n">budget_model</span> <span class="o">=</span> <span class="n">Budget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db_connection</span><span class="p">)</span>
+                    <span class="n">budget_model</span><span class="o">.</span><span class="n">update_budget_amount</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">old_category_id</span><span class="p">,</span> <span class="o">-</span><span class="n">old_amount</span><span class="p">,</span> <span class="n">old_expense_date</span><span class="p">)</span>  <span class="c1"># Revert the old amount</span>
+                    <span class="n">budget_model</span><span class="o">.</span><span class="n">update_budget_amount</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">new_category_id</span><span class="p">,</span> <span class="n">new_amount</span><span class="p">,</span> <span class="n">new_expense_date</span><span class="p">)</span>  <span class="c1"># Apply the new amount</span>
+                    <span class="k">return</span> <span class="n">updated_expense</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Expense.delete_expense">
+<a class="viewcode-back" href="../../api.html#models.expense.Expense.delete_expense">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_expense</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expense_id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="c1"># Retrieve the expense amount and category</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT amount, category_id</span>
+<span class="s2">            FROM public.&quot;Expense&quot;</span>
+<span class="s2">            WHERE expense_id = </span><span class="si">%s</span><span class="s2"> AND user_id = </span><span class="si">%s</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="p">(</span><span class="n">expense_id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">))</span>
+            <span class="n">expense</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">expense</span><span class="p">:</span>
+                <span class="n">amount</span><span class="p">,</span> <span class="n">category_id</span> <span class="o">=</span> <span class="n">expense</span>
+                <span class="c1"># Delete the expense</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                DELETE FROM public.&quot;Expense&quot;</span>
+<span class="s2">                WHERE expense_id = </span><span class="si">%s</span><span class="s2"> AND user_id = </span><span class="si">%s</span>
+<span class="s2">                RETURNING expense_id;</span>
+<span class="s2">                &quot;&quot;&quot;</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">expense_id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">]</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+                <span class="n">deleted_expense_id</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">db_connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">deleted_expense_id</span><span class="p">:</span>
+                    <span class="c1"># Update the budget</span>
+                    <span class="n">budget_model</span> <span class="o">=</span> <span class="n">Budget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db_connection</span><span class="p">)</span>
+                    <span class="n">budget_model</span><span class="o">.</span><span class="n">update_budget_amount</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">category_id</span><span class="p">,</span> <span class="o">-</span><span class="n">amount</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Revert the amount</span>
+                    <span class="k">return</span> <span class="n">deleted_expense_id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Expense.get_expenses_by_budget">
+<a class="viewcode-back" href="../../api.html#models.expense.Expense.get_expenses_by_budget">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_expenses_by_budget</span><span class="p">(</span><span class="n">budget_id</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">current_app</span><span class="o">.</span><span class="n">db_connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT e.expense_id, e.amount, e.description, e.date, c.category_name</span>
+<span class="s2">            FROM public.&quot;Expense&quot; e</span>
+<span class="s2">            JOIN public.&quot;Category&quot; c ON e.category_id = c.category_id</span>
+<span class="s2">            WHERE e.user_id = (</span>
+<span class="s2">                SELECT user_id</span>
+<span class="s2">                FROM public.&quot;Budget&quot;</span>
+<span class="s2">                WHERE budget_id = </span><span class="si">%s</span>
+<span class="s2">            )</span>
+<span class="s2">            AND e.date &gt;= (</span>
+<span class="s2">                SELECT start_date</span>
+<span class="s2">                FROM public.&quot;Budget&quot;</span>
+<span class="s2">                WHERE budget_id = </span><span class="si">%s</span>
+<span class="s2">            )</span>
+<span class="s2">            AND e.date &lt;= (</span>
+<span class="s2">                SELECT end_date</span>
+<span class="s2">                FROM public.&quot;Budget&quot;</span>
+<span class="s2">                WHERE budget_id = </span><span class="si">%s</span>
+<span class="s2">            )</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="p">(</span><span class="n">budget_id</span><span class="p">,</span> <span class="n">budget_id</span><span class="p">,</span> <span class="n">budget_id</span><span class="p">))</span>
+            <span class="n">expenses</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+            <span class="n">expense_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">expense</span> <span class="ow">in</span> <span class="n">expenses</span><span class="p">:</span>
+                <span class="n">expense_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Expense</span><span class="p">(</span>
+                    <span class="n">expense_id</span><span class="o">=</span><span class="n">expense</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">amount</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">expense</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">expense</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">date</span><span class="o">=</span><span class="n">expense</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
+                    <span class="n">category</span><span class="o">=</span><span class="n">expense</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                <span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">expense_list</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Team 3D - UoP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; ExpensEase  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="ExpensEase Backend Function Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ExpensEase
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-models">Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#models.budget.Budget"><code class="docutils literal notranslate"><span class="pre">Budget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.create_budget"><code class="docutils literal notranslate"><span class="pre">Budget.create_budget()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.delete_budget"><code class="docutils literal notranslate"><span class="pre">Budget.delete_budget()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.get_all_active_budgets"><code class="docutils literal notranslate"><span class="pre">Budget.get_all_active_budgets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.get_budget_by_id"><code class="docutils literal notranslate"><span class="pre">Budget.get_budget_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.get_budgets_by_category"><code class="docutils literal notranslate"><span class="pre">Budget.get_budgets_by_category()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.get_budgets_by_user"><code class="docutils literal notranslate"><span class="pre">Budget.get_budgets_by_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.send_low_budget_notification"><code class="docutils literal notranslate"><span class="pre">Budget.send_low_budget_notification()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.update_budget"><code class="docutils literal notranslate"><span class="pre">Budget.update_budget()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.budget.Budget.update_budget_amount"><code class="docutils literal notranslate"><span class="pre">Budget.update_budget_amount()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#models.category.Category"><code class="docutils literal notranslate"><span class="pre">Category</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#models.category.Category.create_category"><code class="docutils literal notranslate"><span class="pre">Category.create_category()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.category.Category.delete_category"><code class="docutils literal notranslate"><span class="pre">Category.delete_category()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.category.Category.get_categories_by_user"><code class="docutils literal notranslate"><span class="pre">Category.get_categories_by_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.category.Category.get_category_by_id"><code class="docutils literal notranslate"><span class="pre">Category.get_category_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.category.Category.update_category"><code class="docutils literal notranslate"><span class="pre">Category.update_category()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#models.expense.Expense"><code class="docutils literal notranslate"><span class="pre">Expense</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#models.expense.Expense.delete_expense"><code class="docutils literal notranslate"><span class="pre">Expense.delete_expense()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.expense.Expense.get_expenses"><code class="docutils literal notranslate"><span class="pre">Expense.get_expenses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.expense.Expense.get_expenses_by_budget"><code class="docutils literal notranslate"><span class="pre">Expense.get_expenses_by_budget()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.expense.Expense.update_expense"><code class="docutils literal notranslate"><span class="pre">Expense.update_expense()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#models.receipt.Receipt"><code class="docutils literal notranslate"><span class="pre">Receipt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#models.receipt.Receipt.db_connection"><code class="docutils literal notranslate"><span class="pre">Receipt.db_connection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.receipt.Receipt.upload_receipt"><code class="docutils literal notranslate"><span class="pre">Receipt.upload_receipt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.receipt.Receipt.process_receipt"><code class="docutils literal notranslate"><span class="pre">Receipt.process_receipt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models.receipt.Receipt.save_receipt"><code class="docutils literal notranslate"><span class="pre">Receipt.save_receipt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-routes">Routes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#routes.auth.change_email"><code class="docutils literal notranslate"><span class="pre">change_email()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.auth.change_password"><code class="docutils literal notranslate"><span class="pre">change_password()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.auth.delete_account"><code class="docutils literal notranslate"><span class="pre">delete_account()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.auth.login"><code class="docutils literal notranslate"><span class="pre">login()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.auth.logout"><code class="docutils literal notranslate"><span class="pre">logout()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.auth.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.budget.create_budget"><code class="docutils literal notranslate"><span class="pre">create_budget()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.budget.delete_budget"><code class="docutils literal notranslate"><span class="pre">delete_budget()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.budget.get_budget"><code class="docutils literal notranslate"><span class="pre">get_budget()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.budget.get_budgets_by_category"><code class="docutils literal notranslate"><span class="pre">get_budgets_by_category()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.budget.get_user_budgets"><code class="docutils literal notranslate"><span class="pre">get_user_budgets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.budget.update_budget"><code class="docutils literal notranslate"><span class="pre">update_budget()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.category.create_category"><code class="docutils literal notranslate"><span class="pre">create_category()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.category.delete_category"><code class="docutils literal notranslate"><span class="pre">delete_category()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.category.get_user_categories"><code class="docutils literal notranslate"><span class="pre">get_user_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.category.update_category"><code class="docutils literal notranslate"><span class="pre">update_category()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.expense.delete_expense"><code class="docutils literal notranslate"><span class="pre">delete_expense()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.expense.get_expenses"><code class="docutils literal notranslate"><span class="pre">get_expenses()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.expense.update_expense"><code class="docutils literal notranslate"><span class="pre">update_expense()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.receipt.save_receipt"><code class="docutils literal notranslate"><span class="pre">save_receipt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes.receipt.upload_receipt"><code class="docutils literal notranslate"><span class="pre">upload_receipt()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-utilities">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#utilities.db_connection.get_db_connection"><code class="docutils literal notranslate"><span class="pre">get_db_connection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#utilities.errors.ApiResponse"><code class="docutils literal notranslate"><span class="pre">ApiResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.errors.ApiResponse.error"><code class="docutils literal notranslate"><span class="pre">ApiResponse.error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.errors.ApiResponse.success"><code class="docutils literal notranslate"><span class="pre">ApiResponse.success()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#utilities.ocr.OCRProcessor"><code class="docutils literal notranslate"><span class="pre">OCRProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.ocr.OCRProcessor.extract_text"><code class="docutils literal notranslate"><span class="pre">OCRProcessor.extract_text()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#utilities.prediction.Predictor"><code class="docutils literal notranslate"><span class="pre">Predictor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.prediction.Predictor.extract_total_price"><code class="docutils literal notranslate"><span class="pre">Predictor.extract_total_price()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.prediction.Predictor.predict_category"><code class="docutils literal notranslate"><span class="pre">Predictor.predict_category()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#utilities.session_manager.SessionManager"><code class="docutils literal notranslate"><span class="pre">SessionManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.session_manager.SessionManager.create_session"><code class="docutils literal notranslate"><span class="pre">SessionManager.create_session()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.session_manager.SessionManager.end_session"><code class="docutils literal notranslate"><span class="pre">SessionManager.end_session()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.session_manager.SessionManager.get_user_id"><code class="docutils literal notranslate"><span class="pre">SessionManager.get_user_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.session_manager.SessionManager.is_session_valid"><code class="docutils literal notranslate"><span class="pre">SessionManager.is_session_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#utilities.session_manager.SessionManager.refresh_session"><code class="docutils literal notranslate"><span class="pre">SessionManager.refresh_session()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ExpensEase</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<section id="module-models">
+<span id="models"></span><h2>Models<a class="headerlink" href="#module-models" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.user.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/user.html#User"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>User class to handle user-related operations in the database.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">db_connection</span></span></dt>
+<dd><p>A psycopg2 connection object to the PostgreSQL database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">register_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/user.html#User.register_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Registers a new user in the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/user.html#User.login"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Logs in an existing user.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">change_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/user.html#User.change_password"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Changes the user’s password.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> – The user’s ID</p></li>
+<li><p><strong>password</strong> – The user’s current password</p></li>
+<li><p><strong>new_password</strong> – The user’s new password</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the password change was successful, False otherwise.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>psycopg2.Error</strong> – If there is an error executing database operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/user.html#User.delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Deletes a user from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_id</strong> – The user’s ID</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the user was successfully deleted, False otherwise.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>psycopg2.Error</strong> – If there is an error executing database operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plain_password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/user.html#User.login"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Authenticates a user by their username and password.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> – The user’s username</p></li>
+<li><p><strong>plain_password</strong> – The user’s (unhashed) password</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing (True, user_id) if authentication is successful, or
+(False, None) if authentication fails.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>psycopg2.Error</strong> – If there is an error executing database operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">register_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plain_password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/user.html#User.register_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Registers a new user in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> – A string representing the user’s username.</p></li>
+<li><p><strong>email</strong> – A string representing the user’s email.</p></li>
+<li><p><strong>first_name</strong> – A string representing the user’s first name.</p></li>
+<li><p><strong>last_name</strong> – A string representing the user’s last name.</p></li>
+<li><p><strong>plain_password</strong> – A string representing the user’s plaintext password.</p></li>
+<li><p><strong>pin</strong> – A string representing the user’s four digit personal identification number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user ID of the newly created user.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>psycopg2.Error</strong> – If there is an error executing database operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">update_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/user.html#User.update_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Updates the user’s email address.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_email</strong> – The user’s new email address</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the email address was successfully updated, False otherwise.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>psycopg2.Error</strong> – If there is an error executing database operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-models.budget">
+<dt class="sig sig-object py" id="models.budget.Budget">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.budget.</span></span><span class="sig-name descname"><span class="pre">Budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.create_budget">
+<span class="sig-name descname"><span class="pre">create_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_amount</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.create_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.create_budget" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.delete_budget">
+<span class="sig-name descname"><span class="pre">delete_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.delete_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.delete_budget" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.get_all_active_budgets">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_all_active_budgets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.get_all_active_budgets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.get_all_active_budgets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.get_budget_by_id">
+<span class="sig-name descname"><span class="pre">get_budget_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.get_budget_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.get_budget_by_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.get_budgets_by_category">
+<span class="sig-name descname"><span class="pre">get_budgets_by_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.get_budgets_by_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.get_budgets_by_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.get_budgets_by_user">
+<span class="sig-name descname"><span class="pre">get_budgets_by_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.get_budgets_by_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.get_budgets_by_user" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.send_low_budget_notification">
+<span class="sig-name descname"><span class="pre">send_low_budget_notification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_amount</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.send_low_budget_notification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.send_low_budget_notification" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.update_budget">
+<span class="sig-name descname"><span class="pre">update_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_amount</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.update_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.update_budget" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.budget.Budget.update_budget_amount">
+<span class="sig-name descname"><span class="pre">update_budget_amount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expense_amount</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expense_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/budget.html#Budget.update_budget_amount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.budget.Budget.update_budget_amount" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-models.category">
+<dt class="sig sig-object py" id="models.category.Category">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.category.</span></span><span class="sig-name descname"><span class="pre">Category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/category.html#Category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.category.Category" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="models.category.Category.create_category">
+<span class="sig-name descname"><span class="pre">create_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/category.html#Category.create_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.category.Category.create_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.category.Category.delete_category">
+<span class="sig-name descname"><span class="pre">delete_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/category.html#Category.delete_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.category.Category.delete_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.category.Category.get_categories_by_user">
+<span class="sig-name descname"><span class="pre">get_categories_by_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/category.html#Category.get_categories_by_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.category.Category.get_categories_by_user" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.category.Category.get_category_by_id">
+<span class="sig-name descname"><span class="pre">get_category_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/category.html#Category.get_category_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.category.Category.get_category_by_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.category.Category.update_category">
+<span class="sig-name descname"><span class="pre">update_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/category.html#Category.update_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.category.Category.update_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-models.expense">
+<dt class="sig sig-object py" id="models.expense.Expense">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.expense.</span></span><span class="sig-name descname"><span class="pre">Expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/expense.html#Expense"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.expense.Expense" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="models.expense.Expense.delete_expense">
+<span class="sig-name descname"><span class="pre">delete_expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expense_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/expense.html#Expense.delete_expense"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.expense.Expense.delete_expense" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.expense.Expense.get_expenses">
+<span class="sig-name descname"><span class="pre">get_expenses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_page</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/expense.html#Expense.get_expenses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.expense.Expense.get_expenses" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.expense.Expense.get_expenses_by_budget">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_expenses_by_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/expense.html#Expense.get_expenses_by_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.expense.Expense.get_expenses_by_budget" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.expense.Expense.update_expense">
+<span class="sig-name descname"><span class="pre">update_expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expense_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/expense.html#Expense.update_expense"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.expense.Expense.update_expense" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-models.receipt">
+<dt class="sig sig-object py" id="models.receipt.Receipt">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.receipt.</span></span><span class="sig-name descname"><span class="pre">Receipt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_connection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/receipt.html#Receipt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.receipt.Receipt" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Receipt class to handle receipt-related operations in the database.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.receipt.Receipt.db_connection">
+<span class="sig-name descname"><span class="pre">db_connection</span></span><a class="headerlink" href="#models.receipt.Receipt.db_connection" title="Link to this definition"></a></dt>
+<dd><p>A psycopg2 connection object to the PostgreSQL database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.receipt.Receipt.upload_receipt">
+<span class="sig-name descname"><span class="pre">upload_receipt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#models.receipt.Receipt.upload_receipt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.receipt.Receipt.process_receipt">
+<span class="sig-name descname"><span class="pre">process_receipt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">receipt_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">receipt_image_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/receipt.html#Receipt.process_receipt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.receipt.Receipt.process_receipt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.receipt.Receipt.save_receipt">
+<span class="sig-name descname"><span class="pre">save_receipt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_price</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/receipt.html#Receipt.save_receipt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.receipt.Receipt.save_receipt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-routes">
+<span id="routes"></span><h2>Routes<a class="headerlink" href="#module-routes" title="Link to this heading"></a></h2>
+<dl class="py function" id="module-routes.auth">
+<dt class="sig sig-object py" id="routes.auth.change_email">
+<span class="sig-prename descclassname"><span class="pre">routes.auth.</span></span><span class="sig-name descname"><span class="pre">change_email</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.auth.change_email" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.auth.change_password">
+<span class="sig-prename descclassname"><span class="pre">routes.auth.</span></span><span class="sig-name descname"><span class="pre">change_password</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.auth.change_password" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.auth.delete_account">
+<span class="sig-prename descclassname"><span class="pre">routes.auth.</span></span><span class="sig-name descname"><span class="pre">delete_account</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.auth.delete_account" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.auth.login">
+<span class="sig-prename descclassname"><span class="pre">routes.auth.</span></span><span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.auth.login" title="Link to this definition"></a></dt>
+<dd><p>Endpoint for user login. It receives username and password,
+authenticates them, and returns a success response if the
+authentication is successful, or an error response otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with login status.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Flask Response object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.auth.logout">
+<span class="sig-prename descclassname"><span class="pre">routes.auth.</span></span><span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.auth.logout" title="Link to this definition"></a></dt>
+<dd><p>Endpoint for user logout. It ends the user’s session and clears the session cookie.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response indicating logout success.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Flask Response object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.auth.register">
+<span class="sig-prename descclassname"><span class="pre">routes.auth.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.auth.register" title="Link to this definition"></a></dt>
+<dd><p>Endpoint for user registration. It receives user data, validates it,
+and attempts to register a new user. Returns a success response with user ID
+on successful registration or an error response otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON response with registration status.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Flask Response object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-routes.budget">
+<dt class="sig sig-object py" id="routes.budget.create_budget">
+<span class="sig-prename descclassname"><span class="pre">routes.budget.</span></span><span class="sig-name descname"><span class="pre">create_budget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.budget.create_budget" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.budget.delete_budget">
+<span class="sig-prename descclassname"><span class="pre">routes.budget.</span></span><span class="sig-name descname"><span class="pre">delete_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#routes.budget.delete_budget" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.budget.get_budget">
+<span class="sig-prename descclassname"><span class="pre">routes.budget.</span></span><span class="sig-name descname"><span class="pre">get_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#routes.budget.get_budget" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.budget.get_budgets_by_category">
+<span class="sig-prename descclassname"><span class="pre">routes.budget.</span></span><span class="sig-name descname"><span class="pre">get_budgets_by_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#routes.budget.get_budgets_by_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.budget.get_user_budgets">
+<span class="sig-prename descclassname"><span class="pre">routes.budget.</span></span><span class="sig-name descname"><span class="pre">get_user_budgets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.budget.get_user_budgets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.budget.update_budget">
+<span class="sig-prename descclassname"><span class="pre">routes.budget.</span></span><span class="sig-name descname"><span class="pre">update_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#routes.budget.update_budget" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function" id="module-routes.category">
+<dt class="sig sig-object py" id="routes.category.create_category">
+<span class="sig-prename descclassname"><span class="pre">routes.category.</span></span><span class="sig-name descname"><span class="pre">create_category</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.category.create_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.category.delete_category">
+<span class="sig-prename descclassname"><span class="pre">routes.category.</span></span><span class="sig-name descname"><span class="pre">delete_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#routes.category.delete_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.category.get_user_categories">
+<span class="sig-prename descclassname"><span class="pre">routes.category.</span></span><span class="sig-name descname"><span class="pre">get_user_categories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.category.get_user_categories" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.category.update_category">
+<span class="sig-prename descclassname"><span class="pre">routes.category.</span></span><span class="sig-name descname"><span class="pre">update_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#routes.category.update_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function" id="module-routes.expense">
+<dt class="sig sig-object py" id="routes.expense.delete_expense">
+<span class="sig-prename descclassname"><span class="pre">routes.expense.</span></span><span class="sig-name descname"><span class="pre">delete_expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expense_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#routes.expense.delete_expense" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.expense.get_expenses">
+<span class="sig-prename descclassname"><span class="pre">routes.expense.</span></span><span class="sig-name descname"><span class="pre">get_expenses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.expense.get_expenses" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.expense.update_expense">
+<span class="sig-prename descclassname"><span class="pre">routes.expense.</span></span><span class="sig-name descname"><span class="pre">update_expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expense_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#routes.expense.update_expense" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function" id="module-routes.receipt">
+<dt class="sig sig-object py" id="routes.receipt.save_receipt">
+<span class="sig-prename descclassname"><span class="pre">routes.receipt.</span></span><span class="sig-name descname"><span class="pre">save_receipt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.receipt.save_receipt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routes.receipt.upload_receipt">
+<span class="sig-prename descclassname"><span class="pre">routes.receipt.</span></span><span class="sig-name descname"><span class="pre">upload_receipt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#routes.receipt.upload_receipt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-utilities">
+<span id="utilities"></span><h2>Utilities<a class="headerlink" href="#module-utilities" title="Link to this heading"></a></h2>
+<dl class="py function" id="module-utilities.db_connection">
+<span id="module-utilities.budget_notify"></span><dt class="sig sig-object py" id="utilities.db_connection.get_db_connection">
+<span class="sig-prename descclassname"><span class="pre">utilities.db_connection.</span></span><span class="sig-name descname"><span class="pre">get_db_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/db_connection.html#get_db_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.db_connection.get_db_connection" title="Link to this definition"></a></dt>
+<dd><p>Establishes a connection to the database using the DATABASE_URL environment variable.</p>
+<p>The DATABASE_URL should be in the format: ‘postgresql://username:password&#64;host:port/dbname’.
+If the port is not specified, the default PostgreSQL port 5432 is used. Typically it will just be 5432 unless you specified otherwise</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>EnvironmentError</strong> – If the DATABASE_URL is not set, cannot be parsed,</p></li>
+<li><p><strong>ValueError</strong> – If the DATABASE_URL format is invalid</p></li>
+<li><p><strong>ConnectionError</strong> – If database connection failed</p></li>
+<li><p><strong>RuntimeError</strong> – Any other unexpected issue occurs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A connection object to the PostgreSQL database.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>psycopg2.connection</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class" id="module-utilities.errors">
+<dt class="sig sig-object py" id="utilities.errors.ApiResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utilities.errors.</span></span><span class="sig-name descname"><span class="pre">ApiResponse</span></span><a class="reference internal" href="_modules/utilities/errors.html#ApiResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.errors.ApiResponse" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.errors.ApiResponse.error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/errors.html#ApiResponse.error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.errors.ApiResponse.error" title="Link to this definition"></a></dt>
+<dd><p>Generate an error response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) – Error message.</p></li>
+<li><p><strong>status</strong> (<em>int</em>) – HTTP status code.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Response object with JSON data and status code.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.errors.ApiResponse.success">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">success</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Success'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/errors.html#ApiResponse.success"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.errors.ApiResponse.success" title="Link to this definition"></a></dt>
+<dd><p>Generate a success response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) – Success message.</p></li>
+<li><p><strong>data</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional data to include in the response.</p></li>
+<li><p><strong>status</strong> (<em>int</em>) – HTTP status code.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Response object with JSON data &amp; status code.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-utilities.ocr">
+<dt class="sig sig-object py" id="utilities.ocr.OCRProcessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utilities.ocr.</span></span><span class="sig-name descname"><span class="pre">OCRProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tesseract_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/ocr.html#OCRProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.ocr.OCRProcessor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.ocr.OCRProcessor.extract_text">
+<span class="sig-name descname"><span class="pre">extract_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/utilities/ocr.html#OCRProcessor.extract_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.ocr.OCRProcessor.extract_text" title="Link to this definition"></a></dt>
+<dd><p>Extract text from an image using OCR.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_path</strong> (<em>str</em>) – Path to the image file.</p></li>
+<li><p><strong>preprocess</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to preprocess the image. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Extracted text.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-utilities.prediction">
+<dt class="sig sig-object py" id="utilities.prediction.Predictor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utilities.prediction.</span></span><span class="sig-name descname"><span class="pre">Predictor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ocr_processor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vectorizer_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/prediction.html#Predictor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.prediction.Predictor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.prediction.Predictor.extract_total_price">
+<span class="sig-name descname"><span class="pre">extract_total_price</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/prediction.html#Predictor.extract_total_price"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.prediction.Predictor.extract_total_price" title="Link to this definition"></a></dt>
+<dd><p>Extract the total price from a receipt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_path</strong> (<em>str</em>) – The path to the receipt image.</p></li>
+<li><p><strong>preprocess</strong> (<em>bool</em>) – Whether to preprocess the image before OCR. Defaults to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The extracted total price, or None if not found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.prediction.Predictor.predict_category">
+<span class="sig-name descname"><span class="pre">predict_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">receipt_text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/prediction.html#Predictor.predict_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.prediction.Predictor.predict_category" title="Link to this definition"></a></dt>
+<dd><p>Predict the category of a receipt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>receipt_text</strong> (<em>str</em>) – Text extracted from the receipt.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted category.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-utilities.session_manager">
+<dt class="sig sig-object py" id="utilities.session_manager.SessionManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utilities.session_manager.</span></span><span class="sig-name descname"><span class="pre">SessionManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">flask.Flask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/session_manager.html#SessionManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.session_manager.SessionManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.session_manager.SessionManager.create_session">
+<span class="sig-name descname"><span class="pre">create_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/session_manager.html#SessionManager.create_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.session_manager.SessionManager.create_session" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.session_manager.SessionManager.end_session">
+<span class="sig-name descname"><span class="pre">end_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/session_manager.html#SessionManager.end_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.session_manager.SessionManager.end_session" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.session_manager.SessionManager.get_user_id">
+<span class="sig-name descname"><span class="pre">get_user_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/session_manager.html#SessionManager.get_user_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.session_manager.SessionManager.get_user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.session_manager.SessionManager.is_session_valid">
+<span class="sig-name descname"><span class="pre">is_session_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/session_manager.html#SessionManager.is_session_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.session_manager.SessionManager.is_session_valid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="utilities.session_manager.SessionManager.refresh_session">
+<span class="sig-name descname"><span class="pre">refresh_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utilities/session_manager.html#SessionManager.refresh_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utilities.session_manager.SessionManager.refresh_session" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="ExpensEase Backend Function Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Team 3D - UoP.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
