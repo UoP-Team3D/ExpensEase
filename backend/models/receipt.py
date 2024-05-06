@@ -26,7 +26,6 @@ class Receipt:
         self.db_connection = db_connection
         self.ocr_processor = OCRProcessor()
 
-        # TODO: adapt this? idk yet
         current_dir = os.path.dirname(os.path.abspath(__file__))
         model_path = os.path.join(current_dir, '..', 'machine', 'model.pkl')
         vectorizer_path = os.path.join(current_dir, '..', 'machine', 'vectorizer.pkl')

@@ -182,6 +182,9 @@ When introducing big changes to the backend, or minor, run `pytest` whilst in th
 After this is done, the backend is ran by running the `run.py` file. This file would then create the Flask backend in development mode. Your IDE can handle the running of the python file, or you can simply just run `python run.py` to run it in a terminal or command line.
 
 ### Frontend
+
+To run the frontend, you'll need React-JS, npm and Node.js. You can install these online or via your package manager. Once installed, you are able to run the frontend.
+
 | :boom: DANGER              |
 |:---------------------------|
 | **AS OF *02/05/2024*, EXPENSEASE DOESN'T USE CORS ANYMORE. FRONTEND AND BACKEND RUN TOGETHER** |
