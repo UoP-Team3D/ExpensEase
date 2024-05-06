@@ -33,12 +33,9 @@ const Header = () => {
   return (
     <header>
       <nav className='navbar'>
-        <div className="hamburger-menu" onClick={handleToggleMenu}>
-          <div className="line"></div>
-          <div className="line"></div>
-          <div className="line"></div>
-        </div>
+        <div>
         <img src="/Logo.png" alt="Logo" style={{ width: '50px', height: '50px' }} />
+        </div>
         <ul className={`nav-links ${showMenu ? 'show' : ''}`}>
           <li><NavLink to="/home" activeClassName='active'>Home</NavLink></li>
           <li><NavLink to="/budget-managing" activeClassName='active'>Manager</NavLink></li>
@@ -47,6 +44,11 @@ const Header = () => {
           <li><NavLink to="/settings" activeClassName='active'>Settings</NavLink></li>
           <li><NavLink to="/" onClick={handleLogout}>Logout</NavLink></li>
         </ul>
+        <div className="hamburger-menu" onClick={handleToggleMenu}>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+        </div>
       </nav>
     </header>
   );

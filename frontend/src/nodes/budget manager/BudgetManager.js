@@ -51,10 +51,11 @@ const BudMan = () => {
 
   return (
     <article>
+      <section>
+        <button><NavLink to="/create-budget">Create new budget</NavLink></button>
+        <button><NavLink to="/category-managing">Manage your categories</NavLink></button>
       {budgets.length > 0 ? (
-        <section>
-          <button><NavLink to="/create-budget">Create new budget</NavLink></button>
-          <button><NavLink to="/category-managing">Manage your categories</NavLink></button>
+          <>
           <h1>List of your budgets:</h1>
           <ul>
             {budgets.map((item) => (
@@ -67,12 +68,13 @@ const BudMan = () => {
                 </button>
                 <button onClick={() => deleteBudgetByIndex(item.budget_id)}>Delete</button>
               </li>
-            ))}
-          </ul>
-        </section>
+              ))}
+            </ul>
+          </> 
       ) : (
-        <h1>Create your first budget-plan</h1>
+        <h1>You have no budget-plans </h1>
       )}
+      </section>
     </article>
   );
 };

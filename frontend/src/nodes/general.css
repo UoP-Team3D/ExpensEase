@@ -4,6 +4,8 @@
 
 article {
   margin: 0 10px;
+  max-width: 40rem;
+  margin:auto;
 }
 
 /* Modify the .grid class to have 3 equal columns */

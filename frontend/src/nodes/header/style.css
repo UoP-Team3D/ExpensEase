@@ -43,6 +43,7 @@
     background-color: darkorange;
     overflow: hidden;
     position: relative;
+    display: flex;
 }
 
 .navbar ul {
@@ -87,7 +88,11 @@
     margin: 5px 0;
 }
 
-@media (max-width: 500px) {
+img{
+    margin: 8px;
+}
+
+@media (max-width: 750px) {
     .navbar ul {
         list-style-type: none;
         margin: 0;
