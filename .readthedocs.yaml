@@ -5,7 +5,7 @@ build:
   python: "3.12.3"
 
 formats:
-  - html
+  - htmlzip
 
 # Skip automatic documentation build
 sphinx:
