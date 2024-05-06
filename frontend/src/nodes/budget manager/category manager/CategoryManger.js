@@ -1,178 +1,150 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const CatMan = () => {
-
-    const categoryData = "http://127.0.0.1:5000/api/v1/category/";
-
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [editingCategoryId, setEditingCategoryId] = useState(null);
-    const [newCategory, setNewCategory] = useState(null);
+    const [newCategory, setNewCategory] = useState('');
+    const [editName, setEditName] = useState('');
 
-    const categories = [    ];
-
-    fetch(categoryData, {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json', },
-        credentials: 'include'
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Server response was not ok');
-        }
-        return response.json(); 
-    })
-    .then(data => {
-        console.log('Success:', data);
-        categories = data;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-                
-   
-
-    const deleteCategoryById = (id) => {
-        deleteCategory(id)
-      };
-
-    function deleteCategory(id) {
-    fetch(categoryData+id, { 
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to delete category');
-        }
-        console.log('Category deleted successfully');
-    })
-    .catch(error => {
-        console.error('Error:', error); 
-    });
-    }
-
-    function updateCategory(id){
-        fetch(categoryData+id, { 
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-        })
-        .then(response => {
-            if (!response.ok) {
-                console.log('Failed to Update category');
-                return false
+    const fetchCategories = async () => {
+        const categoryData = "http://127.0.0.1:5000/api/v1/category/";
+        try {
+            const response = await fetch(categoryData, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include'
+            });
+            const json = await response.json();
+            if (response.ok) {
+                setCategories(json.data);
+            } else {
+                throw new Error(json.message || 'Failed to fetch categories');
             }
-            console.log('Category updated successfully');
-            return true
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error:', error);
-            return false
-        });
-    }
-   
-
-    const startEditing = (categoryId) => {
-        setEditingCategoryId(categoryId);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const getCategoryId = (id) => {
-        const update = updateCategory(id);
-        if(update){
-            console.log('Updated category:', categories[id]);
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const deleteCategoryById = async (id) => {
+        const categoryData = `http://127.0.0.1:5000/api/v1/category/${id}`;
+        try {
+            const response = await fetch(categoryData, {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete category');
+            }
+            fetchCategories(); // Refresh categories after deletion
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const updateCategory = async (id) => {
+        if (!editName.trim()) {
+            alert('Category name cannot be empty.');
+            return;
+        }
+        const categoryData = `http://127.0.0.1:5000/api/v1/category/${id}`;
+        const data = { category_name: editName };
+        try {
+            const response = await fetch(categoryData, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data),
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update category');
+            }
+            fetchCategories(); // Refresh categories after update
             setEditingCategoryId(null);
-        }
-        
-    };
-
-    const cancelEdit = () => {
-        setEditingCategoryId(null);
-    };
-
-    function createNewCategory(){
-        fetch(categoryData, { 
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-        })
-        .then(response => {
-            if (!response.ok) {
-                console.log('Failed to create category');
-                return false
-            }
-            console.log('Category created successfully');
-            return true
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error:', error);
-        });
-    }
-
-    const inputChange = (event) => {
-        setNewCategory(event.target.value);
+        }
     };
-    
 
-    return(
+    const createNewCategory = async () => {
+        if (!newCategory.trim()) {
+            alert('Category name cannot be empty.');
+            return;
+        }
+        const categoryData = `http://127.0.0.1:5000/api/v1/category/`;
+        const data = { category_name: newCategory };
+        try {
+            const response = await fetch(categoryData, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data),
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to create category');
+            }
+            fetchCategories(); // Refresh categories after creation
+            setNewCategory('');
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    return (
         <article>
             <section>
-                <div>
-                    <h4>Create new category:</h4>
-                    <p>Add a new category so you can have better control over where you spend your money.</p>
-                    <input type="text" placeholder='new category name' value={newCategory} onChange={inputChange} /><br/>
-                    <button onClick={createNewCategory}>Create new category</button>
-                </div>
-                <h1>List of your categories:</h1>
-                {categories.length? <ul>
-                    {Object.values(categories).map((item) => (
-                        <li key={item.category_id}>
-                            {editingCategoryId === item.category_id ? (
-                                <>
-                                    <input 
-                                        type="text" 
-                                        value={item.category_name}  
-                                    />
-                                    <button onClick={() => getCategoryId(item.category_id)}>Update</button>
-                                    <button onClick={cancelEdit}>Cancel</button>
-                                </>
+                <h1>Manage Your Categories</h1>
+                {loading ? (
+                    <p>Loading categories...</p>
+                ) : (
+                    <ul>
+                        {categories.map(category => (
+                            <li key={category.category_id}>
+                                {editingCategoryId === category.category_id ? (
+                                    <>
+                                        <input
+                                            type="text"
+                                            value={editName}
+                                            onChange={e => setEditName(e.target.value)}
+                                        />
+                                        <button onClick={() => updateCategory(category.category_id)}>Save</button>
+                                        <button onClick={() => setEditingCategoryId(null)}>Cancel</button>
+                                        </>
                             ) : (
                                 <>
-                                    <span>Category name: {item.category_name}</span><br />
-                                    <button onClick={() => startEditing(item.category_id)}>Edit</button>
-                                    <button onClick={() => deleteCategoryById(item.category_id)}>Delete</button>
+                                    <span>{category.category_name}</span>
+                                    <button onClick={() => {
+                                        setEditingCategoryId(category.category_id);
+                                        setEditName(category.category_name);
+                                    }}>Edit</button>
+                                    <button onClick={() => deleteCategoryById(category.category_id)}>Delete</button>
                                 </>
                             )}
                         </li>
                     ))}
-                </ul>:
-                <em>Cannot get categories</em>
-                }
-            </section>
-        </article>
-        /*<article>
-                <section>
-                    
-                    <h1>List of your budgets:</h1>
-                    <ul>
-                        {Object.values(categories).map((item, ) => (
-                                <li key={index} id={item.category_id}>
-                                    <span>Category name: {item.category_name}</span><br/>
-                                    
-                                    <button>
-                                    <NavLink to={`/edit/${index}`}>Edit</NavLink>
-                                    </button>
-                                    <button id={item.category_id} onClick={deleteCategoryById}>Delete</button>
-                                </li>
-                            ))}
-                    </ul>
-                </section>
-            
-        </article>
-
-                            */
-    )
+                </ul>
+            )}
+            <div>
+                <h4>Create new category:</h4>
+                <input
+                    type="text"
+                    placeholder="New category name"
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                />
+                <button onClick={createNewCategory}>Create</button>
+            </div>
+        </section>
+    </article>
+);
 }
 
 export default CatMan;
-
