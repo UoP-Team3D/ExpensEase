@@ -167,3 +167,26 @@ class Budget:
 
         print(f"Email generated: {message}")
         print(f"Low budget notification sent to {user_email} for category '{category_name}'!")        
+
+    def get_budgets_by_category(self, user_id, category_id):
+        with self.db_connection.cursor() as cursor:
+            query = """
+            SELECT budget_id, user_id, category_id, total_amount, current_amount, start_date, end_date
+            FROM public."Budget"
+            WHERE user_id = %s AND category_id = %s;
+            """
+            cursor.execute(query, (user_id, category_id))
+            rows = cursor.fetchall()
+            budgets = []
+            for row in rows:
+                budget = {
+                    'budget_id': row[0],
+                    'user_id': row[1],
+                    'category_id': row[2],
+                    'total_amount': float(row[3]),
+                    'current_amount': float(row[4]),
+                    'start_date': row[5].strftime('%Y-%m-%d'),
+                    'end_date': row[6].strftime('%Y-%m-%d')
+                }
+                budgets.append(budget)
+            return budgets

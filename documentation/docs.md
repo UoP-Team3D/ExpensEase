@@ -307,6 +307,44 @@
       }
       ```
 
+### Get Budgets by Category
+
+- Endpoint: `GET /api/v1/budget/category/<int:category_id>`
+- Description: Retrieve all budgets for a specific category ID.
+- URL Parameters:
+  - `category_id`: ID of the category to retrieve budgets for.
+- Response:
+  - Success:
+    - Status Code: 200
+    - Body:
+      ```json
+      {
+        "success": true,
+        "message": "Budgets retrieved successfully",
+        "data": [
+          {
+            "budget_id": integer,
+            "user_id": integer,
+            "category_id": integer,
+            "total_amount": number,
+            "current_amount": number,
+            "start_date": "string" (YYYY-MM-DD),
+            "end_date": "string" (YYYY-MM-DD)
+          },
+          ...
+        ]
+      }
+      ```
+  - Error:
+    - Status Code: 401 (Unauthorized)
+    - Body:
+      ```json
+      {
+        "success": false,
+        "message": "Invalid session token"
+      }
+      ```
+
 ## Expenses (expense.py)
 
 ### Get Expenses
