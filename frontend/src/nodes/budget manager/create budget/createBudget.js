@@ -163,7 +163,6 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { NavLink } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
-import './../general.css';
 
 const CreateBudget = () => {
     const [selectedValue, setSelectedValue] = useState('');
