@@ -13,4 +13,4 @@ sphinx:
 
 python:
   install:
-    - requirements: backend/requirements.txt
+    - requirements: backend/docs/requirements.txt
