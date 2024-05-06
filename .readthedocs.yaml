@@ -4,14 +4,12 @@ build:
   os: "ubuntu-22.04"
   tools:
     python: "3.12"
-  commands:
-    - sphinx-build -b html backend/docs/source backend/docs/build/html
-    
+
 formats:
   - htmlzip
 
 sphinx:
-  configuration: "backend/docs/source/conf.py"
+  configuration: backend/docs/source/conf.py
 
 python:
   install:
