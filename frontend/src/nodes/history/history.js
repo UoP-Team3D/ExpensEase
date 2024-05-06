@@ -95,8 +95,8 @@ const History = () => {
                     {expenses.map((expense, index) => (
                         <div key={index} className="receipt-entry">
                             <div className="receipt-date">{expense.date}</div>
-                            <div className="receipt-description">{expense.description}</div>
-                            <div className="receipt-amount">{expense.amount}</div>
+                            <div className="receipt-description">{expense.category}</div> {/* Changed from expense.description to expense.category */}
+                            <div className="receipt-amount">£{expense.amount.toFixed(2)}</div>
                         </div>
                     ))}
                 </div>
