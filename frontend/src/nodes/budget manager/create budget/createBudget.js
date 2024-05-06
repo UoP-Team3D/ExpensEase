@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import '../CreateBudget.css';
 
 Chart.register(ArcElement, Title, Tooltip, Legend);
 
@@ -122,13 +123,24 @@ const CreateBudget = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <article className="create-container">
+        <section className="create-header">
+          <h1>Create Budget</h1>
+        </section>
+        <section className="loading">
+          <p>Loading...</p>
+        </section>
+      </article>
+    );
   }
 
   return (
-    <article>
-      <h1>Create Budget</h1>
-      <div>
+    <article className="create-container">
+      <section className="create-header">
+        <h1>Create Budget</h1>
+      </section>
+      <section className="create-form">
         <div>
           <label>Category: </label>
           <select value={selectedValue} onChange={handleDropdownChange} required>
@@ -166,13 +178,15 @@ const CreateBudget = () => {
             placeholderText="Select end date"
           />
         </div>
-        <div>
-          <button><NavLink to="/budget-managing">Cancel</NavLink></button>
-          <button onClick={createBudget}>Create Budget</button>
-        </div>
-      </div>
+      </section>
+      <section className="create-actions">
+        <button className="create-button cancel-button">
+          <NavLink to="/budget-managing">Cancel</NavLink>
+        </button>
+        <button className="create-button submit-button" onClick={createBudget}>Create Budget</button>
+      </section>
       {chartData && (
-        <div>
+        <section className="budget-overview">
           <h2>Budget Overview</h2>
           <Pie
             data={chartData}
@@ -188,7 +202,7 @@ const CreateBudget = () => {
               }
             }}
           />
-        </div>
+        </section>
       )}
     </article>
   );

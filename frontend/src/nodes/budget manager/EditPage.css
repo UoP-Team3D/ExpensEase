@@ -1,0 +1,53 @@
+.edit-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+  }
+  
+  .edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .edit-details {
+    margin-bottom: 20px;
+  }
+  
+  .edit-details div {
+    margin-bottom: 10px;
+  }
+  
+  .edit-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .edit-button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cancel-button {
+    background-color: #f44336;
+  }
+  
+  .update-button {
+    background-color: #4caf50;
+  }
+  
+  .loading,
+  .error,
+  .no-data {
+    text-align: center;
+    padding: 20px;
+  }

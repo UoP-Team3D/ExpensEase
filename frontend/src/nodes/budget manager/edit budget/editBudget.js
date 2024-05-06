@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
+import '../EditPage.css';
 
 const EditPage = () => {
   const { id } = useParams();
@@ -100,21 +101,43 @@ const EditPage = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <article className="edit-container">
+        <section className="edit-header">
+          <h1>Edit Budget</h1>
+        </section>
+        <section className="loading">
+          <p>Loading...</p>
+        </section>
+      </article>
+    );
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <article className="edit-container">
+        <section className="edit-header">
+          <h1>Edit Budget</h1>
+        </section>
+        <section className="error">
+          <p>{error}</p>
+        </section>
+      </article>
+    );
   }
 
   return (
-    <article>
-      <h1>Edit Budget</h1>
+    <article className="edit-container">
+      <section className="edit-header">
+        <h1>Edit Budget</h1>
+      </section>
       {!item ? (
-        <p>Cannot fetch data for budget ID {id}</p>
+        <section className="no-data">
+          <p>Cannot fetch data for budget ID {id}</p>
+        </section>
       ) : (
         <>
-          <div>
+          <section className="edit-details">
             <div>
               <label>Category: </label>
               <p>{categories.find(category => category.category_id === selectedValue)?.category_name}</p>
@@ -135,11 +158,15 @@ const EditPage = () => {
               <label>End Date: </label>
               <p>{endDate}</p>
             </div>
-          </div>
-          <button>
-            <NavLink to="/budget-managing">Cancel</NavLink>
-          </button>
-          <button onClick={updateBudget}>Update Budget</button>
+          </section>
+          <section className="edit-actions">
+            <button className="edit-button cancel-button">
+              <NavLink to="/budget-managing">Cancel</NavLink>
+            </button>
+            <button className="edit-button update-button" onClick={updateBudget}>
+              Update Budget
+            </button>
+          </section>
         </>
       )}
     </article>

@@ -1,0 +1,98 @@
+.catman-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .catman-header {
+    margin-bottom: 20px;
+  }
+  
+  .category-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .category-item {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .category-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .category-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .catman-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  
+  .edit-button {
+    background-color: #FFC107;
+    color: white;
+  }
+  
+  .delete-button {
+    background-color: #F44336;
+    color: white;
+  }
+  
+  .save-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .cancel-button {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .category-edit-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  .create-category {
+    margin-top: 20px;
+  }
+  
+  .create-category-input {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .create-category-input input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  .create-button {
+    background-color: #4CAF50;
+    color: white;
+  }
