@@ -40,7 +40,6 @@ const Login = () => {
       })
       .then(data => {
         if (data.success) {
-          alert(`Login successful. Session token: ${data.sessionToken}`); // Check and alert the session token
           navigate('/home'); // Navigate to the home page after login
         } else {
           setError(data.message); // Set error message from server

@@ -9,6 +9,7 @@ article {
 /* Modify the .grid class to have 3 equal columns */
 .grid {
   display: grid;
+  align-items: center;
   grid-template-columns: 1fr 1fr 1fr; /* Updated to three columns */
   gap: 10px;
   padding: 10px;
@@ -16,6 +17,11 @@ article {
 }
 li{
   list-style: none;
+}
+.chart-dropdown{
+  display: flex;
+  max-width: 10rem;
+  margin: auto;
 }
 
 /* Additional class for budget text */

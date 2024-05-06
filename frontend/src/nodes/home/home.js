@@ -18,7 +18,7 @@ const RingPieChart = ({ categoryId }) => {
           throw new Error('Budget not found');
         }
         const json = await response.json();
-        setBudget(json.data[0]); // Assuming the API returns an array of budgets
+        setBudget(json.data[0]);
       } catch (error) {
         console.error('Failed to fetch budget:', error);
       } finally {
@@ -36,10 +36,27 @@ const RingPieChart = ({ categoryId }) => {
   }
 
   if (!budget) {
-    return <div>Budget not found</div>;
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <circle
+            r="70"
+            cx="100"
+            cy="100"
+            fill="transparent"
+            stroke="#E0E0E0"
+            strokeWidth="40"
+            strokeDasharray="440"
+          />
+        </svg>
+        <div className="budget-text" style={{ color: '#888' }}>
+          You don't have a budget for this category!
+        </div>
+      </div>
+    );
   }
 
-  const { total_amount, current_amount } = budget;
+  const { total_amount, current_amount, end_date } = budget;
   const spentAmount = total_amount - current_amount;
   const radius = 70;
   const circumference = 2 * Math.PI * radius;
@@ -78,7 +95,7 @@ const RingPieChart = ({ categoryId }) => {
         })}
       </svg>
       <div className="budget-text">
-        You have £{current_amount.toFixed(2)}/£{total_amount.toFixed(2)} budget left this month
+        You have £{current_amount.toFixed(2)}/£{total_amount.toFixed(2)} budget left until {end_date}
       </div>
     </div>
   );
@@ -192,26 +209,112 @@ const LatestScans = () => {
   );
 };
 
+const OverallBudgetChart = () => {
+  const [overallBudget, setOverallBudget] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOverallBudget = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/v1/budget/', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch overall budget');
+        }
+        const json = await response.json();
+        const budgets = json.data;
+        const totalAmount = budgets.reduce((sum, budget) => sum + budget.total_amount, 0);
+        const currentAmount = budgets.reduce((sum, budget) => sum + budget.current_amount, 0);
+        setOverallBudget({ total_amount: totalAmount, current_amount: currentAmount });
+      } catch (error) {
+        console.error('Failed to fetch overall budget:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOverallBudget();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!overallBudget) {
+    return <div>Overall budget not found</div>;
+  }
+
+  const { total_amount, current_amount } = overallBudget;
+  const spentAmount = total_amount - current_amount;
+  const radius = 70;
+  const circumference = 2 * Math.PI * radius;
+  const remainingPercentage = (current_amount / total_amount) * 100;
+  const spentPercentage = (spentAmount / total_amount) * 100;
+
+  const budgets = [
+    { color: '#4CAF50', percentage: remainingPercentage },
+    { color: '#F44336', percentage: spentPercentage }
+  ];
+
+  let accumulatedOffset = 0;
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        {budgets.map((budget, index) => {
+          const dashArray = (budget.percentage / 100) * circumference;
+          const dashOffset = -accumulatedOffset;
+          accumulatedOffset += dashArray;
+
+          return (
+            <circle
+              key={index}
+              r={radius}
+              cx="100"
+              cy="100"
+              fill="transparent"
+              stroke={budget.color}
+              strokeWidth="40"
+              strokeDasharray={`${dashArray} ${circumference - dashArray}`}
+              strokeDashoffset={dashOffset}
+              transform="rotate(-90 100 100)"
+            />
+          );
+        })}
+      </svg>
+      <div className="budget-text">
+        You have £{current_amount.toFixed(2)}/£{total_amount.toFixed(2)} overall budget
+      </div>
+    </div>
+  );
+};
+
 const Home = () => {
-  // State to keep track of the selected category ID
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   return (
     <article>
       <div className="grid see-outline">
-        {/* RingPieChart updated to use the selected category ID */}
-        <div><RingPieChart categoryId={selectedCategoryId} /></div> 
-
-        {/* Component to display the latest scans */}
-        <div className="span2"><LatestScans /></div>
-
-        {/* Dropdown for selecting categories that updates the pie chart */}
         <div>
-          <CategorySelector onCategoryChange={setSelectedCategoryId} />
+          {selectedCategoryId ? (
+            <div><RingPieChart categoryId={selectedCategoryId} /></div>
+          ) : (
+            <div><OverallBudgetChart /></div>
+          )}
+
+          <div className='chart-dropdown'>
+            <CategorySelector onCategoryChange={setSelectedCategoryId} />
+          </div>
         </div>
+
+        <div className="span2"><LatestScans /></div>
       </div>
     </article>
   );
-}
+};
 
 export default Home;
