@@ -4,7 +4,7 @@ build:
   os: "ubuntu-22.04"
   image: "latest"
   tools:
-    python: "3.12.3"
+    python: "3.12"
   commands:
     - sphinx-build -b html backend/docs/source backend/docs/build/html
 
