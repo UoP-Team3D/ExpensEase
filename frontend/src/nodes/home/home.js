@@ -18,7 +18,7 @@ const RingPieChart = ({ categoryId }) => {
           throw new Error('Budget not found');
         }
         const json = await response.json();
-        setBudget(json.data);
+        setBudget(json.data[0]); // Assuming the API returns an array of budgets
       } catch (error) {
         console.error('Failed to fetch budget:', error);
       } finally {
@@ -40,10 +40,11 @@ const RingPieChart = ({ categoryId }) => {
   }
 
   const { total_amount, current_amount } = budget;
+  const spentAmount = total_amount - current_amount;
   const radius = 70;
   const circumference = 2 * Math.PI * radius;
   const remainingPercentage = (current_amount / total_amount) * 100;
-  const spentPercentage = 100 - remainingPercentage;
+  const spentPercentage = (spentAmount / total_amount) * 100;
 
   const budgets = [
     { color: '#4CAF50', percentage: remainingPercentage },
@@ -77,7 +78,7 @@ const RingPieChart = ({ categoryId }) => {
         })}
       </svg>
       <div className="budget-text">
-        You have £{current_amount}/£{total_amount} budget left this month
+        You have £{current_amount.toFixed(2)}/£{total_amount.toFixed(2)} budget left this month
       </div>
     </div>
   );
