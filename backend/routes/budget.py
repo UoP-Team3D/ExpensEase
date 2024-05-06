@@ -99,3 +99,14 @@ def delete_budget(budget_id):
     budget_model.delete_budget(budget_id)
 
     return ApiResponse.success("Budget deleted successfully")
+
+@budget_blueprint.route('/category/<int:category_id>', methods=['GET'])
+def get_budgets_by_category(category_id):
+    session_manager = current_app.session_manager
+    user_id = session_manager.get_user_id(session.sid)
+    if not user_id:
+        return ApiResponse.error("Invalid session token", status=401)
+
+    budget_model = Budget(current_app.db_connection)
+    budgets = budget_model.get_budgets_by_category(user_id, category_id)
+    return ApiResponse.success("Budgets retrieved successfully", data=budgets)
