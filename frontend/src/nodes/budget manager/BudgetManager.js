@@ -57,7 +57,7 @@ const BudMan = () => {
           <button><NavLink to="/category-managing">Manage your categories</NavLink></button>
           <h1>List of your budgets:</h1>
           <ul>
-            {budgets.map((item, index) => (
+            {budgets.map((item) => (
               <li key={item.budget_id}>
                 <span>Total amount: £{item.total_amount}</span><br/>
                 <span>Start date: {item.start_date}</span><br/>
