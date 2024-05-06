@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './../general.css';
 
-const RingPieChart = ({ budgetId }) => {
-  const [budget, setBudget] = useState(0);
+const RingPieChart = ({ categoryId }) => {
+  const [budget, setBudget] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBudget = async () => {
+    const fetchBudgetByCategory = async () => {
       try {
-        const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
-        const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0];
-
-        const response = await fetch(`http://127.0.0.1:5000/api/v1/budget/${budgetId}`,{
+        const response = await fetch(`http://127.0.0.1:5000/api/v1/budget/category/${categoryId}`, {
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'include'
         });
 
@@ -23,9 +18,7 @@ const RingPieChart = ({ budgetId }) => {
           throw new Error('Budget not found');
         }
         const json = await response.json();
-        if (json.data.start_date === startDate && json.data.end_date === endDate) {
-          setBudget(json.data);
-        }
+        setBudget(json.data);
       } catch (error) {
         console.error('Failed to fetch budget:', error);
       } finally {
@@ -33,8 +26,10 @@ const RingPieChart = ({ budgetId }) => {
       }
     };
 
-    fetchBudget();
-  }, [budgetId]);
+    if (categoryId) {
+      fetchBudgetByCategory();
+    }
+  }, [categoryId]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -44,19 +39,18 @@ const RingPieChart = ({ budgetId }) => {
     return <div>Budget not found</div>;
   }
 
-  const totalBudget = budget.total_amount;
-  const remainingBudget = budget.current_amount;
+  const { total_amount, current_amount } = budget;
   const radius = 70;
   const circumference = 2 * Math.PI * radius;
-  const remainingPercentage = (remainingBudget / totalBudget) * 100;
+  const remainingPercentage = (current_amount / total_amount) * 100;
   const spentPercentage = 100 - remainingPercentage;
 
   const budgets = [
-    { color: '#4CAF50', percentage: remainingPercentage }, // Green for remaining budget
-    { color: '#F44336', percentage: spentPercentage }, // Red for spent budget
+    { color: '#4CAF50', percentage: remainingPercentage },
+    { color: '#F44336', percentage: spentPercentage }
   ];
 
-  let accumulatedOffset = 0; // Initialize accumulated offset
+  let accumulatedOffset = 0;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -64,7 +58,7 @@ const RingPieChart = ({ budgetId }) => {
         {budgets.map((budget, index) => {
           const dashArray = (budget.percentage / 100) * circumference;
           const dashOffset = -accumulatedOffset;
-          accumulatedOffset += dashArray; // Update accumulatedOffset for the next segment
+          accumulatedOffset += dashArray;
 
           return (
             <circle
@@ -83,9 +77,53 @@ const RingPieChart = ({ budgetId }) => {
         })}
       </svg>
       <div className="budget-text">
-        You have £{remainingBudget}/£{totalBudget} budget left this month
+        You have £{current_amount}/£{total_amount} budget left this month
       </div>
     </div>
+  );
+};
+
+const CategorySelector = ({ onCategoryChange }) => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/v1/category/', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to retrieve categories');
+        }
+        const json = await response.json();
+        setCategories(json.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return <div>Loading categories...</div>;
+  }
+
+  return (
+    <select onChange={e => onCategoryChange(e.target.value)} defaultValue="">
+      <option value="" disabled>Select your category</option>
+      {categories.map(category => (
+        <option key={category.category_id} value={category.category_id}>
+          {category.category_name}
+        </option>
+      ))}
+    </select>
   );
 };
 
@@ -154,14 +192,22 @@ const LatestScans = () => {
 };
 
 const Home = () => {
-  const budgetId = 1; // Example budget ID, you can set this based on your app's logic
+  // State to keep track of the selected category ID
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   return (
     <article>
       <div className="grid see-outline">
-        {/* Use the RingPieChart by referencing it directly since it's in the same file */}
-        <div><RingPieChart budgetId={budgetId} /></div> 
+        {/* RingPieChart updated to use the selected category ID */}
+        <div><RingPieChart categoryId={selectedCategoryId} /></div> 
+
+        {/* Component to display the latest scans */}
         <div className="span2"><LatestScans /></div>
+
+        {/* Dropdown for selecting categories that updates the pie chart */}
+        <div>
+          <CategorySelector onCategoryChange={setSelectedCategoryId} />
+        </div>
       </div>
     </article>
   );
