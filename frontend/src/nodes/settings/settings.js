@@ -13,7 +13,6 @@ const Settings = () => {
     const [currentEmail, setCurrentEmail] = useState('');
     const [newEmail, setNewEmail] = useState('');
 
-    
     const handleChangePassword = async () => {
         const url = 'http://127.0.0.1:5000/api/v1/change_password';
         
@@ -97,77 +96,94 @@ const Settings = () => {
         }
     };
 
+
     return (
-        <div className="settings">
+        <div className="settings-container">
             <div className="settings-header">
-                <i className="fas fa-cog settings-icon"></i>Account Settings
+                <i className="fas fa-cog settings-icon"></i>
+                <h1 className="settings-title">Account Settings</h1>
             </div>
-            {showPasswordForm ? (
-                <>
-                    <div className="password-input">
-                        <input
-                            type={showCurrentPassword ? 'text' : 'password'}
-                            placeholder="Current Password"
-                            value={currentPassword}
-                            onChange={(e) => setCurrentPassword(e.target.value)}
-                        />
-                        <i
-                            className={`fas fa-eye${showCurrentPassword ? '-slash' : ''} password-toggle`}
-                            onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                        ></i>
-                    </div>
-                    <div className="password-input">
-                        <input
-                            type={showNewPassword ? 'text' : 'password'}
-                            placeholder="New Password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                        />
-                        <i
-                            className={`fas fa-eye${showNewPassword ? '-slash' : ''} password-toggle`}
-                            onClick={() => setShowNewPassword(!showNewPassword)}
-                        ></i>
-                    </div>
-                    <button onClick={handleChangePassword} className="confirm-btn">
-                        Confirm Password Change
+            <div className="settings-content">
+                <div className="settings-section">
+                    <h2 className="section-title">Change Password</h2>
+                    {showPasswordForm ? (
+                        <div className="password-form">
+                            <div className="password-input">
+                                <input
+                                    type={showCurrentPassword ? 'text' : 'password'}
+                                    placeholder="Current Password"
+                                    value={currentPassword}
+                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                    className="input-field"
+                                />
+                                <i
+                                    className={`fas fa-eye${showCurrentPassword ? '-slash' : ''} password-toggle`}
+                                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                ></i>
+                            </div>
+                            <div className="password-input">
+                                <input
+                                    type={showNewPassword ? 'text' : 'password'}
+                                    placeholder="New Password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    className="input-field"
+                                />
+                                <i
+                                    className={`fas fa-eye${showNewPassword ? '-slash' : ''} password-toggle`}
+                                    onClick={() => setShowNewPassword(!showNewPassword)}
+                                ></i>
+                            </div>
+                            <button onClick={handleChangePassword} className="confirm-btn">
+                                Confirm Password Change
+                            </button>
+                        </div>
+                    ) : (
+                        <button onClick={() => setShowPasswordForm(true)} className="change-btn">
+                            Change Password
+                        </button>
+                    )}
+                </div>
+                <div className="settings-section">
+                    <h2 className="section-title">Change Email</h2>
+                    {showEmailForm ? (
+                        <div className="email-form">
+                            <input
+                                type="email"
+                                placeholder="Current Email"
+                                value={currentEmail}
+                                onChange={(e) => setCurrentEmail(e.target.value)}
+                                className="input-field"
+                            />
+                            <input
+                                type="email"
+                                placeholder="New Email"
+                                value={newEmail}
+                                onChange={(e) => setNewEmail(e.target.value)}
+                                className="input-field"
+                            />
+                            <button onClick={handleChangeEmail} className="confirm-btn">
+                                Confirm Email Change
+                            </button>
+                        </div>
+                    ) : (
+                        <button onClick={() => setShowEmailForm(true)} className="change-btn">
+                            Change Email
+                        </button>
+                    )}
+                </div>
+                <div className="settings-section">
+                    <h2 className="section-title">Delete Account</h2>
+                    <button
+                        onClick={() => {
+                            if (window.confirm('Are you sure you want to delete your account?')) handleDeleteAccount();
+                        }}
+                        className="delete-account-btn"
+                    >
+                        Delete Account
                     </button>
-                </>
-            ) : (
-                <button onClick={() => setShowPasswordForm(true)} className="change-btn">
-                    Change Password
-                </button>
-            )}
-            {showEmailForm ? (
-                <>
-                    <input
-                        type="email"
-                        placeholder="Current Email"
-                        value={currentEmail}
-                        onChange={(e) => setCurrentEmail(e.target.value)}
-                    />
-                    <input
-                        type="email"
-                        placeholder="New Email"
-                        value={newEmail}
-                        onChange={(e) => setNewEmail(e.target.value)}
-                    />
-                    <button onClick={handleChangeEmail} className="confirm-btn">
-                        Confirm Email Change
-                    </button>
-                </>
-            ) : (
-                <button onClick={() => setShowEmailForm(true)} className="change-btn">
-                    Change Email
-                </button>
-            )}
-            <button
-                onClick={() => {
-                    if (window.confirm('Are you sure you want to delete your account?')) handleDeleteAccount();
-                }}
-                className="delete-account-btn"
-            >
-                Delete Account
-            </button>
+                </div>
+            </div>
         </div>
     );
 };

@@ -298,23 +298,24 @@ const Home = () => {
 
   return (
     <article>
-      <div className="grid see-outline">
-        <div>
+      <div className="grid">
+        <div className="chart-container">
           {selectedCategoryId ? (
-            <div><RingPieChart categoryId={selectedCategoryId} /></div>
+            <RingPieChart categoryId={selectedCategoryId} />
           ) : (
-            <div><OverallBudgetChart /></div>
+            <OverallBudgetChart />
           )}
 
-          <div className='chart-dropdown'>
+          <div className="chart-dropdown">
             <CategorySelector onCategoryChange={setSelectedCategoryId} />
           </div>
         </div>
 
-        <div className="span2"><LatestScans /></div>
+        <div className="latest-scans-container">
+          <LatestScans />
+        </div>
       </div>
     </article>
   );
 };
-
 export default Home;

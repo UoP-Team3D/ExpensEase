@@ -1,53 +1,80 @@
 .create-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f5f5f5;
-  }
-  
-  .create-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .create-form {
-    margin-bottom: 20px;
-  }
-  
-  .create-form div {
-    margin-bottom: 10px;
-  }
-  
-  .create-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-  }
-  
-  .create-button {
-    margin-left: 10px;
-    padding: 8px 16px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .cancel-button {
-    background-color: #f44336;
-  }
-  
-  .submit-button {
-    background-color: #4caf50;
-  }
-  
-  .loading,
-  .budget-overview {
-    text-align: center;
-    padding: 20px;
-  }
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.create-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.create-header h1 {
+  font-size: 32px;
+  color: #333;
+}
+
+.create-form {
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form-select,
+.form-input,
+.form-datepicker {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.create-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.budget-overview {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.budget-overview h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.chart-container {
+  max-width: 400px;
+  margin: 0 auto;
+}

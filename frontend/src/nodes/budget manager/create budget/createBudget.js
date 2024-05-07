@@ -141,9 +141,9 @@ const CreateBudget = () => {
         <h1>Create Budget</h1>
       </section>
       <section className="create-form">
-        <div>
-          <label>Category: </label>
-          <select value={selectedValue} onChange={handleDropdownChange} required>
+        <div className="form-group">
+          <label>Category:</label>
+          <select value={selectedValue} onChange={handleDropdownChange} required className="form-select">
             <option value="" disabled>Select category</option>
             {categories.map((category) => (
               <option key={category.category_id} value={category.category_id}>
@@ -152,12 +152,12 @@ const CreateBudget = () => {
             ))}
           </select>
         </div>
-        <div>
-          <label>Total amount: </label>
-          <input type="number" placeholder="Budget amount" value={totalAmount} onChange={handleTotalAmountChange} />
+        <div className="form-group">
+          <label>Total amount:</label>
+          <input type="number" placeholder="Budget amount" value={totalAmount} onChange={handleTotalAmountChange} className="form-input" />
         </div>
-        <div>
-          <label>Start Date: </label>
+        <div className="form-group">
+          <label>Start Date:</label>
           <DatePicker
             selected={startDate}
             onChange={handleStartDateChange}
@@ -165,9 +165,11 @@ const CreateBudget = () => {
             startDate={startDate}
             endDate={endDate}
             placeholderText="Select start date"
+            className="form-datepicker"
           />
-          <br />
-          <label>End Date: </label>
+        </div>
+        <div className="form-group">
+          <label>End Date:</label>
           <DatePicker
             selected={endDate}
             onChange={handleEndDateChange}
@@ -176,6 +178,7 @@ const CreateBudget = () => {
             endDate={endDate}
             minDate={startDate}
             placeholderText="Select end date"
+            className="form-datepicker"
           />
         </div>
       </section>
@@ -188,20 +191,22 @@ const CreateBudget = () => {
       {chartData && (
         <section className="budget-overview">
           <h2>Budget Overview</h2>
-          <Pie
-            data={chartData}
-            options={{
-              plugins: {
-                legend: {
-                  position: 'bottom'
-                },
-                title: {
-                  display: true,
-                  text: `Budget Overview for Category ${selectedValue}`
+          <div className="chart-container">
+            <Pie
+              data={chartData}
+              options={{
+                plugins: {
+                  legend: {
+                    position: 'bottom'
+                  },
+                  title: {
+                    display: true,
+                    text: `Budget Overview for Category ${selectedValue}`
+                  }
                 }
-              }
-            }}
-          />
+              }}
+            />
+          </div>
         </section>
       )}
     </article>

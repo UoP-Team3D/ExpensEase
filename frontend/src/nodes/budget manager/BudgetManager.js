@@ -50,7 +50,7 @@ const BudMan = () => {
   return (
     <article className="budman-container">
       <section className="budman-header">
-        <h1>Budget Management</h1>
+        <h1>Budget Management</h1><br/>
         <div className="budman-actions">
           <button className="budman-button create-button">
             <NavLink to="/create-budget">Create New Budget</NavLink>

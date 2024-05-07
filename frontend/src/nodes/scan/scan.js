@@ -120,78 +120,83 @@ const Scan = () => {
 
   return (
     <article className="scan-container">
-      <h1>Scan Your Receipts</h1>
+      <h1 className="scan-heading">Scan Your Receipts</h1>
       <div className="scan-section">
-        <h2>Add Image</h2>
-        <input
-          type="file"
-          accept="image/*"
-          capture="camera"
-          onChange={handleFileChange}
-        />
+        <h2 className="scan-subheading">Add Image</h2>
+        <div className="file-input-container">
+          <input
+            type="file"
+            accept="image/*"
+            capture="camera"
+            onChange={handleFileChange}
+            className="file-input"
+          />
+        </div>
         <button onClick={handleSubmit} className="scan-button submit-button">
           Submit
         </button>
         {imagePreviewUrl && (
           <div className="preview-container">
-            <h3>Preview</h3>
+            <h3 className="preview-heading">Preview</h3>
             <img src={imagePreviewUrl} alt="Preview" className="preview-image" />
           </div>
         )}
         {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
       </div>
       {showConfirmation && (
-  <div className="confirmation-popup">
-    <div className="confirmation-content">
-      <h3>Confirm Receipt Details</h3>
-      <p className="prediction-text">We've predicted the following...</p>
-      <div className="receipt-details">
-        <div className="detail-field">
-          <label>Category:</label>
-          <select
-            value={editedCategory}
-            onChange={(e) => setEditedCategory(e.target.value)}
-          >
-            {categories.map((category) => (
-              <option
-                key={category.category_id}
-                value={category.category_name}
+        <div className="confirmation-popup">
+          <div className="confirmation-content">
+            <h3 className="confirmation-heading">Confirm Receipt Details</h3>
+            <p className="prediction-text">We've predicted the following...</p>
+            <div className="receipt-details">
+              <div className="detail-field">
+                <label className="detail-label">Category:</label>
+                <select
+                  value={editedCategory}
+                  onChange={(e) => setEditedCategory(e.target.value)}
+                  className="detail-select"
+                >
+                  {categories.map((category) => (
+                    <option
+                      key={category.category_id}
+                      value={category.category_name}
+                    >
+                      {category.category_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="detail-field">
+                <label className="detail-label">Total Price:</label>
+                <div className="price-input">
+                  <span className="price-symbol">£</span>
+                  <input
+                    type="text"
+                    value={editedTotalPrice}
+                    onChange={(e) => setEditedTotalPrice(e.target.value)}
+                    className="price-input-field"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="confirmation-buttons">
+              <button
+                onClick={handleConfirm}
+                className="scan-button confirm-button"
               >
-                {category.category_name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="detail-field">
-          <label>Total Price:</label>
-          <div className="price-input">
-            <span>£</span>
-            <input
-              type="text"
-              value={editedTotalPrice}
-              onChange={(e) => setEditedTotalPrice(e.target.value)}
-            />
+                Confirm
+              </button>
+              <button
+                onClick={handleCancel}
+                className="scan-button cancel-button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="confirmation-buttons">
-        <button
-          onClick={handleConfirm}
-          className="scan-button confirm-button"
-        >
-          Confirm
-        </button>
-        <button
-          onClick={handleCancel}
-          className="scan-button cancel-button"
-        >
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-</article>
+      )}
+    </article>
   );
 };
 
