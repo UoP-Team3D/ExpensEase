@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import '../CatMan.css'; // Create a separate CSS file for styling
 
 const CatMan = () => {

@@ -302,7 +302,7 @@ const Home = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   return (
-    <article className="home-container">
+    <article>
       <div className="welcome-message">
         <h1>Welcome to ExpensEase!</h1>
         <h3>Manage your finances, categorize your receipts, and take control of your spending.</h3>
@@ -321,7 +321,7 @@ const Home = () => {
           </div>
         </div>
   
-        <div className="latest-scans-container">
+        <div >
           <LatestScans />
         </div>
       </div>
