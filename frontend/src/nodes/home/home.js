@@ -304,8 +304,8 @@ const Home = () => {
   return (
     <article>
       <div className="welcome-message">
-        <h1>Welcome to ExpensEase!</h1>
-        <h3>Manage your finances, categorize your receipts, and take control of your spending.</h3>
+        <h1>Welcome to ExpensEase</h1>
+        <h3>Manage your budgets, categorise your receipts, and take control of your spending.</h3>
       </div>
   
       <div className="grid">
