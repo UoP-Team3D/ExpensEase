@@ -36,15 +36,25 @@ def create_app(test_config=None):
     # Receipts dictionary to track receipts
     app.processed_receipts = {}
 
+    cwd = os.getcwd()
+    
+    if os.path.basename(cwd) == "backend":
+        log_dir = cwd
+    else:
+        log_dir = os.path.join(cwd, "backend")
+
+    os.makedirs(os.path.join(log_dir, "log"), exist_ok=True)
+
     # Logging
     logging.basicConfig(level=logging.INFO)
+
     try:
-        handler = RotatingFileHandler('log/app.log', maxBytes=10000, backupCount=3)
+        handler = RotatingFileHandler(os.path.join(log_dir, "log", "app.log"), maxBytes=10000, backupCount=3)
     except (FileNotFoundError, IOError):
-        os.makedirs('log')
-        open('log/app.log', 'w').close()
-        handler = RotatingFileHandler('log/app.log', maxBytes=10000, backupCount=3)
-    
+        os.makedirs(os.path.join(log_dir, "log"), exist_ok=True)
+        open(os.path.join(log_dir, "log", "app.log"), "w").close()
+        handler = RotatingFileHandler(os.path.join(log_dir, "log", "app.log"), maxBytes=10000, backupCount=3)
+
     handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
     logging.getLogger().addHandler(handler)
 
