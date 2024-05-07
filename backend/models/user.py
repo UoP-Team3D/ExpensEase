@@ -169,10 +169,13 @@ class User:
         try:
             with self.db_connection.cursor() as cursor:
                 # Delete the user from the database
-                query = """
-                DELETE FROM public."Users" WHERE user_id = %s;
-                """
-                cursor.execute(query, (user_id,))
+                tables = ["Budget", "Category", "Expense", "Users"]
+                for table in tables:
+                    query = f"""
+                    DELETE FROM public."{table}" WHERE user_id = %s;
+                    """
+                    cursor.execute(query, (user_id,))
+               
                 self.db_connection.commit()
                 return True
 
