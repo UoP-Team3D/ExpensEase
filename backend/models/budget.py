@@ -53,11 +53,37 @@ class Budget:
 
     def delete_budget(self, budget_id):
         with self.db_connection.cursor() as cursor:
-            query = """
-            DELETE FROM public."Budget"
-            WHERE budget_id = %s;
-            """
-            cursor.execute(query, (budget_id,))
+            # Fetch user_id and category_id from the budget
+            cursor.execute("""
+                SELECT user_id, category_id
+                FROM public."Budget"
+                WHERE budget_id = %s;
+            """, (budget_id,))
+            result = cursor.fetchone()
+            if not result:
+                print(f"Budget with ID {budget_id} does not exist.")
+                return
+            user_id, category_id = result
+
+            # Delete dependent receipts
+            cursor.execute("""
+                DELETE FROM public."Receipt"
+                WHERE expense_id IN (
+                    SELECT expense_id
+                    FROM public."Expense"
+                    WHERE user_id = %s AND category_id = %s
+                );
+            """, (user_id, category_id))
+            # Delete dependent expenses
+            cursor.execute("""
+                DELETE FROM public."Expense"
+                WHERE user_id = %s AND category_id = %s;
+            """, (user_id, category_id))
+            # Delete the budget
+            cursor.execute("""
+                DELETE FROM public."Budget"
+                WHERE budget_id = %s;
+            """, (budget_id,))
             self.db_connection.commit()
 
     def get_budgets_by_user(self, user_id):

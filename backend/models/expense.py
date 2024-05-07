@@ -103,35 +103,45 @@ class Expense:
         return None
 
     def delete_expense(self, expense_id, user_id):
-        with self.db_connection.cursor() as cursor:
-            # Retrieve the expense amount and category
-            query = """
-            SELECT amount, category_id
-            FROM public."Expense"
-            WHERE expense_id = %s AND user_id = %s
-            """
-            cursor.execute(query, (expense_id, user_id))
-            expense = cursor.fetchone()
-
-            if expense:
-                amount, category_id = expense
-                # Delete the expense
+        try:
+            with self.db_connection.cursor() as cursor:
+                # Retrieve the expense amount and category
                 query = """
-                DELETE FROM public."Expense"
+                SELECT amount, category_id
+                FROM public."Expense"
                 WHERE expense_id = %s AND user_id = %s
-                RETURNING expense_id;
                 """
-                params = [expense_id, user_id]
-                cursor.execute(query, params)
-                deleted_expense_id = cursor.fetchone()
-                self.db_connection.commit()
+                cursor.execute(query, (expense_id, user_id))
+                expense = cursor.fetchone()
 
-                if deleted_expense_id:
-                    # Update the budget
-                    budget_model = Budget(self.db_connection)
-                    budget_model.update_budget_amount(user_id, category_id, -amount, None)  # Revert the amount
-                    return deleted_expense_id[0]
-        return None
+                if expense:
+                    amount, category_id = expense
+
+                    # Delete dependent receipts
+                    cursor.execute("""
+                        DELETE FROM public."Receipt"
+                        WHERE expense_id = %s
+                    """, (expense_id,))
+
+                    # Delete the expense
+                    cursor.execute("""
+                        DELETE FROM public."Expense"
+                        WHERE expense_id = %s AND user_id = %s
+                        RETURNING expense_id;
+                    """, (expense_id, user_id))
+                    deleted_expense_id = cursor.fetchone()
+                    self.db_connection.commit()
+
+                    if deleted_expense_id:
+                        # Update the budget
+                        budget_model = Budget(self.db_connection)
+                        budget_model.update_budget_amount(user_id, category_id, -amount, None)  # Revert the amount
+                        return deleted_expense_id[0]
+            return None
+        except Exception as e:
+            self.db_connection.rollback()
+            print(f"Error deleting expense: {e}")
+            return None
 
     @staticmethod
     def get_expenses_by_budget(budget_id):

@@ -47,11 +47,30 @@ class Category:
 
     def delete_category(self, category_id):
         with self.db_connection.cursor() as cursor:
-            query = """
-            DELETE FROM public."Category"
-            WHERE category_id = %s;
-            """
-            cursor.execute(query, (category_id,))
+            # Delete dependent receipts
+            cursor.execute("""
+                DELETE FROM public."Receipt"
+                WHERE expense_id IN (
+                    SELECT expense_id
+                    FROM public."Expense"
+                    WHERE category_id = %s
+                );
+            """, (category_id,))
+            # Delete dependent expenses
+            cursor.execute("""
+                DELETE FROM public."Expense"
+                WHERE category_id = %s;
+            """, (category_id,))
+            # Delete dependent budgets
+            cursor.execute("""
+                DELETE FROM public."Budget"
+                WHERE category_id = %s;
+            """, (category_id,))
+            # Delete the category
+            cursor.execute("""
+                DELETE FROM public."Category"
+                WHERE category_id = %s;
+            """, (category_id,))
             self.db_connection.commit()
 
     def get_categories_by_user(self, user_id):
