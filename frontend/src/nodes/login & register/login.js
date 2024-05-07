@@ -19,7 +19,7 @@ const Login = () => {
     };
 
     const continueLogin = (event) => {
-      event.preventDefault(); // Prevent form from submitting traditionally
+      event.preventDefault();
   
       const url = "http://127.0.0.1:5000/api/v1/login";
   
@@ -28,29 +28,27 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include', // Include credentials (cookies)
+        credentials: 'include', 
         body: JSON.stringify(credentials)
       })
       .then(response => {
-          if (response.ok) {
-              return response.json(); // Ensure we're parsing the JSON only if the response is OK
-          } else {
-              throw new Error('Login failed');
+          if (!response.ok) {
+              throw new Error('Wrong username or password'); 
           }
+          return response.json();
       })
       .then(data => {
         if (data.success) {
-          navigate('/home'); // Navigate to the home page after login
+          navigate('/home'); 
         } else {
-          setError(data.message); // Set error message from server
-          alert(data.message); // Optionally remove this line if you handle errors inline
+          setError(data.message); 
         }
       })
       .catch(error => {
-        setError('An error occurred. Please try again later.');
+        setError(error.message); 
         console.error('Error:', error);
       });
-  };  
+  };
 
     return (
         <article>
@@ -61,18 +59,16 @@ const Login = () => {
                 <form onSubmit={continueLogin}>
                     <div>
                         <label>Username:</label>
-                        <br/>
                         <input type="text" placeholder="username" id="username" required onChange={handleChange} value={credentials.username} />
                     </div>
                     <div>
                         <label>Password:</label>
-                        <br/>
                         <input type="password" placeholder="password" id="password" required onChange={handleChange} value={credentials.password} />
                     </div>
                     <div>
                         <button type="submit" className="contBut">Continue</button>
                     </div>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {error && <p style={{ color: 'red' }}>{error}</p>} 
                     <div>
                         <NavLink to="/register">Register here</NavLink>
                     </div>
