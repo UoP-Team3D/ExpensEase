@@ -28,8 +28,7 @@
   }
   
   .category-name {
-    font-size: 18px;
-    font-weight: bold;
+    margin-right: 5px;
   }
   
   .category-actions {
@@ -95,4 +94,15 @@
   .create-button {
     background-color: #4CAF50;
     color: white;
+  }
+
+  .info-icon {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  
+  .category-description {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #888;
   }

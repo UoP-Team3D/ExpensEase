@@ -30,7 +30,10 @@ def upload_receipt():
     receipt_image_path = os.path.join('storage', receipt_image_filename)
 
     receipt_model = Receipt(current_app.db_connection)
-    total_price, category = receipt_model.process_receipt(user_id, receipt_image, receipt_image_path)
+    total_price, category, receipt_hash, already_exists = receipt_model.process_receipt(user_id, receipt_image, receipt_image_path)
+
+    if already_exists:
+        return ApiResponse.error("This receipt has already been scanned", status=409)
 
     # Generate a unique identifier for the processed receipt
     receipt_id = str(uuid.uuid4())
@@ -40,6 +43,7 @@ def upload_receipt():
         'user_id': user_id,
         'total_price': total_price,
         'category': category,
+        'receipt_hash': receipt_hash,
         'receipt_image_path': receipt_image_path
     }
 
@@ -87,17 +91,18 @@ def save_receipt():
         user_id,
         processed_receipt['total_price'],
         processed_receipt['category'],
-        description
+        description,
+        processed_receipt['receipt_hash']
     )
 
     # Remove the processed receipt from temporary storage
     receipt_image_path = processed_receipt['receipt_image_path']
     del current_app.processed_receipts[receipt_id]
 
-    if os.path.exists(receipt_image_path):
-        os.remove(receipt_image_path)
+    if os.remove(receipt_image_path):
+        print("Receipt file removed")
     else:
-        print("Somehow the receipt file does not exist (?)") 
+        print("Receipt file does not exist")
 
     return ApiResponse.success("Receipt saved successfully", data={
         'expense_id': expense_id

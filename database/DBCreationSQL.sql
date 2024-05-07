@@ -58,4 +58,17 @@ INSERT INTO public."Category" (category_name, is_preset)
 VALUES ('Groceries', true), ('Eating Out', true), ('Personal Upkeep', true)
 ON CONFLICT (category_name) DO NOTHING;
 
+CREATE TABLE IF NOT EXISTS public."Receipt"
+(
+    receipt_id serial NOT NULL,
+    expense_id integer NOT NULL,
+    receipt_hash character varying(64) NOT NULL,
+    CONSTRAINT "Receipt_pkey" PRIMARY KEY (receipt_id),
+    CONSTRAINT "Receipt_expense_id_fkey" FOREIGN KEY (expense_id) REFERENCES public."Expense" (expense_id),
+    CONSTRAINT "Receipt_receipt_hash_key" UNIQUE (receipt_hash)
+);
+
+ALTER TABLE public."Expense"
+ADD COLUMN receipt_hash character varying(64) UNIQUE;
+
 END;

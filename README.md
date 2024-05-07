@@ -149,6 +149,7 @@ DROP TABLE IF EXISTS public."Budget" CASCADE;
 DROP TABLE IF EXISTS public."Category" CASCADE;
 DROP TABLE IF EXISTS public."Expense" CASCADE;
 DROP TABLE IF EXISTS public."Income" CASCADE;
+DROP TABLE IF EXISTS public."Receipt" CASCADE;
 ```
 
 Recreate the database by referring to the above.

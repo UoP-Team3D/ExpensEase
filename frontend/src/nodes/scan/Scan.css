@@ -159,3 +159,7 @@
   background-color: #ccc;
   color: #333;
 }
+
+.upload-status.error {
+  color: red;
+}

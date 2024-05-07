@@ -4,6 +4,7 @@ from utilities.ocr import OCRProcessor
 from utilities.prediction import Predictor
 import datetime
 from models.budget import Budget
+import hashlib
 
 class Receipt:
     """
@@ -44,22 +45,40 @@ class Receipt:
         total_price = self.predictor.extract_total_price(receipt_image_path)
         category = self.predictor.predict_category(receipt_text)
 
-        return total_price, category
+        # Generate hash of the receipt image
+        receipt_hash = self.generate_receipt_hash(receipt_image_path)
 
-    def save_receipt(self, user_id, total_price, category, description):
+        # Check if the hash already exists in the database
+        with self.db_connection.cursor() as cursor:
+            cursor.execute("SELECT expense_id FROM public.\"Receipt\" WHERE receipt_hash = %s", (receipt_hash,))
+            result = cursor.fetchone()
+            if result:
+                # Receipt already exists, return a flag indicating this
+                return None, None, receipt_hash, True
+
+        return total_price, category, receipt_hash, False
+
+    def generate_receipt_hash(self, receipt_image_path):
+        hasher = hashlib.sha256()
+        with open(receipt_image_path, 'rb') as file:
+            buf = file.read()
+            hasher.update(buf)
+        return hasher.hexdigest()
+
+    def save_receipt(self, user_id, total_price, category, description, receipt_hash):
         current_date = datetime.date.today()
 
         with self.db_connection.cursor() as cursor:
             query = """
-            INSERT INTO public."Expense" (user_id, category_id, amount, description, date)
+            INSERT INTO public."Expense" (user_id, category_id, amount, description, date, receipt_hash)
             VALUES (%s, (
                 SELECT category_id
                 FROM public."Category"
                 WHERE category_name = %s
-            ), %s, %s, %s)
+            ), %s, %s, %s, %s)
             RETURNING expense_id, category_id;
             """
-            cursor.execute(query, (user_id, category, total_price, description, current_date))
+            cursor.execute(query, (user_id, category, total_price, description, current_date, receipt_hash))
             result = cursor.fetchone()
             expense_id = result[0]
             category_id = result[1]
@@ -68,5 +87,13 @@ class Receipt:
             # Update the budget based on the created expense
             budget_model = Budget(self.db_connection)
             budget_model.update_budget_amount(user_id, category_id, total_price, current_date)
+
+        # Save the hash to the Receipt table
+        with self.db_connection.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO public."Receipt" (expense_id, receipt_hash)
+                VALUES (%s, %s)
+            """, (expense_id, receipt_hash))
+            self.db_connection.commit()
 
         return expense_id

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import '../CatMan.css'; // Create a separate CSS file for styling
+import { FiInfo } from 'react-icons/fi';
+import '../CatMan.css';
 
 const CatMan = () => {
   const [categories, setCategories] = useState([]);
@@ -8,6 +8,7 @@ const CatMan = () => {
   const [editingCategoryId, setEditingCategoryId] = useState(null);
   const [newCategory, setNewCategory] = useState('');
   const [editName, setEditName] = useState('');
+  const [visibleDescriptions, setVisibleDescriptions] = useState({});
 
   const fetchCategories = async () => {
     const categoryData = "http://127.0.0.1:5000/api/v1/category/";
@@ -45,7 +46,7 @@ const CatMan = () => {
       if (!response.ok) {
         throw new Error('Failed to delete category');
       }
-      fetchCategories(); // Refresh categories after deletion
+      fetchCategories();
     } catch (error) {
       console.error('Error:', error);
     }
@@ -68,7 +69,7 @@ const CatMan = () => {
       if (!response.ok) {
         throw new Error('Failed to update category');
       }
-      fetchCategories(); // Refresh categories after update
+      fetchCategories();
       setEditingCategoryId(null);
     } catch (error) {
       console.error('Error:', error);
@@ -92,7 +93,7 @@ const CatMan = () => {
       if (!response.ok) {
         throw new Error('Failed to create category');
       }
-      fetchCategories(); // Refresh categories after creation
+      fetchCategories();
       setNewCategory('');
     } catch (error) {
       console.error('Error:', error);
@@ -102,6 +103,31 @@ const CatMan = () => {
   const isProtectedCategory = (categoryName) => {
     const protectedCategories = ['Groceries', 'Eating Out', 'Personal Upkeep'];
     return protectedCategories.includes(categoryName);
+  };
+
+  const getCategoryDescription = (categoryName) => {
+    const descriptions = {
+      'Groceries': 'Expenses related to buying food and household items from grocery stores or supermarkets.',
+      'Eating Out': 'Expenses incurred while dining at restaurants, cafes, or other food establishments.',
+      'Personal Upkeep': 'Expenses related to personal care, clothing, and maintenance.',
+    };
+    return descriptions[categoryName] || '';
+  };
+
+  const showDescription = (categoryName) => {
+    setVisibleDescriptions((prevState) => ({
+      ...prevState,
+      [categoryName]: true,
+    }));
+  };
+
+  const hideDescription = (categoryName) => {
+    setTimeout(() => {
+      setVisibleDescriptions((prevState) => ({
+        ...prevState,
+        [categoryName]: false,
+      }));
+    }, 200);
   };
 
   return (
@@ -130,8 +156,22 @@ const CatMan = () => {
                     </div>
                   </>
                 ) : (
-                  <>
-                    <span className="category-name">{category.category_name}</span>
+                  <div className="category-info">
+                    <div className="category-name-wrapper">
+                      <span className="category-name">{category.category_name}</span>
+                      {isProtectedCategory(category.category_name) && (
+                        <FiInfo
+                          className="info-icon"
+                          onMouseEnter={() => showDescription(category.category_name)}
+                          onMouseLeave={() => hideDescription(category.category_name)}
+                        />
+                      )}
+                    </div>
+                    {visibleDescriptions[category.category_name] && (
+                      <div className="category-description">
+                        {getCategoryDescription(category.category_name)}
+                      </div>
+                    )}
                     {!isProtectedCategory(category.category_name) && (
                       <div className="category-actions">
                         <button onClick={() => {
@@ -141,7 +181,7 @@ const CatMan = () => {
                         <button onClick={() => deleteCategoryById(category.category_id)} className="catman-button delete-button">Delete</button>
                       </div>
                     )}
-                  </>
+                  </div>
                 )}
               </div>
             </div>

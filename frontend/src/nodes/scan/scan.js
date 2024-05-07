@@ -45,7 +45,7 @@ const Scan = () => {
 
   const handleSubmit = async () => {
     if (!file) {
-      alert("Please select a file first!");
+      setUploadStatus("Please select a file first!");
       return;
     }
 
@@ -62,6 +62,11 @@ const Scan = () => {
           credentials: "include",
         }
       );
+
+      if (uploadResponse.status === 409) {
+        setUploadStatus("This receipt has already been scanned.");
+        return;
+      }
 
       if (!uploadResponse.ok) {
         throw new Error(`HTTP error! status: ${uploadResponse.status}`);
@@ -104,13 +109,13 @@ const Scan = () => {
 
       if (saveResponse.ok) {
         setShowConfirmation(false);
-        alert("Receipt saved successfully!");
         setImagePreviewUrl("");
+        setFile(null); // Clear the file after successful save
       } else {
         throw new Error("Failed to save receipt");
       }
     } catch (error) {
-      alert(`Error: ${error.message}`);
+      setUploadStatus("There was a server error while saving! Please re-try.");
     }
   };
 
@@ -138,7 +143,11 @@ const Scan = () => {
         {imagePreviewUrl && (
           <div className="preview-container">
             <h3 className="preview-heading">Preview</h3>
-            <img src={imagePreviewUrl} alt="Preview" className="preview-image" />
+            <img
+              src={imagePreviewUrl}
+              alt="Preview"
+              className="preview-image"
+            />
           </div>
         )}
         {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
@@ -147,7 +156,9 @@ const Scan = () => {
         <div className="confirmation-popup">
           <div className="confirmation-content">
             <h3 className="confirmation-heading">Confirm Receipt Details</h3>
-            <p className="prediction-text">We've predicted the following...</p>
+            <p className="prediction-text">
+              We've predicted the following...
+            </p>
             <div className="receipt-details">
               <div className="detail-field">
                 <label className="detail-label">Category:</label>

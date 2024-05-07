@@ -96,6 +96,17 @@ const Settings = () => {
         }
     };
 
+    const cancelPasswordChange = () => {
+        setShowPasswordForm(false);
+        setCurrentPassword('');
+        setNewPassword('');
+    };
+
+    const cancelEmailChange = () => {
+        setShowEmailForm(false);
+        setCurrentEmail('');
+        setNewEmail('');
+    };
 
     return (
         <div className="settings-container">
@@ -114,7 +125,7 @@ const Settings = () => {
                                     placeholder="Current Password"
                                     value={currentPassword}
                                     onChange={(e) => setCurrentPassword(e.target.value)}
-                                    className="input-field"
+                                    className="input-field settings-input"
                                 />
                                 <i
                                     className={`fas fa-eye${showCurrentPassword ? '-slash' : ''} password-toggle`}
@@ -127,16 +138,21 @@ const Settings = () => {
                                     placeholder="New Password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
-                                    className="input-field"
+                                    className="input-field settings-input"
                                 />
                                 <i
                                     className={`fas fa-eye${showNewPassword ? '-slash' : ''} password-toggle`}
                                     onClick={() => setShowNewPassword(!showNewPassword)}
                                 ></i>
                             </div>
-                            <button onClick={handleChangePassword} className="confirm-btn">
-                                Confirm Password Change
-                            </button>
+                            <div className="form-actions">
+                                <button onClick={handleChangePassword} className="confirm-btn">
+                                    Confirm Password Change
+                                </button>
+                                <button onClick={cancelPasswordChange} className="cancel-btn">
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <button onClick={() => setShowPasswordForm(true)} className="change-btn">
@@ -153,18 +169,23 @@ const Settings = () => {
                                 placeholder="Current Email"
                                 value={currentEmail}
                                 onChange={(e) => setCurrentEmail(e.target.value)}
-                                className="input-field"
+                                className="input-field settings-input"
                             />
                             <input
                                 type="email"
                                 placeholder="New Email"
                                 value={newEmail}
                                 onChange={(e) => setNewEmail(e.target.value)}
-                                className="input-field"
+                                className="input-field settings-input"
                             />
-                            <button onClick={handleChangeEmail} className="confirm-btn">
-                                Confirm Email Change
-                            </button>
+                            <div className="form-actions">
+                                <button onClick={handleChangeEmail} className="confirm-btn">
+                                    Confirm Email Change
+                                </button>
+                                <button onClick={cancelEmailChange} className="cancel-btn">
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <button onClick={() => setShowEmailForm(true)} className="change-btn">

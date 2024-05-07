@@ -3,6 +3,7 @@ import pytesseract
 import os
 import cv2
 import numpy as np
+import hashlib
 
 class OCRProcessor:
     def __init__(self, tesseract_path=None):
