@@ -138,24 +138,26 @@ const EditPage = () => {
       ) : (
         <>
           <section className="edit-details">
-            <div>
-              <label>Category: </label>
+            <div className="form-group">
+              <label>Category:</label>
               <p>{categories.find(category => category.category_id === selectedValue)?.category_name}</p>
             </div>
-            <div>
-              <label>Total Amount: </label>
+            <div className="form-group">
+              <label>Total Amount:</label>
               <input
                 type="number"
                 placeholder="Budget amount"
                 value={totalAmount}
                 onChange={getTotalAmount}
+                className="form-input"
               />
             </div>
-            <div>
-              <label>Start Date: </label>
+            <div className="form-group">
+              <label>Start Date:</label>
               <p>{startDate}</p>
-              <br />
-              <label>End Date: </label>
+            </div>
+            <div className="form-group">
+              <label>End Date:</label>
               <p>{endDate}</p>
             </div>
           </section>

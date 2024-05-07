@@ -100,7 +100,6 @@ const RingPieChart = ({ categoryId }) => {
     </div>
   );
 };
-
 const CategorySelector = ({ onCategoryChange }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -197,13 +196,19 @@ const LatestScans = () => {
           <span className="where-column">WHERE?</span>
           <span>AMOUNT</span>
         </div>
-        {scans.map((expense, index) => (
-          <div className="table-row" key={index}>
-          <span>{expense.date}</span>
-          <span className="where-column">{expense.category}</span>
-          <span>£{expense.amount}</span>
-        </div>
-         ))}
+        {scans.length === 0 ? (
+          <div className="table-row no-expenses-message">
+            <span colSpan="3">You have no expenses yet!</span>
+          </div>
+        ) : (
+          scans.map((expense, index) => (
+            <div className="table-row" key={index}>
+              <span>{expense.date}</span>
+              <span className="where-column">{expense.category}</span>
+              <span>£{expense.amount}</span>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
@@ -297,7 +302,12 @@ const Home = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   return (
-    <article>
+    <article className="home-container">
+      <div className="welcome-message">
+        <h1>Welcome to ExpensEase!</h1>
+        <h3>Manage your finances, categorize your receipts, and take control of your spending.</h3>
+      </div>
+  
       <div className="grid">
         <div className="chart-container">
           {selectedCategoryId ? (
@@ -305,12 +315,12 @@ const Home = () => {
           ) : (
             <OverallBudgetChart />
           )}
-
+  
           <div className="chart-dropdown">
             <CategorySelector onCategoryChange={setSelectedCategoryId} />
           </div>
         </div>
-
+  
         <div className="latest-scans-container">
           <LatestScans />
         </div>
@@ -318,4 +328,5 @@ const Home = () => {
     </article>
   );
 };
+
 export default Home;

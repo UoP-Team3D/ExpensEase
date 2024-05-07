@@ -7,4 +7,3 @@ pandas==2.2.2
 bs4==0.0.2
 chardet==5.2.0
 joblib==1.4.2
-windows-curses==2.3.2

@@ -37,7 +37,7 @@ const Register = () => {
             email: formData.email,
             first_name: formData.firstName,
             last_name: formData.lastName,
-            pin: formData.pin,
+            pin: '0000',
         };
 
         fetch(url, {
@@ -100,11 +100,7 @@ const Register = () => {
                         <p style={{ color: 'red' }}>{errorMessage}</p>
                         <input type="password" placeholder="confirm password" id="confirmPassword" required onChange={handleChange} value={formData.confirmPassword} />
                     </div>
-                    <div>
-                        <label>Pin:</label>
-                        <br/>
-                        <input type="password" pattern="[0-9]{4}" placeholder="pin" id="pin" maxLength="4" required onChange={handleChange} value={formData.pin} />
-                    </div>
+                    
                     <div>
                         <button type="submit" className="contBut">Register</button>
                     </div>
