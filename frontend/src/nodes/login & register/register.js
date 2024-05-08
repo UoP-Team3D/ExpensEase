@@ -23,7 +23,7 @@ const Register = () => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();  // Prevent form from refreshing the page on submit
+        e.preventDefault();  
         if (formData.password !== formData.confirmPassword) {
             setErrorMessage("Passwords do not match");
             return;

@@ -32,31 +32,31 @@ li{
   font-weight: bold; 
 }
 
-/* Ensure consistent alignment for columns */
+
 .table-header span,
 .table-row span {
   display: inline-block;
-  padding: 10px 15px; /* Adjust padding as needed */
+  padding: 10px 15px; 
   text-align: left;
-  vertical-align: middle; /* Vertically center the content */
+  vertical-align: middle; 
 }
 
-/* Set a specific width for the 'WHERE?' column */
+
 .where-column {
-  padding-left: 10px; /* Add some left padding for spacing */
+  padding-left: 10px; 
 }
 
 
 .table-row:nth-child(even) {
-  background-color: #f2f2f2; /* Light gray background for even rows */
+  background-color: #f2f2f2; 
 }
 
-/* Use this class to center the RingPieChart component in the middle of the page */
+
 .center-align {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Optional: Set a specific height if needed */
+  height: 100%; 
 }
 
 .see-outline > div { border: solid; }
@@ -113,56 +113,56 @@ li{
   margin-top: 20px; 
 }
 
-/* Container for the buttons to align them horizontally above the DatePicker */
+
 .history-container .buttons-container {
   display: flex;
-  justify-content: center; /* Center buttons horizontally */
-  margin-bottom: 10px; /* Add some space below the buttons, above the DatePicker */
+  justify-content: center; 
+  margin-bottom: 10px; 
 }
 
-/* Adjustments for buttons to sit side by side */
+
 .history-container .choose-date-btn,
 .history-container .manual-entry-btn {
-  margin: 0 5px; /* Spacing between buttons */
+  margin: 0 5px; 
   padding: 10px 15px;
   font-size: 16px;
   cursor: pointer;
   border: none;
   border-radius: 4px;
   outline: none;
-  transition: background-color 0.3s; /* Smooth background color transition */
+  transition: background-color 0.3s; 
 }
 
 .history-container .choose-date-btn {
-  background-color: #007bff; /* Blue background */
+  background-color: #007bff; 
   color: white;
 }
 
 .history-container .manual-entry-btn {
   background-color: darkorange;
   color: white;
-  display: flex; /* To align icon and text */
-  align-items: center; /* Align icon and text vertically */
+  display: flex; 
+  align-items: center; 
 }
 
-/* Icon inside the button */
+
 .history-container .manual-entry-btn .calendar-icon {
-  margin-right: 5px; /* Space between icon and text */
+  margin-right: 5px; 
 }
 
-/* Style for the input where user can type the date manually */
+
 .history-container .manual-date-input {
   font-size: 16px;
   padding: 10px;
-  margin-top: 10px; /* Spacing from the button */
+  margin-top: 10px; 
   border: 1px solid #ccc;
   border-radius: 4px;
-  display: block; /* Full width */
+  display: block; 
 }
 
-/* Style for the confirm button next to the manual date input */
+
 .history-container .confirm-date-btn {
-  background-color: darkorange; /* Bootstrap 'btn-success' color for example */
+  background-color: darkorange; 
   color: white;
   border: none;
   border-radius: 4px;
@@ -193,13 +193,13 @@ li{
 
 .receipt-date, .receipt-description, .receipt-amount {
   font-weight: bold;
-  color: #333; /* Consistent color for dates and descriptions */
+  color: #333; 
 }
 
 .receipt-description { color: #555; }
-.receipt-amount { color: #d9534f; /* Highlight amounts distinctly */ }
+.receipt-amount { color: #d9534f;  }
 
-/* Custom styles for react-datepicker */
+
 .react-datepicker {
   font-size: 1em;
 }
@@ -216,31 +216,31 @@ li{
   margin: 0.166em;
 }
 
-/* Styles to change the selected date to dark orange */
+
 .react-datepicker__day--selected {
-  background-color: darkorange !important; /* Ensures override of default styles */
-  color: white; /* Text color for the selected date */
+  background-color: darkorange !important; 
+  color: white; 
 }
 
-/* Change the color for the selected date on hover */
+
 .react-datepicker__day--selected:hover {
-  background-color: darkorange !important; /* Dark orange background on hover */
+  background-color: darkorange !important; 
   color: white;
 }
 
-/* If you also want to change the color for the selected date in a range */
+
 .react-datepicker__day--in-range,
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--in-selecting-range-start,
 .react-datepicker__day--in-selecting-range-end,
 .react-datepicker__day--selected {
-  background-color: darkorange !important; /* Dark orange background for range selection */
+  background-color: darkorange !important; 
   color: white;
 }
 
-/* If you want to change the color for the date being hovered that is not selected */
+
 .react-datepicker__day--keyboard-selected {
-  background-color: darkorange !important; /* Dark orange background for keyboard-selected date */
+  background-color: darkorange !important; 
   color: white;
 }
 
@@ -250,7 +250,7 @@ li{
   max-width: 300px;
   padding: 8px;
   margin-bottom: 10px;
-  border: 1px solid darkorange; /* Add a 1px solid orange border */
+  border: 1px solid darkorange; 
   border-radius: 4px;
   box-sizing: border-box;
   display: block;
@@ -377,13 +377,13 @@ button {
   background-color: darkorange;
   color: white;
   padding: 10px 20px;
-  border: 2px solid orangered; /* Solid black border */
+  border: 2px solid orangered; 
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  text-decoration: none; /* Removes underline from links */
-  display: inline-block; /* Ensures proper spacing and alignment */
-  text-align: center; /* Centers text within the button/link */
+  text-decoration: none; 
+  display: inline-block; 
+  text-align: center; 
   transition: background-color 0.3s, color 0.3s;
   margin: 10px;
 }
@@ -395,7 +395,7 @@ button a {
 
 
 button:hover {
-  background-color: #e65c00; /* Slightly darker shade of dark orange for hover effect */
+  background-color: #e65c00; 
   color: #ffffff;
 }
 
@@ -502,7 +502,7 @@ input {
   cursor: pointer;
 }
 
-/*when screen is smalle than 500px wide, the changes under will take place*/
+
 @media (max-width:700px){
   article{
     padding: 0px;

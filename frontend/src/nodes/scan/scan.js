@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Scan.css"; // Create a separate CSS file for styling
+import "./Scan.css"; 
 
 const Scan = () => {
   const [file, setFile] = useState(null);
@@ -110,7 +110,7 @@ const Scan = () => {
       if (saveResponse.ok) {
         setShowConfirmation(false);
         setImagePreviewUrl("");
-        setFile(null); // Clear the file after successful save
+        setFile(null); 
       } else {
         throw new Error("Failed to save receipt");
       }

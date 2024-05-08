@@ -151,7 +151,7 @@ const LatestScans = () => {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        // Fetch the latest 3 expenses
+        
         const queryParams = new URLSearchParams({
           sort_by: 'date',
           sort_order: 'desc',
@@ -171,7 +171,7 @@ const LatestScans = () => {
         }
         const json = await response.json();
         if (json.success) {
-          setScans(json.data); // Set the retrieved expenses as the new scans
+          setScans(json.data); 
         }
       } catch (error) {
         console.error('Failed to fetch expenses:', error);
