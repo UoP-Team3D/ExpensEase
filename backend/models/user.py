@@ -190,6 +190,7 @@ class User:
 
         Args:
             new_email: The user's new email address
+            user_id: The user's ID
 
         Returns:
             True if the email address was successfully updated, False otherwise.
@@ -199,6 +200,17 @@ class User:
         """
         try:
             with self.db_connection.cursor() as cursor:
+                # Check if the new email is the same as the current email
+                query = """
+                SELECT email FROM public."Users" WHERE user_id = %s;
+                """
+                cursor.execute(query, (user_id,))
+                current_email = cursor.fetchone()[0]
+
+                if current_email == new_email:
+                    self.logger.info("New email is the same as the current email. No update needed.")
+                    return False
+
                 # Update the user's email address in the database
                 query = """
                 UPDATE public."Users" SET email = %s WHERE user_id = %s;

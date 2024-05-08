@@ -35,6 +35,9 @@ def create_budget():
     if not all([category_id, total_amount, start_date, end_date]):
         return ApiResponse.error("All fields are required", status=400)
 
+    if total_amount <= 0:
+        return ApiResponse.error("Total amount must be greater than zero", status=400)
+
     budget_model = Budget(current_app.db_connection)
     budget_id = budget_model.create_budget(user_id, category_id, total_amount, start_date, end_date)
 
@@ -49,6 +52,12 @@ def get_budget(budget_id):
 
     if not user_id:
         return ApiResponse.error("Invalid session token", status=401)
+
+    if not total_amount:
+        return ApiResponse.error("Total amount is required", status=400)
+
+    if total_amount <= 0:
+        return ApiResponse.error("Total amount must be greater than zero", status=400)
 
     budget_model = Budget(current_app.db_connection)
     budget = budget_model.get_budget_by_id(budget_id)

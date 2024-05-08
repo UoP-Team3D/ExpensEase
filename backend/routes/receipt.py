@@ -80,9 +80,11 @@ def save_receipt():
     if not processed_receipt:
         return ApiResponse.error("Invalid receipt ID", status=400)
 
-    # Update the total_price and category if provided in the request
     if total_price is not None:
+        if total_price < 0:
+            return ApiResponse.error("Total price cannot be negative", status=400)
         processed_receipt['total_price'] = float(total_price)
+
     if category is not None:
         processed_receipt['category'] = category
 

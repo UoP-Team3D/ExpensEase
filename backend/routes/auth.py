@@ -150,6 +150,9 @@ def change_password():
         current_app.logger.warning("Make sure to enter current password and new password.")
         return ApiResponse.error("Current password and new password are required.", status=400)
 
+    if len(password) < 8 or not re.search(r'\d', password): #? where \d is a value, if password isnt >8 characters long and doesn't have a number
+        return ApiResponse.error("Password must be at least 8 characters and contain a number.", status=400)
+
     try:
         if user.change_password(user_id, current_password, new_password):
             return ApiResponse.success(message="Password updated successfully.")

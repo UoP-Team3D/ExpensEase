@@ -48,6 +48,9 @@ def update_expense(expense_id):
     amount = data.get('amount')
     category = data.get('category')
 
+    if amount is not None and amount < 0:
+        return ApiResponse.error("Amount cannot be negative", status=400)
+
     expense_model = Expense(current_app.db_connection)
     updated_expense_id = expense_model.update_expense(
         expense_id,
