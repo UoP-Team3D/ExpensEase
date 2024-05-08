@@ -53,12 +53,6 @@ def get_budget(budget_id):
     if not user_id:
         return ApiResponse.error("Invalid session token", status=401)
 
-    if not total_amount:
-        return ApiResponse.error("Total amount is required", status=400)
-
-    if total_amount <= 0:
-        return ApiResponse.error("Total amount must be greater than zero", status=400)
-
     budget_model = Budget(current_app.db_connection)
     budget = budget_model.get_budget_by_id(budget_id)
 
