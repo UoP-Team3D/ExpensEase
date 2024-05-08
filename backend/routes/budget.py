@@ -35,7 +35,7 @@ def create_budget():
     if not all([category_id, total_amount, start_date, end_date]):
         return ApiResponse.error("All fields are required", status=400)
 
-    if total_amount <= 0:
+    if float(total_amount) <= 0:
         return ApiResponse.error("Total amount must be greater than zero", status=400)
 
     budget_model = Budget(current_app.db_connection)
