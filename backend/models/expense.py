@@ -105,9 +105,9 @@ class Expense:
     def delete_expense(self, expense_id, user_id):
         try:
             with self.db_connection.cursor() as cursor:
-                # Retrieve the expense amount and category
+                # Retrieve the expense amount, category, and date
                 query = """
-                SELECT amount, category_id
+                SELECT amount, category_id, date
                 FROM public."Expense"
                 WHERE expense_id = %s AND user_id = %s
                 """
@@ -115,7 +115,7 @@ class Expense:
                 expense = cursor.fetchone()
 
                 if expense:
-                    amount, category_id = expense
+                    amount, category_id, expense_date = expense
 
                     # Delete dependent receipts
                     cursor.execute("""
@@ -130,12 +130,13 @@ class Expense:
                         RETURNING expense_id;
                     """, (expense_id, user_id))
                     deleted_expense_id = cursor.fetchone()
-                    self.db_connection.commit()
 
                     if deleted_expense_id:
                         # Update the budget
                         budget_model = Budget(self.db_connection)
-                        budget_model.update_budget_amount(user_id, category_id, -amount, None)  # Revert the amount
+                        budget_model.update_budget_amount(user_id, category_id, -amount, expense_date)  # Revert the amount
+                        self.db_connection.commit()
+
                         return deleted_expense_id[0]
             return None
         except Exception as e:
