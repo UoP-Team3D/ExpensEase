@@ -96,6 +96,11 @@ const CreateBudget = () => {
   };
 
   const createBudget = async () => {
+    if (totalAmount < 0) {
+      alert("Total amount cannot be negative.");
+      return;
+    }
+    
     const data = {
       category_id: selectedValue,
       total_amount: totalAmount,

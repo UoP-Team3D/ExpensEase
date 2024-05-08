@@ -87,6 +87,12 @@ const Scan = () => {
 
   const handleConfirm = async () => {
     const { receipt_id } = receiptData;
+
+    if (editedTotalPrice < 0) {
+      setUploadStatus("Total price cannot be negative.");
+      return;
+    }
+
     const saveReceiptBody = JSON.stringify({
       receipt_id: receipt_id,
       description: "Received from Scan",

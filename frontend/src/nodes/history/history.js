@@ -175,6 +175,11 @@ const History = () => {
 
   const handleUpdateExpense = async () => {
     try {
+      if (parseFloat(editedAmount) < 0) {
+        alert('Amount cannot be negative!');
+        return;
+      }
+
       const response = await fetch(`http://127.0.0.1:5000/api/v1/expense/${selectedExpense.expense_id}`, {
         method: 'PUT',
         headers: {

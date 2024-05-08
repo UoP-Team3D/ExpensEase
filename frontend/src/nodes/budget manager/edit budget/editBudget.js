@@ -78,6 +78,11 @@ const EditPage = () => {
 
   const updateBudget = async () => {
     try {
+      if (totalAmount < 0) {
+        alert("Total amount cannot be negative.");
+        return;
+      }
+
       const budgetByIdUrl = `http://127.0.0.1:5000/api/v1/budget/${id}`;
       const response = await fetch(budgetByIdUrl, {
         method: 'PUT',
