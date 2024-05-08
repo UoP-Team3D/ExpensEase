@@ -193,7 +193,8 @@ class User:
             user_id: The user's ID
 
         Returns:
-            True if the email address was successfully updated, False otherwise.
+            True if the email address was successfully updated, False if the new email is the same as the current email,
+            or None if the new email already exists for another user.
 
         Raises:
             psycopg2.Error: If there is an error executing database operations.
@@ -210,6 +211,17 @@ class User:
                 if current_email == new_email:
                     self.logger.info("New email is the same as the current email. No update needed.")
                     return False
+
+                # Check if the new email already exists for another user
+                query = """
+                SELECT COUNT(*) FROM public."Users" WHERE email = %s AND user_id != %s;
+                """
+                cursor.execute(query, (new_email, user_id))
+                email_exists = cursor.fetchone()[0] > 0
+
+                if email_exists:
+                    self.logger.warning(f"New email {new_email} already exists for another user.")
+                    return None
 
                 # Update the user's email address in the database
                 query = """
