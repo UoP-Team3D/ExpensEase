@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import './BudMan.css'; // Create a separate CSS file for styling
+import './BudMan.css'; 
 
 const BudMan = () => {
   const [budgets, setBudgets] = useState([]);

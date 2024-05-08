@@ -16,7 +16,7 @@ const Header = () => {
       });
       const data = await response.json();
       if (data.success) {
-        window.location.href = '/login'; // Use href instead of path
+        window.location.href = '/login'; 
       } else {
         alert('Logout failed. Please try again.');
       }

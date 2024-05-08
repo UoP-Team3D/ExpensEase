@@ -90,19 +90,19 @@
     height: 50vh; 
   }
   
-  /* Increase the logo size */
+
   .logo {
-    width: 300px; /* Adjust the width and height as desired */
+    width: 300px; 
     height: 300px;
   }
 
   .logo-container-reg {
     display: flex;
-    justify-content: center; /* Centers the logo horizontally */
-    margin-bottom: 20px; /* Adds some space between the logo and the form */
+    justify-content: center; 
+    margin-bottom: 20px; 
 }
 
 .logo-reg {
-    width: 100px; /* Adjusted width to be smaller and fit the form */
-    height: auto; /* Maintains aspect ratio */
+    width: 100px; 
+    height: auto; 
 }

@@ -56,22 +56,22 @@ img{
         list-style-type: none;
         margin: 0;
         padding: 0;
-        width: 100%; /* Ensure the menu uses full width */
+        width: 100%; 
         display: flex;
-        flex-direction: column; /* Stack links vertically */
+        flex-direction: column; 
         align-items: center;
         overflow: hidden;
-        transition: max-height 0.3s ease-in-out; /* Smooth transition */
-        max-height: 0; /* Hide the menu initially */
+        transition: max-height 0.3s ease-in-out; 
+        max-height: 0; 
     }
     
     .navbar .show {
-        max-height: 500px; /* Adjust based on the total height of all links */
-        display: flex; /* Ensure it's flex to align items */
+        max-height: 500px; 
+        display: flex; 
     }
     
 
     .hamburger-menu {
-        display: block; /* Ensure hamburger menu is visible */
+        display: block; 
     }
 }

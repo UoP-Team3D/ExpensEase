@@ -116,7 +116,7 @@ const CreateBudget = () => {
       }
       const result = await response.json();
       console.log('Success:', result);
-      window.location.href = "/budget-managing"; // Redirect on success
+      window.location.href = "/budget-managing"; 
     } catch (error) {
       console.error('Error:', error);
     }
