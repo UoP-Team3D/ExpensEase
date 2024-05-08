@@ -196,6 +196,7 @@ def delete_account():
 @auth_blueprint.route('/change_email', methods=['POST'])  
 def change_email():
     data = request.json
+    current_email = data.get('current_email')
     new_email = data.get('new_email')
     db_connection = current_app.db_connection
     session_manager = current_app.session_manager
@@ -208,15 +209,16 @@ def change_email():
     if not user_id:
         return ApiResponse.error("Invalid session token", status=401)
 
-    if not new_email:
-        current_app.logger.warning("Make sure the new email is in the JSON!")
-        return ApiResponse.error("New email is required.", status=400)
+    if not new_email or not current_email:
+        current_app.logger.warning("Make sure the new email and current_email exists!")
+        return ApiResponse.error("Both emails is required.", status=400)
    
     try:
-        if user.update_email(new_email, user_id):
+        if user.update_email(current_email, new_email, user_id):
             return ApiResponse.success(message="Email updated successfully.")
+
         else:
-            return ApiResponse.error("An internal error occurred during email update.", status=500)
+            return ApiResponse.error("Email wasn't the same or there was an error!", status=500)
             
     except Exception as e:
         current_app.logger.error(f"Error during email update: {e}")

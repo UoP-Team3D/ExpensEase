@@ -184,29 +184,34 @@ class User:
             self.logger.error(f"Error during user deletion: {e}")
             raise
     
-    def update_email(self, new_email, user_id):
+    def update_email(self, current_email, new_email, user_id):
         """
         Updates the user's email address.
 
         Args:
+            current_email: The user's current email address
             new_email: The user's new email address
             user_id: The user's ID
 
         Returns:
             True if the email address was successfully updated, False if the new email is the same as the current email,
-            or None if the new email already exists for another user.
+            None if the new email already exists for another user, or -1 if the provided current email does not match the user's email.
 
         Raises:
             psycopg2.Error: If there is an error executing database operations.
         """
         try:
             with self.db_connection.cursor() as cursor:
-                # Check if the new email is the same as the current email
+                # Check if the provided current email matches the user's email
                 query = """
                 SELECT email FROM public."Users" WHERE user_id = %s;
                 """
                 cursor.execute(query, (user_id,))
-                current_email = cursor.fetchone()[0]
+                user_email = cursor.fetchone()[0]
+
+                if current_email != user_email:
+                    self.logger.warning(f"Provided current email {current_email} does not match the user's email {user_email}.")
+                    return False
 
                 if current_email == new_email:
                     self.logger.info("New email is the same as the current email. No update needed.")
