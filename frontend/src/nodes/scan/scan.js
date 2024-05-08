@@ -190,6 +190,11 @@ const Scan = () => {
                 </div>
               </div>
             </div>
+            {receiptData.similar_exists && (
+            <p className="similar-receipt-warning">
+              This receipt seems familiar, have you scanned it before?
+            </p>
+            )}
             <div className="confirmation-buttons">
               <button
                 onClick={handleConfirm}

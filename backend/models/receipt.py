@@ -51,12 +51,27 @@ class Receipt:
         # Check if the hash already exists in the database
         with self.db_connection.cursor() as cursor:
             cursor.execute("SELECT expense_id FROM public.\"Receipt\" WHERE receipt_hash = %s", (receipt_hash,))
-            result = cursor.fetchone()
-            if result:
+            exists_result = cursor.fetchone()
+            if exists_result:
                 # Receipt already exists, return a flag indicating this
-                return None, None, receipt_hash, True
+                return None, None, receipt_hash, True, False
 
-        return total_price, category, receipt_hash, False
+        # Check if a receipt with the same category and total price already exists for the user
+        with self.db_connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT e.expense_id
+                FROM public."Expense" e
+                JOIN public."Category" c ON e.category_id = c.category_id
+                WHERE e.user_id = %s
+                AND c.category_name = %s
+                AND e.amount = %s
+            """, (user_id, category, total_price))
+            result = cursor.fetchone()
+
+        if result:
+            return None, None, receipt_hash, False, True
+
+        return total_price, category, receipt_hash, False, False
 
     def generate_receipt_hash(self, receipt_image_path):
         hasher = hashlib.sha256()

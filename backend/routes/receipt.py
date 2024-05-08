@@ -30,7 +30,7 @@ def upload_receipt():
     receipt_image_path = os.path.join('storage', receipt_image_filename)
 
     receipt_model = Receipt(current_app.db_connection)
-    total_price, category, receipt_hash, already_exists = receipt_model.process_receipt(user_id, receipt_image, receipt_image_path)
+    total_price, category, receipt_hash, already_exists, similar_exists = receipt_model.process_receipt(user_id, receipt_image, receipt_image_path)
 
     if already_exists:
         return ApiResponse.error("This receipt has already been scanned", status=409)
@@ -44,7 +44,8 @@ def upload_receipt():
         'total_price': total_price,
         'category': category,
         'receipt_hash': receipt_hash,
-        'receipt_image_path': receipt_image_path
+        'receipt_image_path': receipt_image_path,
+        'similar_exists': similar_exists
     }
 
     return ApiResponse.success("Receipt processed successfully", data={
