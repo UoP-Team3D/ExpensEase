@@ -168,20 +168,27 @@ class User:
         """
         try:
             with self.db_connection.cursor() as cursor:
-                # Delete the user from the database
+                # Delete the receipts associated with the user's expenses
+                query = """
+                DELETE FROM public."Receipt" WHERE expense_id IN (
+                    SELECT expense_id FROM public."Expense" WHERE user_id = %s
+                );
+                """
+                cursor.execute(query, (user_id,))
+
+                # Delete the user's data from the database
                 tables = ["Budget", "Category", "Expense", "Users"]
                 for table in tables:
                     query = f"""
                     DELETE FROM public."{table}" WHERE user_id = %s;
                     """
                     cursor.execute(query, (user_id,))
-               
-                self.db_connection.commit()
-                return True
 
+                self.db_connection.commit()
+            return True
         except psycopg2.Error as e:
             self.db_connection.rollback()
-            self.logger.error(f"Error during user deletion: {e}")
+            self.logger.error(f"Error during account deletion: {e}")
             raise
     
     def update_email(self, current_email, new_email, user_id):

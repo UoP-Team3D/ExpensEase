@@ -71,4 +71,10 @@ CREATE TABLE IF NOT EXISTS public."Receipt"
 ALTER TABLE public."Expense"
 ADD COLUMN receipt_hash character varying(64) UNIQUE;
 
+ALTER TABLE public."Receipt"
+DROP CONSTRAINT "Receipt_expense_id_fkey",
+ADD CONSTRAINT "Receipt_expense_id_fkey"
+    FOREIGN KEY (expense_id) REFERENCES public."Expense" (expense_id)
+    ON DELETE CASCADE;
+
 END;

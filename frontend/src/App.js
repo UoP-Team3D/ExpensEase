@@ -6,12 +6,13 @@ import BudMan from "./nodes/budget manager/BudgetManager";
 import History from "./nodes/history/history";
 import Scan from "./nodes/scan/scan";
 import Login from './nodes/login & register/login';
-import Register from './nodes/login & register/register'
+import Register from './nodes/login & register/register';
 import CreateBudget from './nodes/budget manager/create budget/createBudget';
 import Settings from './nodes/settings/settings';
 import EditBudget from './nodes/budget manager/edit budget/editBudget';
 import CatMan from './nodes/budget manager/category manager/CategoryManger';
 import socket from './socket';
+import ProtectedRoute from './ProtectedRoute';
 
 const Layout = () => {
   const location = useLocation();
@@ -19,7 +20,6 @@ const Layout = () => {
 
   useEffect(() => {
     socket.connect();
-
     return () => {
       socket.disconnect();
     };
@@ -27,18 +27,74 @@ const Layout = () => {
 
   return (
     <>
-      {isLoginorRegPage ? null : <Header/>}
+      {isLoginorRegPage ? null : <Header />}
       <Routes>
-        <Route path="/login" element={<Login/>}></Route>
-        <Route path="/register" element={<Register/>}></Route>
-        <Route path="/home" element={<Home/>}/>
-        <Route path="/budget-managing" element={<BudMan/>}/>
-        <Route path="/create-budget" element={<CreateBudget/>}/>
-        <Route path="/history" element={<History/>}/>
-        <Route path="/scan" element={<Scan/>}/>
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/edit/:id" element={<EditBudget />} />
-        <Route path="/category-managing" element={<CatMan />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/budget-managing"
+          element={
+            <ProtectedRoute>
+              <BudMan />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-budget"
+          element={
+            <ProtectedRoute>
+              <CreateBudget />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <History />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/scan"
+          element={
+            <ProtectedRoute>
+              <Scan />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditBudget />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/category-managing"
+          element={
+            <ProtectedRoute>
+              <CatMan />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate replace to="/login" />} />
       </Routes>
     </>

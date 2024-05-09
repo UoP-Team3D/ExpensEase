@@ -14,9 +14,12 @@ const Header = () => {
         },
         credentials: 'include'
       });
+
       const data = await response.json();
+
       if (data.success) {
-        window.location.href = '/login'; 
+        localStorage.removeItem('token'); // Remove the token from localStorage
+        window.location.href = '/login';
       } else {
         alert('Logout failed. Please try again.');
       }
@@ -34,7 +37,7 @@ const Header = () => {
     <header>
       <nav className='navbar'>
         <div>
-        <img src="/Logo.png" alt="Logo" style={{ width: '50px', height: '50px' }} />
+          <img src="/Logo.png" alt="Logo" style={{ width: '50px', height: '50px' }} />
         </div>
         <ul className={`nav-links ${showMenu ? 'show' : ''}`}>
           <li><NavLink to="/home" activeClassName='active'>Home</NavLink></li>
