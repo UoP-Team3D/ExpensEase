@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request, make_response, send_from_directory
-from flask_cors import CORS
 from routes.auth import auth_blueprint
 from routes.receipt import receipt_blueprint
 from routes.budget import budget_blueprint
@@ -16,9 +15,6 @@ from logging.handlers import RotatingFileHandler
 
 def create_app(test_config=None):
     app = Flask(__name__, static_folder='build')
-
-    #! !!!!UNCOMMENT THIS LINE IF YOU ARE NOT USING THE BUILD FOLDER (TWO DIFFERENT PORTS FOR BACK/FRONT END)!!!! 
-    #CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": ["http://localhost:3000"]}})
 
     # Load default or test configuration
     if test_config is not None:
