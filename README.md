@@ -1,6 +1,10 @@
 # ExpensEase
 
-Multi-purpose budgeting tool, 2023-2024 coursework at UoP.
+A machine learning-powered budgeting tool created as University of Portsmouth coursework (2023-2024). Features a custom ML model trained on our original dataset, which is available for public use.
+
+ExpensEase is now archived and its development has concluded.
+
+This project is licensed under an MIT license.
 
 ## Names, Student IDs & GitHub IDs - In that order
 
